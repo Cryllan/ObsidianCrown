@@ -8,10 +8,12 @@ function jsonResponse(data, status = 200) {
         status,
         headers: {
             "Content-Type": "application/json; charset=utf-8",
-            "Cache-Control": "no-store, private",
+            "Cache-Control": "no-store, private, max-age=0",
+            "Pragma": "no-cache",
             "X-Content-Type-Options": "nosniff",
             "X-Frame-Options": "DENY",
-            "Referrer-Policy": "no-referrer"
+            "Referrer-Policy": "no-referrer",
+            "X-Robots-Tag": "noindex, nofollow"
         }
     });
 }
@@ -61,11 +63,17 @@ function getConfiguration(env) {
     );
 
     if (
-        !/^[a-z0-9-]+\.cloudflareaccess\.com$/.test(teamDomain) ||
-        !audience ||
-        administrators.size === 0
+        !/^[a-z0-9-]+\.cloudflareaccess\.com$/.test(teamDomain)
     ) {
-        throw new Error("Invalid administrator configuration");
+        throw new Error("Invalid Cloudflare Access team domain");
+    }
+
+    if (!audience) {
+        throw new Error("Missing Cloudflare Access audience");
+    }
+
+    if (administrators.size === 0) {
+        throw new Error("No administrators configured");
     }
 
     return {
@@ -91,7 +99,7 @@ async function getSigningKeys(teamDomain, forceRefresh = false) {
         `https://${teamDomain}/cdn-cgi/access/certs`,
         {
             method: "GET",
-            redirect: "error",
+            redirect: "manual",
             headers: {
                 Accept: "application/json"
             },
@@ -99,22 +107,50 @@ async function getSigningKeys(teamDomain, forceRefresh = false) {
         }
     );
 
+    if (
+        response.status >= 300 &&
+        response.status < 400
+    ) {
+        throw new Error("Unexpected signing key redirect");
+    }
+
     if (!response.ok) {
-        throw new Error("Unable to retrieve signing keys");
+        throw new Error(
+            `Unable to retrieve signing keys: HTTP ${response.status}`
+        );
     }
 
     const data = await response.json();
 
-    if (!Array.isArray(data.keys) || !data.keys.length) {
-        throw new Error("Invalid signing keys");
+    if (
+        !data ||
+        !Array.isArray(data.keys) ||
+        data.keys.length === 0
+    ) {
+        throw new Error("Invalid signing key response");
+    }
+
+    const validKeys = data.keys.filter(
+        key =>
+            key &&
+            key.kty === "RSA" &&
+            typeof key.kid === "string" &&
+            typeof key.n === "string" &&
+            typeof key.e === "string" &&
+            (!key.alg || key.alg === "RS256") &&
+            (!key.use || key.use === "sig")
+    );
+
+    if (validKeys.length === 0) {
+        throw new Error("No valid RSA signing keys found");
     }
 
     jwksCache.set(teamDomain, {
-        keys: data.keys,
+        keys: validKeys,
         expiresAt: Date.now() + JWKS_CACHE_DURATION
     });
 
-    return data.keys;
+    return validKeys;
 }
 
 async function getSigningKey(teamDomain, keyId) {
@@ -155,6 +191,7 @@ async function getSigningKey(teamDomain, keyId) {
 async function verifyAccessToken(token, config) {
     if (
         typeof token !== "string" ||
+        token.length === 0 ||
         token.length > 16384
     ) {
         throw new Error("Invalid access token");
@@ -164,15 +201,30 @@ async function verifyAccessToken(token, config) {
 
     if (
         parts.length !== 3 ||
-        parts.some(part => !/^[A-Za-z0-9_-]+$/.test(part))
+        parts.some(
+            part => !/^[A-Za-z0-9_-]+$/.test(part)
+        )
     ) {
         throw new Error("Malformed access token");
     }
 
-    const [encodedHeader, encodedPayload, encodedSignature] = parts;
+    const [
+        encodedHeader,
+        encodedPayload,
+        encodedSignature
+    ] = parts;
 
     const header = decodeJSON(encodedHeader);
     const payload = decodeJSON(encodedPayload);
+
+    if (
+        !header ||
+        typeof header !== "object" ||
+        !payload ||
+        typeof payload !== "object"
+    ) {
+        throw new Error("Invalid token structure");
+    }
 
     if (
         header.alg !== "RS256" ||
@@ -210,6 +262,10 @@ async function verifyAccessToken(token, config) {
         throw new Error("Invalid token issuance time");
     }
 
+    if (payload.exp <= payload.iat) {
+        throw new Error("Invalid token lifetime");
+    }
+
     if (
         payload.nbf !== undefined &&
         (
@@ -222,9 +278,9 @@ async function verifyAccessToken(token, config) {
 
     if (
         typeof payload.sub !== "string" ||
-        !payload.sub ||
+        !payload.sub.trim() ||
         typeof payload.email !== "string" ||
-        !payload.email
+        !payload.email.trim()
     ) {
         throw new Error("Invalid administrator identity");
     }
@@ -234,15 +290,21 @@ async function verifyAccessToken(token, config) {
         header.kid
     );
 
+    const signature = decodeBase64Url(
+        encodedSignature
+    );
+
+    const signedData = new TextEncoder().encode(
+        `${encodedHeader}.${encodedPayload}`
+    );
+
     const validSignature = await crypto.subtle.verify(
         {
             name: "RSASSA-PKCS1-v1_5"
         },
         signingKey,
-        decodeBase64Url(encodedSignature),
-        new TextEncoder().encode(
-            `${encodedHeader}.${encodedPayload}`
-        )
+        signature,
+        signedData
     );
 
     if (!validSignature) {
@@ -268,7 +330,10 @@ export async function onRequest(context) {
     const requestId = crypto.randomUUID();
     const url = new URL(request.url);
 
-    if (url.hostname !== "obsidiancrown.org") {
+    if (
+        url.protocol !== "https:" ||
+        url.hostname !== "obsidiancrown.org"
+    ) {
         return jsonResponse({
             success: false,
             error: "Forbidden host",
@@ -280,6 +345,7 @@ export async function onRequest(context) {
 
     try {
         config = getConfiguration(env);
+
     } catch (error) {
         console.error(
             "[Admin Configuration]",
@@ -299,6 +365,12 @@ export async function onRequest(context) {
     );
 
     if (!token) {
+        console.warn(
+            "[Admin Authentication]",
+            requestId,
+            "Missing Cloudflare Access token"
+        );
+
         return jsonResponse({
             success: false,
             error: "Authentication required",
@@ -313,6 +385,7 @@ export async function onRequest(context) {
             token,
             config
         );
+
     } catch (error) {
         console.warn(
             "[Admin Authentication]",
@@ -327,7 +400,17 @@ export async function onRequest(context) {
         }, 401);
     }
 
-    if (!config.administrators.has(administrator.email)) {
+    if (
+        !config.administrators.has(
+            administrator.email
+        )
+    ) {
+        console.warn(
+            "[Admin Authorization]",
+            requestId,
+            "Administrator not authorized"
+        );
+
         return jsonResponse({
             success: false,
             error: "Administrator access denied",
@@ -335,12 +418,22 @@ export async function onRequest(context) {
         }, 403);
     }
 
-    const safeMethods = ["GET", "HEAD", "OPTIONS"];
+    const safeMethods = [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+    ];
 
     if (!safeMethods.includes(request.method)) {
         const origin = request.headers.get("Origin");
 
         if (origin !== "https://obsidiancrown.org") {
+            console.warn(
+                "[Admin Security]",
+                requestId,
+                "Invalid request origin"
+            );
+
             return jsonResponse({
                 success: false,
                 error: "Invalid request origin",
@@ -350,6 +443,12 @@ export async function onRequest(context) {
     }
 
     if (!env.DB) {
+        console.error(
+            "[Admin Database]",
+            requestId,
+            "Missing D1 database binding"
+        );
+
         return jsonResponse({
             success: false,
             error: "Database unavailable",
@@ -360,22 +459,53 @@ export async function onRequest(context) {
     data.admin = administrator;
     data.requestId = requestId;
 
+    console.info(
+        "[Admin Authentication]",
+        requestId,
+        "Authentication successful"
+    );
+
     try {
         const response = await next();
 
-        const headers = new Headers(response.headers);
+        const headers = new Headers(
+            response.headers
+        );
 
         headers.set(
             "Cache-Control",
             "no-store, private, max-age=0"
         );
 
-        headers.set("Pragma", "no-cache");
-        headers.set("X-Content-Type-Options", "nosniff");
-        headers.set("X-Frame-Options", "DENY");
-        headers.set("Referrer-Policy", "no-referrer");
-        headers.set("X-Robots-Tag", "noindex, nofollow");
-        headers.set("X-Request-ID", requestId);
+        headers.set(
+            "Pragma",
+            "no-cache"
+        );
+
+        headers.set(
+            "X-Content-Type-Options",
+            "nosniff"
+        );
+
+        headers.set(
+            "X-Frame-Options",
+            "DENY"
+        );
+
+        headers.set(
+            "Referrer-Policy",
+            "no-referrer"
+        );
+
+        headers.set(
+            "X-Robots-Tag",
+            "noindex, nofollow"
+        );
+
+        headers.set(
+            "X-Request-ID",
+            requestId
+        );
 
         return new Response(response.body, {
             status: response.status,
