@@ -1,0 +1,3024 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Explore career opportunities and creative collaboration at Obsidian Crown, an independent Roblox game development studio.">
+
+    <meta name="theme-color" content="#0C0C0D">
+
+    <meta property="og:title" content="Careers — Obsidian Crown">
+    <meta property="og:description" content="Exceptional worlds. Exceptional people. Discover opportunities at Obsidian Crown.">
+    <meta property="og:url" content="https://obsidiancrown.org/careers.html">
+    <meta property="og:type" content="website">
+
+    <title>Careers & Opportunities — Obsidian Crown</title>
+
+    <link rel="canonical" href="https://obsidiancrown.org/careers.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230C0C0D'/%3E%3Cpath d='M6 15L20 29L32 6L44 29L58 15L49 47H15ZM15 52H49L45 57H19Z' fill='%23BCA783'/%3E%3C/svg%3E">
+
+    <style>
+        :root {
+            --obsidian: #0C0C0D;
+            --carbon: #141414;
+            --surface: #191817;
+            --gold: #BCA783;
+            --gold-light: #D9C7A6;
+            --ivory: #EDE9E1;
+            --muted: #A39F97;
+            --border: rgba(188, 167, 131, .18);
+            --heading: 'Cormorant Garamond', Georgia, serif;
+            --body: 'Manrope', Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 120px;
+        }
+
+        body {
+            background: var(--obsidian);
+            color: var(--ivory);
+            font-family: var(--body);
+            font-size: 15px;
+            line-height: 1.85;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--obsidian);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #51483A;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        svg {
+            display: block;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--heading);
+            font-weight: 500;
+        }
+
+        .container {
+            width: min(1320px, 88%);
+            margin-inline: auto;
+        }
+
+        .gold {
+            color: var(--gold);
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 30px;
+            height: 1px;
+            background: currentColor;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            min-height: 54px;
+            padding: 15px 27px;
+            border: 1px solid transparent;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            transition: background .3s,
+                        color .3s,
+                        border-color .3s,
+                        transform .3s;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+        }
+
+        .button-primary {
+            background: var(--gold);
+            color: var(--obsidian);
+            border-color: var(--gold);
+        }
+
+        .button-primary:hover {
+            background: var(--gold-light);
+            border-color: var(--gold-light);
+        }
+
+        .button-outline {
+            border-color: rgba(188, 167, 131, .45);
+            color: var(--gold-light);
+        }
+
+        .button-outline:hover {
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        .button-dark {
+            background: #191815;
+            color: #E6E0D5;
+            border-color: #191815;
+        }
+
+        .button-dark:hover {
+            background: #3D3528;
+        }
+
+        .arrow {
+            font-size: 17px;
+            line-height: 1;
+        }
+
+        header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 1000;
+            background: rgba(12, 12, 13, .88);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        header.scrolled {
+            background: rgba(12, 12, 13, .98);
+        }
+
+        .navbar {
+            min-height: 94px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-name {
+            font-family: var(--heading);
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        .brand-subtitle {
+            color: var(--gold);
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 3.8px;
+            margin-top: 6px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 38px;
+        }
+
+        nav a {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color .25s;
+        }
+
+        nav a:hover {
+            color: var(--gold-light);
+        }
+
+        .nav-careers {
+            padding: 12px 23px;
+            border: 1px solid var(--gold);
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        .nav-careers:hover {
+            color: var(--obsidian);
+            background: var(--gold-light);
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--gold);
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 1px;
+            background: currentColor;
+            margin: 6px 0;
+        }
+
+        .hero {
+            min-height: 85svh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            isolation: isolate;
+            overflow: hidden;
+            padding: 180px 0 125px;
+            background: radial-gradient(
+                ellipse at 80% 45%,
+                #302A21,
+                #191713 35%,
+                #0C0C0D 75%
+            );
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(
+                    rgba(188, 167, 131, .025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(188, 167, 131, .025) 1px,
+                    transparent 1px
+                );
+            background-size: 90px 90px;
+            mask-image: linear-gradient(to left, black, transparent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 45px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--gold);
+        }
+
+        .breadcrumb span:last-child {
+            color: var(--gold);
+        }
+
+        .hero h1 {
+            font-size: clamp(55px, 7.2vw, 112px);
+            line-height: .98;
+            letter-spacing: -3px;
+            margin: 30px 0;
+        }
+
+        .hero h1 em {
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .hero-description {
+            max-width: 620px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .hero-decoration {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            width: min(48vw, 650px);
+            transform: translateY(-50%);
+            aspect-ratio: 1;
+            border: 1px solid rgba(188, 167, 131, .09);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .hero-decoration::before {
+            content: "";
+            position: absolute;
+            inset: 35px;
+            border: 1px solid rgba(188, 167, 131, .06);
+            border-radius: 50%;
+        }
+
+        .hero-decoration::after {
+            content: "";
+            position: absolute;
+            inset: 70px;
+            border: 1px solid rgba(188, 167, 131, .04);
+            border-radius: 50%;
+        }
+
+        .hero-decoration svg {
+            width: 48%;
+            opacity: .22;
+            animation: float 9s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .hero-bottom {
+            position: absolute;
+            bottom: 30px;
+            left: 6%;
+            right: 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .studio-strip {
+            background: #111110;
+            border-block: 1px solid var(--border);
+        }
+
+        .strip-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .strip-item {
+            padding: 30px 15px;
+            text-align: center;
+        }
+
+        .strip-item:not(:last-child) {
+            border-right: 1px solid var(--border);
+        }
+
+        .strip-item h3 {
+            font-size: 30px;
+        }
+
+        .strip-item p {
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .content-section {
+            padding: 115px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 45px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(45px, 5vw, 76px);
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            margin: 22px 0;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            max-width: 680px;
+        }
+
+        .opportunities-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .opportunities-header .section-heading {
+            margin-bottom: 0;
+        }
+
+        .role-count {
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-button {
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            padding: 10px 18px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all .25s;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--obsidian);
+        }
+
+        .role {
+            border-bottom: 1px solid var(--border);
+            transition: background .25s;
+        }
+
+        .role:hover {
+            background: rgba(188, 167, 131, .025);
+        }
+
+        .role[hidden] {
+            display: none;
+        }
+
+        .role-toggle {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 55px 1fr auto 40px;
+            align-items: center;
+            gap: 25px;
+            padding: 30px 12px;
+            background: transparent;
+            border: 0;
+            color: inherit;
+            text-align: left;
+        }
+
+        .role-number {
+            color: var(--gold);
+            font-family: var(--heading);
+            font-size: 25px;
+            font-style: italic;
+        }
+
+        .role-name h3 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+
+        .role-name p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .role-status {
+            color: var(--gold);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+        }
+
+        .role-expand {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            color: var(--gold);
+            font-size: 23px;
+            font-weight: 400;
+            transition: transform .3s,
+                        background .3s;
+        }
+
+        .role.open .role-expand {
+            transform: rotate(45deg);
+        }
+
+        .role-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows .35s ease;
+        }
+
+        .role.open .role-content {
+            grid-template-rows: 1fr;
+        }
+
+        .role-content-inner {
+            overflow: hidden;
+        }
+
+        .role-description {
+            padding: 0 60px 35px 92px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+        }
+
+        .role-description h4 {
+            font-size: 25px;
+            margin-bottom: 12px;
+            color: var(--gold-light);
+        }
+
+        .role-description p,
+        .role-description li {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .role-description ul {
+            list-style: none;
+        }
+
+        .role-description li {
+            position: relative;
+            padding-left: 17px;
+            margin-bottom: 9px;
+        }
+
+        .role-description li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 11px;
+            width: 5px;
+            height: 5px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        .role-description .button {
+            margin-top: 25px;
+            min-height: 43px;
+            padding: 10px 18px;
+        }
+
+        .opportunity-note {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 25px;
+            max-width: 800px;
+        }
+
+        .culture-section {
+            background: #E6E0D5;
+            color: #191815;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .culture-section .eyebrow {
+            color: #776548;
+        }
+
+        .culture-section .section-heading p {
+            color: #686258;
+        }
+
+        .culture-section .gold {
+            color: #89734F;
+        }
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+        }
+
+        .culture-card {
+            border-top: 1px solid rgba(25, 24, 21, .2);
+            padding: 30px 10px 0 0;
+        }
+
+        .culture-icon {
+            width: 36px;
+            height: 36px;
+            color: #89734F;
+            margin-bottom: 25px;
+        }
+
+        .culture-card h3 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .culture-card p {
+            color: #686258;
+            font-size: 14px;
+        }
+
+        .process-section {
+            background: #111110;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .process-card {
+            position: relative;
+            padding: 30px 25px;
+            border: 1px solid var(--border);
+            background: var(--obsidian);
+        }
+
+        .process-number {
+            display: block;
+            font-family: var(--heading);
+            color: var(--gold);
+            font-size: 55px;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 25px;
+        }
+
+        .process-card h3 {
+            font-size: 29px;
+            margin-bottom: 12px;
+        }
+
+        .process-card p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .application-section {
+            background: radial-gradient(
+                ellipse at bottom center,
+                #211C15,
+                #0C0C0D 70%
+            );
+        }
+
+        .application-grid {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            align-items: start;
+            gap: 80px;
+        }
+
+        .application-copy h2 {
+            font-size: clamp(45px, 5vw, 75px);
+            line-height: 1.02;
+            margin: 25px 0;
+        }
+
+        .application-copy p {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .application-guidelines {
+            margin-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .guideline {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .guideline span {
+            color: var(--gold);
+        }
+
+        .application-panel {
+            border: 1px solid var(--border);
+            padding: 40px;
+            background: rgba(255, 255, 255, .015);
+        }
+
+        .application-panel h3 {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .application-panel > p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .form-notice {
+            padding: 16px;
+            border: 1px solid var(--border);
+            background: rgba(188, 167, 131, .04);
+            color: var(--gold-light);
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .form-field.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-field label {
+            color: var(--gold-light);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            min-height: 48px;
+            padding: 13px 15px;
+            border: 1px solid var(--border);
+            background: #10100F;
+            color: var(--ivory);
+            border-radius: 0;
+            font-family: var(--body);
+            font-size: 13px;
+            outline: none;
+            transition: border-color .25s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--gold);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #77736B;
+        }
+
+        select {
+            color-scheme: dark;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .form-submit {
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        .form-submit:disabled {
+            background: #29261F;
+            border-color: #40382B;
+            color: #91836B;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-disclaimer {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 15px;
+            line-height: 1.7;
+        }
+
+        .faq-section {
+            border-top: 1px solid var(--border);
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: 80px;
+        }
+
+        .faq-list {
+            border-top: 1px solid var(--border);
+        }
+
+        details {
+            border-bottom: 1px solid var(--border);
+        }
+
+        summary {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 23px 0;
+            cursor: pointer;
+            font-family: var(--heading);
+            font-size: 26px;
+            line-height: 1.3;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: "+";
+            color: var(--gold);
+            font-family: var(--body);
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        details[open] summary::after {
+            content: "−";
+        }
+
+        details p {
+            color: var(--muted);
+            font-size: 13px;
+            padding: 0 25px 25px 0;
+        }
+
+        footer {
+            background: #090909;
+            border-top: 1px solid var(--border);
+            padding: 65px 0 25px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 70px;
+        }
+
+        .footer-description {
+            color: var(--muted);
+            font-size: 13px;
+            max-width: 350px;
+            margin-top: 22px;
+        }
+
+        .footer-column h3 {
+            font-family: var(--body);
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .footer-column a {
+            display: block;
+            width: fit-content;
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .footer-column a:hover {
+            color: var(--gold-light);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            border-top: 1px solid var(--border);
+            margin-top: 55px;
+            padding-top: 25px;
+            color: #8E8980;
+            font-size: 10px;
+        }
+
+        .footer-motto {
+            color: var(--gold);
+            font-family: var(--heading);
+            font-style: italic;
+            font-size: 17px;
+        }
+
+        .animations-enabled .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity .8s ease,
+                        transform .8s ease;
+        }
+
+        .animations-enabled .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 5px;
+        }
+
+        @media (max-width: 1100px) {
+            nav {
+                gap: 22px;
+            }
+
+            .application-grid,
+            .faq-grid {
+                gap: 45px;
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-decoration {
+                opacity: .6;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .navbar {
+                min-height: 80px;
+            }
+
+            .brand-name {
+                font-size: 22px;
+            }
+
+            .brand-mark {
+                width: 35px;
+                height: 35px;
+            }
+
+            .brand-subtitle {
+                font-size: 7px;
+                letter-spacing: 2.5px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                right: 0;
+                padding: 30px 6%;
+                background: var(--obsidian);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 25px;
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            .nav-careers {
+                text-align: center;
+            }
+
+            .hero {
+                min-height: 85svh;
+                padding: 140px 0 110px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1.5px;
+            }
+
+            .hero-decoration {
+                width: 85vw;
+                right: -30%;
+                opacity: .35;
+            }
+
+            .hero-bottom > span:last-child {
+                display: none;
+            }
+
+            .content-section {
+                padding: 80px 0;
+            }
+
+            .culture-grid,
+            .application-grid,
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .role-toggle {
+                grid-template-columns: 30px 1fr 32px;
+                gap: 15px;
+                padding: 24px 5px;
+            }
+
+            .role-name h3 {
+                font-size: 29px;
+            }
+
+            .role-status {
+                display: none;
+            }
+
+            .role-expand {
+                width: 32px;
+                height: 32px;
+            }
+
+            .role-description {
+                grid-template-columns: 1fr;
+                padding: 0 15px 30px 50px;
+                gap: 25px;
+            }
+
+            .opportunities-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .strip-item h3 {
+                font-size: 23px;
+            }
+
+            .strip-item p {
+                font-size: 7px;
+                letter-spacing: 1px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 35px;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .hero h1 {
+                font-size: clamp(43px, 11vw, 55px);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .eyebrow {
+                font-size: 9px;
+                letter-spacing: 2px;
+            }
+
+            .process-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .application-panel {
+                padding: 25px;
+            }
+
+            .role-name h3 {
+                font-size: 25px;
+            }
+
+            .role-name p {
+                font-size: 11px;
+            }
+
+            .role-description {
+                padding-left: 10px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .animations-enabled .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="0"
+     height="0"
+     style="position:absolute"
+     aria-hidden="true">
+
+    <symbol id="crown-logo" viewBox="0 0 64 64">
+
+        <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
+              fill="none"
+              stroke="#BCA783"
+              stroke-width="2"/>
+
+        <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"
+              fill="none"
+              stroke="#BCA783"
+              stroke-width="1.3"/>
+
+        <path d="M15 52H49L45 57H19Z"
+              fill="#BCA783"/>
+
+    </symbol>
+
+</svg>
+
+<header id="header">
+
+    <div class="container navbar">
+
+        <a href="index.html" class="brand"
+           aria-label="Obsidian Crown home">
+
+            <svg class="brand-mark" aria-hidden="true">
+                <use href="#crown-logo"/>
+            </svg>
+
+            <div class="brand-text">
+
+                <span class="brand-name">
+                    Obsidian Crown
+                </span>
+
+                <span class="brand-subtitle">
+                    GAME DEVELOPMENT STUDIO
+                </span>
+
+            </div>
+
+        </a>
+
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Toggle navigation"
+                aria-controls="navigation"
+                aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+        <nav id="navigation" aria-label="Main navigation">
+
+            <a href="index.html">Home</a>
+
+            <a href="index.html#studio">
+                The Studio
+            </a>
+
+            <a href="index.html#experiences">
+                Experiences
+            </a>
+
+            <a href="index.html#contact">
+                Contact
+            </a>
+
+            <a href="careers.html"
+               class="nav-careers"
+               aria-current="page">
+
+                Careers ↗
+
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+<main>
+
+    <section class="hero">
+
+        <div class="hero-decoration" aria-hidden="true">
+
+            <svg viewBox="0 0 64 64">
+                <use href="#crown-logo"/>
+            </svg>
+
+        </div>
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                <div class="breadcrumb">
+
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span>Careers</span>
+
+                </div>
+
+                <span class="eyebrow">
+                    Careers & Opportunities
+                </span>
+
+                <h1>
+
+                    Exceptional worlds.
+
+                    <br>
+
+                    <em>Exceptional people.</em>
+
+                </h1>
+
+                <p class="hero-description">
+
+                    Extraordinary experiences begin with
+                    extraordinary people. At Obsidian Crown,
+                    we aspire to bring together talented
+                    individuals who share our dedication
+                    to creativity, craftsmanship, and
+                    excellence in game development.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="#opportunities"
+                       class="button button-primary">
+
+                        Explore Opportunities
+                        <span class="arrow">↓</span>
+
+                    </a>
+
+                    <a href="#applications"
+                       class="button button-outline">
+
+                        Portfolio Submissions
+                        <span class="arrow">↗</span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="hero-bottom">
+
+            <span>
+                Your next creative chapter
+            </span>
+
+            <span>
+                Creativity · Craftsmanship · Ambition
+            </span>
+
+        </div>
+
+    </section>
+
+    <div class="studio-strip">
+
+        <div class="container strip-grid">
+
+            <div class="strip-item">
+
+                <h3>Creative</h3>
+                <p>Collaboration</p>
+
+            </div>
+
+            <div class="strip-item">
+
+                <h3>Independent</h3>
+                <p>Development</p>
+
+            </div>
+
+            <div class="strip-item">
+
+                <h3>Exceptional</h3>
+                <p>Craftsmanship</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <section class="content-section" id="opportunities">
+
+        <div class="container">
+
+            <div class="opportunities-header reveal">
+
+                <div class="section-heading">
+
+                    <span class="eyebrow">
+                        01 / Areas of Opportunity
+                    </span>
+
+                    <h2>
+
+                        Explore our
+
+                        <span class="gold italic">
+                            disciplines.
+                        </span>
+
+                    </h2>
+
+                    <p>
+
+                        Discover the creative and technical
+                        disciplines that contribute to our
+                        vision for extraordinary interactive
+                        experiences.
+
+                    </p>
+
+                </div>
+
+                <span class="role-count"
+                      id="roleCount"
+                      aria-live="polite">
+
+                    06 Disciplines
+
+                </span>
+
+            </div>
+
+            <div class="filters reveal"
+                 aria-label="Filter disciplines">
+
+                <button class="filter-button active"
+                        data-filter="all"
+                        aria-pressed="true">
+
+                    All Disciplines
+
+                </button>
+
+                <button class="filter-button"
+                        data-filter="engineering"
+                        aria-pressed="false">
+
+                    Engineering
+
+                </button>
+
+                <button class="filter-button"
+                        data-filter="art"
+                        aria-pressed="false">
+
+                    Art & Animation
+
+                </button>
+
+                <button class="filter-button"
+                        data-filter="design"
+                        aria-pressed="false">
+
+                    Design
+
+                </button>
+
+                <button class="filter-button"
+                        data-filter="production"
+                        aria-pressed="false">
+
+                    Production
+
+                </button>
+
+            </div>
+
+            <div class="roles">
+
+                <article class="role"
+                         data-category="engineering">
+
+                    <button class="role-toggle"
+                            aria-expanded="false"
+                            aria-controls="engineering-content">
+
+                        <span class="role-number">01.</span>
+
+                        <div class="role-name">
+
+                            <h3>Game Engineering</h3>
+
+                            <p>
+                                Luau · Gameplay Systems · Backend
+                            </p>
+
+                        </div>
+
+                        <span class="role-status">
+                            Future Opportunities
+                        </span>
+
+                        <span class="role-expand"
+                              aria-hidden="true">+</span>
+
+                    </button>
+
+                    <div class="role-content"
+                         id="engineering-content"
+                         inert>
+
+                        <div class="role-content-inner">
+
+                            <div class="role-description">
+
+                                <div>
+
+                                    <h4>The Discipline</h4>
+
+                                    <p>
+
+                                        Develop scalable,
+                                        maintainable game systems
+                                        that support engaging
+                                        player experiences across
+                                        the Roblox platform.
+
+                                    </p>
+
+                                    <a href="#applications"
+                                       class="button button-outline"
+                                       data-role="Game Engineering">
+
+                                        Express Interest ↗
+
+                                    </a>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>Relevant Skills</h4>
+
+                                    <ul>
+
+                                        <li>Roblox Studio and Luau</li>
+
+                                        <li>Client-server architecture</li>
+
+                                        <li>Data persistence and networking</li>
+
+                                        <li>Performance optimization</li>
+
+                                        <li>Modular game systems</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="role"
+                         data-category="art">
+
+                    <button class="role-toggle"
+                            aria-expanded="false"
+                            aria-controls="art-content">
+
+                        <span class="role-number">02.</span>
+
+                        <div class="role-name">
+
+                            <h3>3D Art & Environment</h3>
+
+                            <p>
+                                Blender · Modeling · World Building
+                            </p>
+
+                        </div>
+
+                        <span class="role-status">
+                            Future Opportunities
+                        </span>
+
+                        <span class="role-expand"
+                              aria-hidden="true">+</span>
+
+                    </button>
+
+                    <div class="role-content"
+                         id="art-content"
+                         inert>
+
+                        <div class="role-content-inner">
+
+                            <div class="role-description">
+
+                                <div>
+
+                                    <h4>The Discipline</h4>
+
+                                    <p>
+
+                                        Bring imaginative worlds
+                                        to life through distinctive
+                                        assets, environments,
+                                        visual storytelling, and
+                                        thoughtful artistic direction.
+
+                                    </p>
+
+                                    <a href="#applications"
+                                       class="button button-outline"
+                                       data-role="3D Art & Environment">
+
+                                        Express Interest ↗
+
+                                    </a>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>Relevant Skills</h4>
+
+                                    <ul>
+
+                                        <li>Blender or equivalent software</li>
+
+                                        <li>Stylized 3D asset creation</li>
+
+                                        <li>Game-ready topology</li>
+
+                                        <li>Environment composition</li>
+
+                                        <li>UV mapping and texturing</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="role"
+                         data-category="design">
+
+                    <button class="role-toggle"
+                            aria-expanded="false"
+                            aria-controls="ui-content">
+
+                        <span class="role-number">03.</span>
+
+                        <div class="role-name">
+
+                            <h3>UI/UX Design</h3>
+
+                            <p>
+                                Figma · Interface Design · User Experience
+                            </p>
+
+                        </div>
+
+                        <span class="role-status">
+                            Future Opportunities
+                        </span>
+
+                        <span class="role-expand"
+                              aria-hidden="true">+</span>
+
+                    </button>
+
+                    <div class="role-content"
+                         id="ui-content"
+                         inert>
+
+                        <div class="role-content-inner">
+
+                            <div class="role-description">
+
+                                <div>
+
+                                    <h4>The Discipline</h4>
+
+                                    <p>
+
+                                        Design polished, intuitive
+                                        interfaces that complement
+                                        gameplay and create a
+                                        cohesive visual experience
+                                        across supported devices.
+
+                                    </p>
+
+                                    <a href="#applications"
+                                       class="button button-outline"
+                                       data-role="UI/UX Design">
+
+                                        Express Interest ↗
+
+                                    </a>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>Relevant Skills</h4>
+
+                                    <ul>
+
+                                        <li>Figma and vector design</li>
+
+                                        <li>Interface composition</li>
+
+                                        <li>Typography and color theory</li>
+
+                                        <li>Responsive Roblox interfaces</li>
+
+                                        <li>Interaction and usability design</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="role"
+                         data-category="art">
+
+                    <button class="role-toggle"
+                            aria-expanded="false"
+                            aria-controls="animation-content">
+
+                        <span class="role-number">04.</span>
+
+                        <div class="role-name">
+
+                            <h3>Animation & Rigging</h3>
+
+                            <p>
+                                Character Animation · Rigging · VFX
+                            </p>
+
+                        </div>
+
+                        <span class="role-status">
+                            Future Opportunities
+                        </span>
+
+                        <span class="role-expand"
+                              aria-hidden="true">+</span>
+
+                    </button>
+
+                    <div class="role-content"
+                         id="animation-content"
+                         inert>
+
+                        <div class="role-content-inner">
+
+                            <div class="role-description">
+
+                                <div>
+
+                                    <h4>The Discipline</h4>
+
+                                    <p>
+
+                                        Give characters, creatures,
+                                        and environments personality
+                                        through expressive movement
+                                        and responsive visual effects.
+
+                                    </p>
+
+                                    <a href="#applications"
+                                       class="button button-outline"
+                                       data-role="Animation & Rigging">
+
+                                        Express Interest ↗
+
+                                    </a>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>Relevant Skills</h4>
+
+                                    <ul>
+
+                                        <li>Character animation</li>
+
+                                        <li>Creature rigging</li>
+
+                                        <li>Roblox animation workflows</li>
+
+                                        <li>Animation blending</li>
+
+                                        <li>Real-time visual effects</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="role"
+                         data-category="design">
+
+                    <button class="role-toggle"
+                            aria-expanded="false"
+                            aria-controls="design-content">
+
+                        <span class="role-number">05.</span>
+
+                        <div class="role-name">
+
+                            <h3>Game Design</h3>
+
+                            <p>
+                                Progression · Gameplay · Economy
+                            </p>
+
+                        </div>
+
+                        <span class="role-status">
+                            Future Opportunities
+                        </span>
+
+                        <span class="role-expand"
+                              aria-hidden="true">+</span>
+
+                    </button>
+
+                    <div class="role-content"
+                         id="design-content"
+                         inert>
+
+                        <div class="role-content-inner">
+
+                            <div class="role-description">
+
+                                <div>
+
+                                    <h4>The Discipline</h4>
+
+                                    <p>
+
+                                        Shape engaging gameplay
+                                        loops, meaningful progression,
+                                        balanced economies, and
+                                        memorable player experiences.
+
+                                    </p>
+
+                                    <a href="#applications"
+                                       class="button button-outline"
+                                       data-role="Game Design">
+
+                                        Express Interest ↗
+
+                                    </a>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>Relevant Skills</h4>
+
+                                    <ul>
+
+                                        <li>Gameplay loop design</li>
+
+                                        <li>Progression and balancing</li>
+
+                                        <li>Game economy design</li>
+
+                                        <li>Player experience analysis</li>
+
+                                        <li>Design documentation</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="role"
+                         data-category="production">
+
+                    <button class="role-toggle"
+                            aria-expanded="false"
+                            aria-controls="production-content">
+
+                        <span class="role-number">06.</span>
+
+                        <div class="role-name">
+
+                            <h3>Production & Community</h3>
+
+                            <p>
+                                Management · Quality Assurance · Community
+                            </p>
+
+                        </div>
+
+                        <span class="role-status">
+                            Future Opportunities
+                        </span>
+
+                        <span class="role-expand"
+                              aria-hidden="true">+</span>
+
+                    </button>
+
+                    <div class="role-content"
+                         id="production-content"
+                         inert>
+
+                        <div class="role-content-inner">
+
+                            <div class="role-description">
+
+                                <div>
+
+                                    <h4>The Discipline</h4>
+
+                                    <p>
+
+                                        Support organized development,
+                                        effective communication,
+                                        reliable quality assurance,
+                                        and positive relationships
+                                        with our player communities.
+
+                                    </p>
+
+                                    <a href="#applications"
+                                       class="button button-outline"
+                                       data-role="Production & Community">
+
+                                        Express Interest ↗
+
+                                    </a>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>Relevant Skills</h4>
+
+                                    <ul>
+
+                                        <li>Project coordination</li>
+
+                                        <li>Development organization</li>
+
+                                        <li>Quality assurance testing</li>
+
+                                        <li>Community management</li>
+
+                                        <li>Professional communication</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+            <p class="opportunity-note">
+
+                These disciplines represent areas of creative
+                interest at Obsidian Crown. They do not represent
+                confirmed job vacancies. Specific openings and
+                engagement terms will be announced separately.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="content-section culture-section"
+             id="culture">
+
+        <div class="container">
+
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    02 / Our Creative Culture
+                </span>
+
+                <h2>
+
+                    Talent deserves
+
+                    <span class="gold italic">
+                        opportunity.
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    Our ambition is to cultivate an environment
+                    where creativity is respected, craftsmanship
+                    is valued, and individuals can contribute
+                    meaningful work.
+
+                </p>
+
+            </div>
+
+            <div class="culture-grid">
+
+                <article class="culture-card reveal">
+
+                    <svg class="culture-icon"
+                         viewBox="0 0 32 32"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.3"
+                         aria-hidden="true">
+
+                        <path d="M16 2L29 16L16 30L3 16Z"/>
+                        <path d="M16 2V30M3 16H29"/>
+
+                    </svg>
+
+                    <h3>Creative Freedom</h3>
+
+                    <p>
+
+                        We value original ideas, individual
+                        perspectives, and the exploration
+                        of new creative possibilities.
+
+                    </p>
+
+                </article>
+
+                <article class="culture-card reveal">
+
+                    <svg class="culture-icon"
+                         viewBox="0 0 32 32"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.3"
+                         aria-hidden="true">
+
+                        <path d="M16 3L28 9V23L16 29L4 23V9Z"/>
+                        <path d="M4 9L16 15L28 9M16 15V29"/>
+
+                    </svg>
+
+                    <h3>Quality First</h3>
+
+                    <p>
+
+                        Thoughtful execution and attention
+                        to detail are central to the
+                        experiences we aspire to create.
+
+                    </p>
+
+                </article>
+
+                <article class="culture-card reveal">
+
+                    <svg class="culture-icon"
+                         viewBox="0 0 32 32"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.3"
+                         aria-hidden="true">
+
+                        <circle cx="16" cy="9" r="5"/>
+                        <path d="M6 29V23A10 10 0 0 1 26 23V29"/>
+                        <path d="M2 16L6 12M30 16L26 12"/>
+
+                    </svg>
+
+                    <h3>Shared Ambition</h3>
+
+                    <p>
+
+                        We believe that mutual respect,
+                        clear communication, and collaboration
+                        are essential to meaningful development.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="content-section process-section"
+             id="process">
+
+        <div class="container">
+
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    03 / Our Proposed Selection Process
+                </span>
+
+                <h2>
+
+                    Your next
+
+                    <span class="gold italic">
+                        chapter.
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    When recruitment opens, we intend to
+                    follow a straightforward and considered
+                    process for discovering new talent.
+
+                </p>
+
+            </div>
+
+            <div class="process-grid">
+
+                <article class="process-card reveal">
+
+                    <span class="process-number">01.</span>
+
+                    <h3>Introduce Yourself</h3>
+
+                    <p>
+
+                        Share your experience, preferred
+                        discipline, and examples of your work.
+
+                    </p>
+
+                </article>
+
+                <article class="process-card reveal">
+
+                    <span class="process-number">02.</span>
+
+                    <h3>Portfolio Review</h3>
+
+                    <p>
+
+                        Relevant submissions are reviewed
+                        for quality, experience, and
+                        alignment with project needs.
+
+                    </p>
+
+                </article>
+
+                <article class="process-card reveal">
+
+                    <span class="process-number">03.</span>
+
+                    <h3>Conversation</h3>
+
+                    <p>
+
+                        Selected candidates may be invited
+                        to discuss their interests, abilities,
+                        and potential collaboration.
+
+                    </p>
+
+                </article>
+
+                <article class="process-card reveal">
+
+                    <span class="process-number">04.</span>
+
+                    <h3>Next Steps</h3>
+
+                    <p>
+
+                        Suitable opportunities, expectations,
+                        and engagement terms are discussed
+                        before any commitment.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="content-section application-section"
+             id="applications">
+
+        <div class="container application-grid">
+
+            <div class="application-copy reveal">
+
+                <span class="eyebrow">
+                    04 / Portfolio Submissions
+                </span>
+
+                <h2>
+
+                    Show us what
+
+                    <span class="gold italic">
+                        you can create.
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    We are interested in discovering talented
+                    developers, artists, designers, and creative
+                    professionals who share our passion for
+                    building extraordinary experiences.
+
+                </p>
+
+                <p>
+
+                    When submissions open, we encourage you
+                    to introduce yourself and present examples
+                    of work that demonstrate your abilities.
+
+                </p>
+
+                <div class="application-guidelines">
+
+                    <div class="guideline">
+                        <span>◇</span>
+                        Relevant examples of your work
+                    </div>
+
+                    <div class="guideline">
+                        <span>◇</span>
+                        A clear description of your experience
+                    </div>
+
+                    <div class="guideline">
+                        <span>◇</span>
+                        Your preferred creative discipline
+                    </div>
+
+                    <div class="guideline">
+                        <span>◇</span>
+                        Professional and original submissions
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="application-panel reveal">
+
+                <h3>Expression of Interest</h3>
+
+                <p>
+                    Introduce yourself to Obsidian Crown.
+                </p>
+
+                <div class="form-notice"
+                     id="formNotice">
+
+                    Portfolio submissions are not currently
+                    open. This application interface is a
+                    preview and does not transmit or store
+                    your information.
+
+                </div>
+
+                <form id="applicationForm"
+                      aria-describedby="formNotice">
+
+                    <div class="form-grid">
+
+                        <div class="form-field">
+
+                            <label for="displayName">
+                                Preferred Name
+                            </label>
+
+                            <input type="text"
+                                   id="displayName"
+                                   placeholder="Your preferred name"
+                                   disabled>
+
+                        </div>
+
+                        <div class="form-field">
+
+                            <label for="robloxUsername">
+                                Roblox Username
+                            </label>
+
+                            <input type="text"
+                                   id="robloxUsername"
+                                   placeholder="Roblox username"
+                                   disabled>
+
+                        </div>
+
+                        <div class="form-field full">
+
+                            <label for="discordUsername">
+                                Discord Username
+                            </label>
+
+                            <input type="text"
+                                   id="discordUsername"
+                                   placeholder="Discord username"
+                                   disabled>
+
+                        </div>
+
+                        <div class="form-field full">
+
+                            <label for="discipline">
+                                Preferred Discipline
+                            </label>
+
+                            <select id="discipline">
+
+                                <option value="">
+                                    Select your discipline
+                                </option>
+
+                                <option value="Game Engineering">
+                                    Game Engineering
+                                </option>
+
+                                <option value="3D Art & Environment">
+                                    3D Art & Environment
+                                </option>
+
+                                <option value="UI/UX Design">
+                                    UI/UX Design
+                                </option>
+
+                                <option value="Animation & Rigging">
+                                    Animation & Rigging
+                                </option>
+
+                                <option value="Game Design">
+                                    Game Design
+                                </option>
+
+                                <option value="Production & Community">
+                                    Production & Community
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-field full">
+
+                            <label for="experience">
+                                Development Experience
+                            </label>
+
+                            <select id="experience" disabled>
+
+                                <option value="">
+                                    Select your experience
+                                </option>
+
+                                <option>Less than 1 year</option>
+
+                                <option>1–2 years</option>
+
+                                <option>3–4 years</option>
+
+                                <option>5+ years</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-field full">
+
+                            <label for="portfolio">
+                                Portfolio URL
+                            </label>
+
+                            <input type="url"
+                                   id="portfolio"
+                                   placeholder="https://your-portfolio.com"
+                                   disabled>
+
+                        </div>
+
+                        <div class="form-field full">
+
+                            <label for="introduction">
+                                Introduction
+                            </label>
+
+                            <textarea id="introduction"
+                                      placeholder="Tell us about your experience and creative interests."
+                                      disabled></textarea>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit"
+                            class="button button-primary form-submit"
+                            disabled>
+
+                        Submissions Coming Soon
+
+                    </button>
+
+                    <p class="form-disclaimer">
+
+                        No personal information is collected
+                        through this preview. Application
+                        availability and submission guidelines
+                        will be announced in the future.
+
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="content-section faq-section"
+             id="faq">
+
+        <div class="container faq-grid">
+
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    05 / Frequently Asked Questions
+                </span>
+
+                <h2>
+
+                    A few
+
+                    <span class="gold italic">
+                        answers.
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    Information for individuals interested
+                    in future opportunities at Obsidian Crown.
+
+                </p>
+
+            </div>
+
+            <div class="faq-list reveal">
+
+                <details>
+
+                    <summary>
+                        Is Obsidian Crown currently hiring?
+                    </summary>
+
+                    <p>
+
+                        Specific vacancies have not yet been
+                        announced. This page introduces the
+                        disciplines we are interested in for
+                        current and future development.
+
+                    </p>
+
+                </details>
+
+                <details>
+
+                    <summary>
+                        Do I need a portfolio?
+                    </summary>
+
+                    <p>
+
+                        A portfolio or relevant work samples
+                        are encouraged, as they help demonstrate
+                        your abilities, experience, and
+                        creative approach.
+
+                    </p>
+
+                </details>
+
+                <details>
+
+                    <summary>
+                        Are these paid opportunities?
+                    </summary>
+
+                    <p>
+
+                        Compensation and engagement arrangements
+                        have not yet been established for the
+                        disciplines listed. Any applicable terms
+                        will be communicated before an agreement
+                        is made.
+
+                    </p>
+
+                </details>
+
+                <details>
+
+                    <summary>
+                        What projects are you developing?
+                    </summary>
+
+                    <p>
+
+                        Our featured project is Throw Meat for
+                        Dinos!, a prehistoric dinosaur collection
+                        experience currently in development.
+
+                        Additional projects will be announced
+                        through our official website.
+
+                    </p>
+
+                </details>
+
+                <details>
+
+                    <summary>
+                        Can I apply for multiple disciplines?
+                    </summary>
+
+                    <p>
+
+                        When submissions open, you may identify
+                        your primary discipline and describe
+                        additional relevant skills in your
+                        introduction.
+
+                    </p>
+
+                </details>
+
+                <details>
+
+                    <summary>
+                        How will I know when applications open?
+                    </summary>
+
+                    <p>
+
+                        Application availability will be
+                        announced on this careers page.
+                        Please check back for future updates.
+
+                    </p>
+
+                </details>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="brand">
+
+                    <svg class="brand-mark"
+                         aria-hidden="true">
+
+                        <use href="#crown-logo"/>
+
+                    </svg>
+
+                    <div class="brand-text">
+
+                        <span class="brand-name">
+                            Obsidian Crown
+                        </span>
+
+                        <span class="brand-subtitle">
+                            GAME DEVELOPMENT STUDIO
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <p class="footer-description">
+
+                    An independent game development studio
+                    dedicated to creativity, craftsmanship,
+                    and excellence in interactive entertainment.
+
+                </p>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>The Studio</h3>
+
+                <a href="index.html">Home</a>
+
+                <a href="index.html#studio">
+                    About Us
+                </a>
+
+                <a href="index.html#experiences">
+                    Our Experiences
+                </a>
+
+                <a href="index.html#contact">
+                    Contact
+                </a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>Careers</h3>
+
+                <a href="#opportunities">
+                    Explore Disciplines
+                </a>
+
+                <a href="#culture">
+                    Our Culture
+                </a>
+
+                <a href="#applications">
+                    Portfolio Submissions
+                </a>
+
+                <a href="#faq">
+                    Frequently Asked Questions
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <span>
+
+                &copy; <span id="year">2026</span>
+                Obsidian Crown. All rights reserved.
+
+            </span>
+
+            <span class="footer-motto">
+
+                Excellence in creation. Ambition without limits.
+
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script>
+    const header = document.getElementById("header");
+    const menuToggle = document.getElementById("menuToggle");
+    const navigation = document.getElementById("navigation");
+
+    function closeMenu() {
+        navigation.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    menuToggle.addEventListener("click", () => {
+        const isOpen = navigation.classList.toggle("open");
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
+    });
+
+    navigation.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            closeMenu();
+        }
+    });
+
+    document.addEventListener("click", event => {
+        if (!header.contains(event.target)) {
+            closeMenu();
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 800) {
+            closeMenu();
+        }
+    });
+
+    function updateHeader() {
+        header.classList.toggle(
+            "scrolled",
+            window.scrollY > 30
+        );
+    }
+
+    window.addEventListener("scroll", updateHeader, {
+        passive: true
+    });
+
+    updateHeader();
+
+    const roles = Array.from(
+        document.querySelectorAll(".role")
+    );
+
+    const filters = Array.from(
+        document.querySelectorAll(".filter-button")
+    );
+
+    const roleCount = document.getElementById("roleCount");
+
+    function setRoleOpen(role, isOpen) {
+        const toggle = role.querySelector(".role-toggle");
+        const content = role.querySelector(".role-content");
+
+        role.classList.toggle("open", isOpen);
+
+        toggle.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
+
+        content.inert = !isOpen;
+    }
+
+    roles.forEach(role => {
+        const toggle = role.querySelector(".role-toggle");
+
+        toggle.addEventListener("click", () => {
+            const shouldOpen =
+                !role.classList.contains("open");
+
+            roles.forEach(otherRole => {
+                setRoleOpen(otherRole, false);
+            });
+
+            setRoleOpen(role, shouldOpen);
+        });
+    });
+
+    filters.forEach(filter => {
+        filter.addEventListener("click", () => {
+            const selectedCategory = filter.dataset.filter;
+
+            filters.forEach(button => {
+                const active = button === filter;
+
+                button.classList.toggle("active", active);
+
+                button.setAttribute(
+                    "aria-pressed",
+                    String(active)
+                );
+            });
+
+            let visibleCount = 0;
+
+            roles.forEach(role => {
+                const matches =
+                    selectedCategory === "all" ||
+                    role.dataset.category === selectedCategory;
+
+                role.hidden = !matches;
+
+                if (!matches) {
+                    setRoleOpen(role, false);
+                } else {
+                    visibleCount++;
+                }
+            });
+
+            roleCount.textContent =
+                String(visibleCount).padStart(2, "0") +
+                (visibleCount === 1
+                    ? " Discipline"
+                    : " Disciplines");
+        });
+    });
+
+    const disciplineSelect =
+        document.getElementById("discipline");
+
+    document.querySelectorAll("[data-role]").forEach(link => {
+        link.addEventListener("click", () => {
+            disciplineSelect.value = link.dataset.role;
+        });
+    });
+
+    const applicationForm =
+        document.getElementById("applicationForm");
+
+    applicationForm.addEventListener("submit", event => {
+        event.preventDefault();
+    });
+
+    const revealElements =
+        document.querySelectorAll(".reveal");
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if ("IntersectionObserver" in window && !reducedMotion) {
+
+        const revealObserver =
+            new IntersectionObserver(entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("visible");
+
+                        revealObserver.unobserve(entry.target);
+
+                    }
+
+                });
+
+            }, {
+                threshold: 0.05
+            });
+
+        document.body.classList.add("animations-enabled");
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+    }
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+</script>
+
+<noscript>
+
+    <style>
+
+        .role-content {
+            grid-template-rows: 1fr;
+        }
+
+        .filters,
+        .role-expand {
+            display: none;
+        }
+
+        @media (max-width: 800px) {
+
+            header {
+                position: relative;
+            }
+
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                display: flex;
+                position: static;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</noscript>
+
+</body>
+</html>
