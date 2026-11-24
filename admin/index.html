@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +27,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="/admin/admin.css?v=1.0.2">
+
+    <style>
+        body { margin: 0; background: #0C0C0D; color: #EDE9E1; }
+        [hidden] { display: none !important; }
+        .svg-library { position: absolute; width: 0; height: 0; overflow: hidden; }
+        #loadingScreen:not([hidden]) { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: #0C0C0D; text-align: center; }
+        #loadingScreen .loading-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 600px; margin: 0; }
+        #loadingScreen .loading-crown { display: block; width: 90px; height: 90px; margin: 0 0 24px; color: #BCA783; fill: none; }
+        #loadingScreen h1 { margin: 0; font: 500 clamp(40px, 6vw, 58px)/1.1 "Cormorant Garamond", Georgia, serif; color: #EDE9E1; }
+        #loadingScreen .eyebrow { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px 0 0; color: #BCA783; font: 700 10px/1.5 "Manrope", Arial, sans-serif; letter-spacing: 3px; text-transform: uppercase; }
+        #loadingScreen .eyebrow::before, #loadingScreen .eyebrow::after { content: ""; display: block; width: 20px; height: 1px; background: #BCA783; }
+        #loadingScreen .loading-indicator { position: relative; width: 160px; height: 2px; margin: 32px auto 20px; overflow: hidden; background: #302C26; }
+        #loadingScreen .loading-indicator span { position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: #BCA783; animation: oc-session-loading 1.8s ease-in-out infinite; }
+        #loadingMessage { margin: 0; color: #A39F97; font: 500 11px/1.5 "Manrope", Arial, sans-serif; }
+        @keyframes oc-session-loading { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+        @media (prefers-reduced-motion: reduce) { #loadingScreen .loading-indicator span { animation: none; left: 30%; } }
+    </style>
 
     <script src="/admin/admin.js" defer></script>
 </head>
@@ -41,10 +57,13 @@
          width="0"
          height="0">
 
-        <symbol id="icon-crown" viewBox="0 0 48 48">
-            <path d="M5 12L15 23L24 5L33 23L43 12L37 34H11Z"/>
-            <path d="M12 39H36M24 5V34M15 23L24 34L33 23"/>
-        </symbol>
+        <symbol id="icon-crown" viewBox="0 0 64 64">
+        <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
+              fill="none" stroke="#BCA783" stroke-width="2"/>
+        <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"
+              fill="none" stroke="#BCA783" stroke-width="1.3"/>
+        <path d="M15 52H49L45 57H19Z" fill="#BCA783"/>
+    </symbol>
 
         <symbol id="icon-overview" viewBox="0 0 24 24">
             <rect x="3" y="3" width="7" height="7" rx="1"/>
@@ -191,7 +210,7 @@
             <h1>Obsidian Crown</h1>
 
             <p class="eyebrow">
-                Private Administration
+                PRIVATE ADMINISTRATION
             </p>
 
             <div class="loading-indicator">
