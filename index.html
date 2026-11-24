@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="Obsidian Crown is an independent game development studio dedicated to excellence in game development, design, and creative collaboration.">
+    <meta name="description" content="Obsidian Crown is an independent game development studio dedicated to excellence in game development and design.">
     <meta name="theme-color" content="#0C0C0D">
 
     <meta property="og:title" content="Obsidian Crown — Independent Game Studio">
@@ -32,7 +31,7 @@
             --gold-light: #D9C7A6;
             --ivory: #EDE9E1;
             --muted: #A39F97;
-            --border: rgba(188, 167, 131, 0.18);
+            --border: rgba(188, 167, 131, .18);
             --heading: 'Cormorant Garamond', Georgia, serif;
             --body: 'Manrope', Arial, sans-serif;
         }
@@ -89,11 +88,6 @@
             display: block;
         }
 
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
         h1, h2, h3 {
             font-family: var(--heading);
             font-weight: 500;
@@ -142,11 +136,8 @@
             font-weight: 800;
             letter-spacing: 1.8px;
             text-transform: uppercase;
-            transition:
-                background .3s,
-                color .3s,
-                border-color .3s,
-                transform .3s;
+            transition: background .3s, color .3s,
+                        border-color .3s, transform .3s;
         }
 
         .button:hover {
@@ -318,13 +309,12 @@
             isolation: isolate;
             padding: 175px 0 130px;
             overflow: hidden;
-            background:
-                radial-gradient(
-                    ellipse at 78% 45%,
-                    #302A21 0%,
-                    #1B1815 22%,
-                    #0C0C0D 62%
-                );
+            background: radial-gradient(
+                ellipse at 78% 45%,
+                #302A21 0%,
+                #1B1815 22%,
+                #0C0C0D 62%
+            );
         }
 
         .hero::before {
@@ -531,12 +521,11 @@
             border: 1px solid var(--border);
             padding: 60px 45px;
             position: relative;
-            background:
-                radial-gradient(
-                    ellipse at top right,
-                    #242019,
-                    #111110 75%
-                );
+            background: radial-gradient(
+                ellipse at top right,
+                #242019,
+                #111110 75%
+            );
         }
 
         .manifesto::before,
@@ -564,6 +553,7 @@
 
         .manifesto-mark {
             width: 65px;
+            height: 65px;
             margin: 0 auto 25px;
         }
 
@@ -606,10 +596,9 @@
             border: 1px solid var(--border);
             background: var(--obsidian);
             overflow: hidden;
-            transition:
-                border-color .35s,
-                transform .35s,
-                box-shadow .35s;
+            transition: border-color .35s,
+                        transform .35s,
+                        box-shadow .35s;
         }
 
         .game-card:hover {
@@ -622,32 +611,95 @@
             aspect-ratio: 16 / 10;
             position: relative;
             overflow: hidden;
-            background: #181B14;
         }
 
-        .game-image img,
-        .game-image svg {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .7s ease;
+        .game-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(
+                ellipse at center,
+                #29241C 0%,
+                #191713 45%,
+                #111110 100%
+            );
         }
 
-        .game-card:hover .game-image img,
-        .game-card:hover .game-image svg {
-            transform: scale(1.045);
-        }
-
-        .game-image::after {
+        .game-placeholder::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                to top,
-                rgba(0, 0, 0, .3),
-                transparent 50%
-            );
+            background-image:
+                linear-gradient(
+                    rgba(188, 167, 131, .025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(188, 167, 131, .025) 1px,
+                    transparent 1px
+                );
+            background-size: 50px 50px;
             pointer-events: none;
+        }
+
+        .placeholder-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 55px 20px 20px;
+            text-align: center;
+        }
+
+        .placeholder-emblem {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(188, 167, 131, .15);
+            border-radius: 50%;
+            transition: transform .6s ease;
+        }
+
+        .placeholder-emblem::before {
+            content: "";
+            position: absolute;
+            inset: -14px;
+            border: 1px solid rgba(188, 167, 131, .07);
+            border-radius: 50%;
+        }
+
+        .placeholder-emblem svg {
+            width: 64px;
+            height: 64px;
+            opacity: .85;
+        }
+
+        .game-card:hover .placeholder-emblem {
+            transform: scale(1.06);
+        }
+
+        .placeholder-heading {
+            font-family: var(--heading);
+            font-size: clamp(24px, 3vw, 34px);
+            font-weight: 500;
+            color: var(--gold-light);
+            line-height: 1.2;
+        }
+
+        .placeholder-caption {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: .65;
         }
 
         .game-status {
@@ -716,64 +768,15 @@
             padding: 12px 20px;
         }
 
-        .game-fallback {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            padding: 35px;
-            text-align: center;
-            background:
-                radial-gradient(
-                    ellipse at 50% 40%,
-                    #3D4930,
-                    #20271B 45%,
-                    #11150F 90%
-                );
-        }
-
-        .game-fallback svg {
-            width: 125px;
-            height: 125px;
-        }
-
-        .fallback-title {
-            font-family: var(--heading);
-            font-size: clamp(28px, 4vw, 45px);
-            line-height: 1;
-            color: #E4D8B9;
-        }
-
-        .fallback-subtitle {
-            color: #B6B79A;
-            font-size: 9px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .dino-thumbnail {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
-
-        .dino-thumbnail[hidden] {
-            display: none;
-        }
-
         .future-image {
             display: flex;
             align-items: center;
             justify-content: center;
-            background:
-                radial-gradient(
-                    ellipse at center,
-                    #29251E,
-                    #111110 70%
-                );
+            background: radial-gradient(
+                ellipse at center,
+                #29251E,
+                #111110 70%
+            );
         }
 
         .future-monogram {
@@ -893,12 +896,11 @@
         }
 
         .contact-section {
-            background:
-                radial-gradient(
-                    ellipse at bottom center,
-                    #211C15,
-                    #0C0C0D 70%
-                );
+            background: radial-gradient(
+                ellipse at bottom center,
+                #211C15,
+                #0C0C0D 70%
+            );
         }
 
         .contact-heading {
@@ -1021,9 +1023,8 @@
         .animations-enabled .reveal {
             opacity: 0;
             transform: translateY(25px);
-            transition:
-                opacity .8s ease,
-                transform .8s ease;
+            transition: opacity .8s ease,
+                        transform .8s ease;
         }
 
         .animations-enabled .reveal.visible {
@@ -1192,18 +1193,39 @@
                 font-size: 32px;
             }
 
+            .game-image {
+                min-height: 230px;
+            }
+
+            .game-status {
+                top: 12px;
+                left: 12px;
+                font-size: 8px;
+                padding: 6px 10px;
+            }
+
+            .placeholder-emblem {
+                width: 75px;
+                height: 75px;
+                margin-bottom: 5px;
+            }
+
+            .placeholder-emblem svg {
+                width: 42px;
+                height: 42px;
+            }
+
+            .placeholder-content {
+                gap: 8px;
+            }
+
+            .placeholder-caption {
+                letter-spacing: 2.5px;
+            }
+
             .footer-bottom {
                 flex-direction: column;
                 align-items: flex-start;
-            }
-
-            .game-fallback svg {
-                width: 85px;
-                height: 85px;
-            }
-
-            .fallback-subtitle {
-                letter-spacing: 1.5px;
             }
         }
 
@@ -1292,21 +1314,10 @@
 
         <nav id="navigation" aria-label="Main navigation">
 
-            <a href="#home" class="active">
-                Home
-            </a>
-
-            <a href="#studio">
-                The Studio
-            </a>
-
-            <a href="#experiences">
-                Experiences
-            </a>
-
-            <a href="#contact">
-                Contact
-            </a>
+            <a href="#home" class="active">Home</a>
+            <a href="#studio">The Studio</a>
+            <a href="#experiences">Experiences</a>
+            <a href="#contact">Contact</a>
 
             <a href="#careers" class="nav-careers">
                 Careers ↗
@@ -1353,7 +1364,7 @@
 
                 </defs>
 
-                <g stroke="#8A7B64" stroke-width="0.8">
+                <g stroke="#8A7B64" stroke-width=".8">
 
                     <path d="M250 30L310 180L455 110L395 370L250 445L105 370L45 110L190 180Z"
                           fill="url(#metal)"/>
@@ -1464,24 +1475,18 @@
         <div class="container strip-grid">
 
             <div class="strip-item">
-
                 <h3>Independent</h3>
                 <p>By Nature</p>
-
             </div>
 
             <div class="strip-item">
-
                 <h3>Creative</h3>
                 <p>By Design</p>
-
             </div>
 
             <div class="strip-item">
-
                 <h3>Exceptional</h3>
                 <p>By Ambition</p>
-
             </div>
 
         </div>
@@ -1607,99 +1612,7 @@
 
                 <article class="game-card reveal">
 
-                    <div class="game-image">
-
-                        <div class="game-fallback"
-                             aria-hidden="true">
-
-                            <svg viewBox="0 0 160 160">
-
-                                <g stroke="#C7B58C"
-                                   stroke-width="1"
-                                   stroke-linejoin="round">
-
-                                    <path d="M80 7L124 22L150 65L137 113L99 150L50 143L15 107L9 59L38 20Z"
-                                          fill="#514B36"/>
-
-                                    <path d="M80 7L91 36L38 20Z"
-                                          fill="#827557"/>
-
-                                    <path d="M80 7L124 22L91 36Z"
-                                          fill="#655A41"/>
-
-                                    <path d="M124 22L150 65L115 57L91 36Z"
-                                          fill="#71664B"/>
-
-                                    <path d="M150 65L137 113L113 97L115 57Z"
-                                          fill="#3C3C2B"/>
-
-                                    <path d="M137 113L99 150L91 117L113 97Z"
-                                          fill="#39382A"/>
-
-                                    <path d="M99 150L50 143L62 114L91 117Z"
-                                          fill="#4A4430"/>
-
-                                    <path d="M50 143L15 107L42 91L62 114Z"
-                                          fill="#6B6044"/>
-
-                                    <path d="M15 107L9 59L43 53L42 91Z"
-                                          fill="#79704F"/>
-
-                                    <path d="M9 59L38 20L43 53Z"
-                                          fill="#96845F"/>
-
-                                </g>
-
-                                <g stroke="#A89A78"
-                                   stroke-width="1.5"
-                                   stroke-linejoin="round">
-
-                                    <path d="M39 54L55 36L86 31L108 41L121 58L139 66L133 86L106 90L90 83L72 86L63 100L47 90L32 75Z"
-                                          fill="#DDD0AD"/>
-
-                                    <path d="M43 53L59 41L82 39L71 59Z"
-                                          fill="#EEE3C9"/>
-
-                                    <path d="M82 39L108 47L121 62L94 56Z"
-                                          fill="#B9AA86"/>
-
-                                    <path d="M76 55L93 52L103 64L94 76L77 70Z"
-                                          fill="#34362B"/>
-
-                                    <path d="M115 65L130 70L125 79L113 77Z"
-                                          fill="#34362B"/>
-
-                                    <path d="M47 91L66 103L91 98L119 99L130 88L135 100L117 115L85 121L61 116L45 103Z"
-                                          fill="#C4B48D"/>
-
-                                    <path d="M91 83L98 96L105 87L111 97L117 89L123 98L130 86"
-                                          fill="#EEE3C9"/>
-
-                                    <path d="M71 105L78 94L85 103L92 93L99 102"
-                                          fill="#EEE3C9"/>
-
-                                </g>
-
-                            </svg>
-
-                            <span class="fallback-title">
-                                Throw Meat for Dinos!
-                            </span>
-
-                            <span class="fallback-subtitle">
-                                A Prehistoric Adventure
-                            </span>
-
-                        </div>
-
-                        <img
-                            id="dinoThumbnail"
-                            class="dino-thumbnail"
-                            src="assets/throw-meat-for-dinos.jpg"
-                            alt="Throw Meat for Dinos game artwork"
-                            loading="lazy"
-                            hidden
-                        >
+                    <div class="game-image game-placeholder">
 
                         <span class="game-status">
 
@@ -1707,6 +1620,29 @@
                             In Development
 
                         </span>
+
+                        <div class="placeholder-content">
+
+                            <div class="placeholder-emblem">
+
+                                <svg viewBox="0 0 64 64"
+                                     aria-hidden="true">
+
+                                    <use href="#crown-logo"/>
+
+                                </svg>
+
+                            </div>
+
+                            <span class="placeholder-heading">
+                                Artwork Coming Soon
+                            </span>
+
+                            <span class="placeholder-caption">
+                                Obsidian Crown
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -1931,10 +1867,8 @@
                     <div class="department">
 
                         <div>
-
                             <h3>Engineering</h3>
                             <p>Programming & Game Systems</p>
-
                         </div>
 
                         <span class="department-number">01</span>
@@ -1944,10 +1878,8 @@
                     <div class="department">
 
                         <div>
-
                             <h3>Art & Environment</h3>
                             <p>3D Modeling & World Building</p>
-
                         </div>
 
                         <span class="department-number">02</span>
@@ -1957,10 +1889,8 @@
                     <div class="department">
 
                         <div>
-
                             <h3>Creative Design</h3>
                             <p>Game Design & UI/UX</p>
-
                         </div>
 
                         <span class="department-number">03</span>
@@ -1970,10 +1900,8 @@
                     <div class="department">
 
                         <div>
-
                             <h3>Animation</h3>
                             <p>Character Animation & Rigging</p>
-
                         </div>
 
                         <span class="department-number">04</span>
@@ -1983,10 +1911,8 @@
                     <div class="department">
 
                         <div>
-
                             <h3>Production</h3>
                             <p>Project Management & Operations</p>
-
                         </div>
 
                         <span class="department-number">05</span>
@@ -1996,10 +1922,8 @@
                     <div class="department">
 
                         <div>
-
                             <h3>Community</h3>
                             <p>Community Relations & Quality Assurance</p>
-
                         </div>
 
                         <span class="department-number">06</span>
@@ -2188,9 +2112,7 @@
 
                 <h3>Opportunities</h3>
 
-                <a href="#careers">
-                    Careers
-                </a>
+                <a href="#careers">Careers</a>
 
                 <a href="#business-inquiries">
                     Business Inquiries
@@ -2237,24 +2159,6 @@
     const header = document.getElementById("header");
     const menuToggle = document.getElementById("menuToggle");
     const navigation = document.getElementById("navigation");
-    const dinoThumbnail = document.getElementById("dinoThumbnail");
-
-    function showThumbnail() {
-        if (dinoThumbnail.naturalWidth > 0) {
-            dinoThumbnail.hidden = false;
-        }
-    }
-
-    function hideThumbnail() {
-        dinoThumbnail.hidden = true;
-    }
-
-    dinoThumbnail.addEventListener("load", showThumbnail);
-    dinoThumbnail.addEventListener("error", hideThumbnail);
-
-    if (dinoThumbnail.complete) {
-        showThumbnail();
-    }
 
     function closeMenu() {
         navigation.classList.remove("open");
@@ -2263,7 +2167,11 @@
 
     menuToggle.addEventListener("click", () => {
         const isOpen = navigation.classList.toggle("open");
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
     });
 
     navigation.querySelectorAll("a").forEach(link => {
@@ -2303,7 +2211,6 @@
     let scrollPending = false;
 
     function updateScrollState() {
-
         header.classList.toggle(
             "scrolled",
             window.scrollY > 30
@@ -2315,15 +2222,12 @@
             window.scrollY + header.offsetHeight + 80;
 
         sections.forEach(section => {
-
             if (section.offsetTop <= offset) {
                 currentSection = section.id;
             }
-
         });
 
         navigationLinks.forEach(link => {
-
             const active =
                 link.getAttribute("href") === "#" + currentSection;
 
@@ -2334,20 +2238,16 @@
             } else {
                 link.removeAttribute("aria-current");
             }
-
         });
 
         scrollPending = false;
-
     }
 
     window.addEventListener("scroll", () => {
-
         if (!scrollPending) {
             scrollPending = true;
             requestAnimationFrame(updateScrollState);
         }
-
     }, {
         passive: true
     });
@@ -2362,22 +2262,14 @@
     ).matches;
 
     if ("IntersectionObserver" in window && !reducedMotion) {
-
         const revealObserver =
             new IntersectionObserver(entries => {
-
                 entries.forEach(entry => {
-
                     if (entry.isIntersecting) {
-
                         entry.target.classList.add("visible");
-
                         revealObserver.unobserve(entry.target);
-
                     }
-
                 });
-
             }, {
                 threshold: 0.05
             });
@@ -2387,7 +2279,6 @@
         revealElements.forEach(element => {
             revealObserver.observe(element);
         });
-
     }
 
     document.getElementById("year").textContent =
@@ -2397,9 +2288,7 @@
 <noscript>
 
     <style>
-
         @media (max-width: 800px) {
-
             header {
                 position: relative;
             }
@@ -2417,9 +2306,7 @@
             .menu-toggle {
                 display: none;
             }
-
         }
-
     </style>
 
 </noscript>
