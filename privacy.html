@@ -1,0 +1,2832 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Learn how Obsidian Crown handles personal information, recruitment submissions, website security, and data protection.">
+
+    <meta name="theme-color" content="#0C0C0D">
+
+    <meta property="og:title" content="Privacy & Data Protection — Obsidian Crown">
+    <meta property="og:description" content="Transparency, responsibility, and respect for your personal information.">
+    <meta property="og:url" content="https://obsidiancrown.org/privacy.html">
+    <meta property="og:type" content="website">
+
+    <title>Privacy & Data Protection — Obsidian Crown</title>
+
+    <link rel="canonical" href="https://obsidiancrown.org/privacy.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230C0C0D'/%3E%3Cpath d='M6 15L20 29L32 6L44 29L58 15L49 47H15ZM15 52H49L45 57H19Z' fill='%23BCA783'/%3E%3C/svg%3E">
+
+    <style>
+        :root {
+            --obsidian: #0C0C0D;
+            --carbon: #141414;
+            --surface: #191817;
+            --gold: #BCA783;
+            --gold-light: #D9C7A6;
+            --ivory: #EDE9E1;
+            --muted: #A39F97;
+            --border: rgba(188, 167, 131, .18);
+            --heading: 'Cormorant Garamond', Georgia, serif;
+            --body: 'Manrope', Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 130px;
+        }
+
+        body {
+            background: var(--obsidian);
+            color: var(--ivory);
+            font-family: var(--body);
+            font-size: 15px;
+            line-height: 1.85;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--obsidian);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #51483A;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        svg {
+            display: block;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--heading);
+            font-weight: 500;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .container {
+            width: min(1320px, 88%);
+            margin-inline: auto;
+        }
+
+        .gold {
+            color: var(--gold);
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 30px;
+            height: 1px;
+            background: currentColor;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            min-height: 48px;
+            padding: 13px 23px;
+            border: 1px solid var(--gold);
+            background: var(--gold);
+            color: var(--obsidian);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: background .25s,
+                        color .25s,
+                        transform .25s;
+        }
+
+        .button:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .button-outline {
+            background: transparent;
+            color: var(--gold);
+            border-color: var(--border);
+        }
+
+        .button-outline:hover {
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        .button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: -100px;
+            left: 20px;
+            padding: 12px 20px;
+            background: var(--gold);
+            color: var(--obsidian);
+            z-index: 2000;
+        }
+
+        .skip-link:focus {
+            top: 10px;
+        }
+
+        header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 1000;
+            background: rgba(12, 12, 13, .88);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            transition: background .25s;
+        }
+
+        header.scrolled {
+            background: rgba(12, 12, 13, .98);
+        }
+
+        .navbar {
+            min-height: 94px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-name {
+            font-family: var(--heading);
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        .brand-subtitle {
+            color: var(--gold);
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 3.8px;
+            margin-top: 6px;
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 38px;
+        }
+
+        .navigation a {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color .25s;
+        }
+
+        .navigation a:hover {
+            color: var(--gold-light);
+        }
+
+        .navigation .nav-careers {
+            padding: 12px 23px;
+            border: 1px solid var(--gold);
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        .navigation .nav-careers:hover {
+            background: var(--gold-light);
+            color: var(--obsidian);
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--gold);
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 1px;
+            background: currentColor;
+            margin: 6px 0;
+        }
+
+        .hero {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            padding: 180px 0 85px;
+            background: radial-gradient(
+                ellipse at 85% 50%,
+                #302A21,
+                #191713 35%,
+                #0C0C0D 75%
+            );
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(
+                    rgba(188, 167, 131, .025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(188, 167, 131, .025) 1px,
+                    transparent 1px
+                );
+            background-size: 85px 85px;
+            mask-image: linear-gradient(
+                to left,
+                black,
+                transparent
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 40px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--gold);
+        }
+
+        .breadcrumb span:last-child {
+            color: var(--gold);
+        }
+
+        .hero h1 {
+            font-size: clamp(58px, 8vw, 112px);
+            line-height: .95;
+            letter-spacing: -3px;
+            margin: 28px 0;
+        }
+
+        .hero h1 em {
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .hero-description {
+            max-width: 630px;
+            color: var(--muted);
+            line-height: 1.95;
+        }
+
+        .hero-decoration {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            width: min(45vw, 600px);
+            aspect-ratio: 1;
+            transform: translateY(-50%);
+            border: 1px solid rgba(188, 167, 131, .09);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .hero-decoration::before,
+        .hero-decoration::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(188, 167, 131, .07);
+            border-radius: 50%;
+        }
+
+        .hero-decoration::before {
+            inset: 35px;
+        }
+
+        .hero-decoration::after {
+            inset: 70px;
+        }
+
+        .hero-decoration svg {
+            width: 42%;
+            opacity: .23;
+        }
+
+        .policy-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 30px;
+            margin-top: 45px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .meta-label {
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+        }
+
+        .meta-value {
+            color: var(--gold-light);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .draft-banner {
+            background: #171510;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .draft-banner .container {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding-block: 20px;
+        }
+
+        .draft-banner svg {
+            width: 23px;
+            height: 23px;
+            flex-shrink: 0;
+            color: var(--gold);
+        }
+
+        .draft-banner p {
+            color: var(--gold-light);
+            font-size: 12px;
+        }
+
+        .policy-layout {
+            display: grid;
+            grid-template-columns: 270px minmax(0, 1fr);
+            align-items: start;
+            gap: 80px;
+            padding-block: 90px 115px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 125px;
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .sidebar-heading {
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .contents {
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+        }
+
+        .contents a {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 11px 12px;
+            border-left: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            transition: background .25s,
+                        color .25s,
+                        border-color .25s;
+        }
+
+        .contents a span {
+            color: var(--gold);
+            font-family: var(--heading);
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        .contents a:hover,
+        .contents a.active {
+            color: var(--gold-light);
+            border-left-color: var(--gold);
+            background: rgba(188, 167, 131, .05);
+        }
+
+        .sidebar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .sidebar-actions .button {
+            width: 100%;
+        }
+
+        .policy-content {
+            min-width: 0;
+        }
+
+        .policy-section {
+            padding: 0 0 45px;
+            margin-bottom: 45px;
+            border-bottom: 1px solid var(--border);
+            scroll-margin-top: 15px;
+        }
+
+        .policy-section:last-child {
+            border-bottom: 0;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-number {
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        .policy-section h2 {
+            font-size: clamp(36px, 4vw, 54px);
+            line-height: 1.1;
+            margin: 14px 0 25px;
+            letter-spacing: -.5px;
+        }
+
+        .policy-section h3 {
+            font-size: 28px;
+            color: var(--gold-light);
+            line-height: 1.3;
+            margin: 28px 0 14px;
+        }
+
+        .policy-section p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .policy-section strong {
+            color: var(--ivory);
+            font-weight: 700;
+        }
+
+        .policy-section a {
+            color: var(--gold-light);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            overflow-wrap: anywhere;
+        }
+
+        .policy-section a:hover {
+            color: var(--ivory);
+        }
+
+        .policy-section ul {
+            list-style: none;
+            margin: 18px 0 25px;
+        }
+
+        .policy-section li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .policy-section li::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 2px;
+            width: 5px;
+            height: 5px;
+            transform: rotate(45deg);
+            background: var(--gold);
+        }
+
+        .notice {
+            padding: 23px 25px;
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--gold);
+            background: rgba(188, 167, 131, .035);
+            margin: 25px 0;
+        }
+
+        .notice h4 {
+            font-size: 25px;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+        }
+
+        .notice p:last-child {
+            margin-bottom: 0;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin: 25px 0;
+            border: 1px solid var(--border);
+        }
+
+        .data-table {
+            width: 100%;
+            min-width: 480px;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .data-table th {
+            padding: 15px 18px;
+            background: #1C1914;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+        }
+
+        .data-table td {
+            padding: 16px 18px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .data-table td:first-child {
+            color: var(--ivory);
+            width: 38%;
+        }
+
+        .service-card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            padding: 22px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, .012);
+        }
+
+        .service-card h3 {
+            font-size: 28px;
+            margin: 0 0 8px;
+        }
+
+        .service-card p {
+            font-size: 13px;
+            margin-bottom: 0;
+        }
+
+        .service-card > a {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: start;
+        }
+
+        .contact-panel {
+            border: 1px solid var(--border);
+            padding: 30px;
+            margin-top: 25px;
+            background: var(--carbon);
+        }
+
+        .contact-panel h3 {
+            margin-top: 0;
+        }
+
+        .contact-panel .button {
+            text-decoration: none;
+            color: var(--obsidian);
+            margin-top: 10px;
+        }
+
+        .contact-panel .button:hover {
+            color: var(--obsidian);
+        }
+
+        .commitment-section {
+            background: #E6E0D5;
+            color: #191815;
+            padding: 90px 0;
+        }
+
+        .commitment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .commitment-section .eyebrow {
+            color: #776548;
+        }
+
+        .commitment-section h2 {
+            font-size: clamp(45px, 5vw, 75px);
+            line-height: 1.05;
+            margin-top: 22px;
+        }
+
+        .commitment-section h2 em {
+            color: #89734F;
+            font-weight: 400;
+        }
+
+        .commitment-section p {
+            color: #686258;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .commitment-section .button {
+            background: #191815;
+            border-color: #191815;
+            color: #E6E0D5;
+            margin-top: 15px;
+        }
+
+        footer {
+            background: #090909;
+            border-top: 1px solid var(--border);
+            padding: 65px 0 25px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 70px;
+        }
+
+        .footer-description {
+            color: var(--muted);
+            font-size: 13px;
+            max-width: 350px;
+            margin-top: 22px;
+        }
+
+        .footer-column h3 {
+            font-family: var(--body);
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .footer-column a {
+            display: block;
+            width: fit-content;
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .footer-column a:hover,
+        .footer-column a[aria-current="page"] {
+            color: var(--gold-light);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            border-top: 1px solid var(--border);
+            margin-top: 55px;
+            padding-top: 25px;
+            color: #8E8980;
+            font-size: 10px;
+        }
+
+        .footer-motto {
+            color: var(--gold);
+            font-family: var(--heading);
+            font-style: italic;
+            font-size: 17px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            z-index: 900;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--obsidian);
+            color: var(--gold);
+            border: 1px solid var(--border);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all .25s;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        .back-to-top svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 5px;
+        }
+
+        @media (max-width: 1100px) {
+            .navigation {
+                gap: 22px;
+            }
+
+            .policy-layout {
+                grid-template-columns: 220px minmax(0, 1fr);
+                gap: 45px;
+            }
+
+            .commitment-grid {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            html {
+                scroll-padding-top: 105px;
+            }
+
+            .navbar {
+                min-height: 80px;
+            }
+
+            .brand-name {
+                font-size: 22px;
+            }
+
+            .brand-mark {
+                width: 35px;
+                height: 35px;
+            }
+
+            .brand-subtitle {
+                font-size: 7px;
+                letter-spacing: 2.5px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .navigation {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                right: 0;
+                padding: 30px 6%;
+                background: var(--obsidian);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 25px;
+            }
+
+            .navigation.open {
+                display: flex;
+            }
+
+            .navigation .nav-careers {
+                text-align: center;
+            }
+
+            .hero {
+                padding: 135px 0 65px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1.5px;
+            }
+
+            .hero-decoration {
+                width: 85vw;
+                right: -30%;
+                opacity: .45;
+            }
+
+            .policy-layout {
+                grid-template-columns: 1fr;
+                gap: 45px;
+                padding-block: 50px 75px;
+            }
+
+            .sidebar {
+                position: static;
+                max-height: none;
+                overflow: visible;
+                padding: 25px;
+                border: 1px solid var(--border);
+                background: var(--carbon);
+            }
+
+            .contents {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .sidebar-actions {
+                flex-direction: row;
+            }
+
+            .commitment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .commitment-section {
+                padding: 65px 0;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 35px;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .hero h1 {
+                font-size: clamp(48px, 12vw, 58px);
+            }
+
+            .eyebrow {
+                font-size: 9px;
+                letter-spacing: 2px;
+            }
+
+            .policy-meta {
+                gap: 20px;
+            }
+
+            .contents {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-actions {
+                flex-direction: column;
+            }
+
+            .service-card {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-panel {
+                padding: 22px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .back-to-top {
+                right: 15px;
+                bottom: 15px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+                font-size: 11pt;
+            }
+
+            header,
+            footer,
+            .sidebar,
+            .back-to-top,
+            .hero-decoration,
+            .hero::before,
+            .commitment-section,
+            .skip-link,
+            .button,
+            .breadcrumb {
+                display: none !important;
+            }
+
+            .container {
+                width: 100%;
+            }
+
+            .hero {
+                background: white;
+                padding: 0 0 25px;
+                border-bottom: 1px solid #aaa;
+            }
+
+            .hero h1 {
+                font-size: 36pt;
+                color: black;
+            }
+
+            .hero h1 em {
+                color: black;
+            }
+
+            .policy-layout {
+                display: block;
+                padding: 25px 0;
+            }
+
+            .policy-section {
+                border-color: #ccc;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+
+            .policy-section h2 {
+                font-size: 24pt;
+                color: black;
+                break-after: avoid;
+            }
+
+            .policy-section h3,
+            .policy-section h4 {
+                color: black;
+                break-after: avoid;
+            }
+
+            .policy-section p,
+            .policy-section li,
+            .policy-section strong,
+            .hero-description,
+            .meta-label,
+            .meta-value,
+            .section-number,
+            .eyebrow,
+            .policy-section a {
+                color: black;
+            }
+
+            .notice,
+            .contact-panel,
+            .service-card,
+            .draft-banner,
+            .data-table th,
+            .data-table td {
+                background: white;
+                color: black !important;
+                border-color: #aaa;
+            }
+
+            .draft-banner p {
+                color: black;
+            }
+
+            .data-table {
+                min-width: 0;
+            }
+
+            .table-wrapper {
+                overflow: visible;
+                border-color: #aaa;
+            }
+
+            .service-card,
+            .notice,
+            .data-table tr {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<a href="#main-content" class="skip-link">
+    Skip to content
+</a>
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="0"
+     height="0"
+     style="position:absolute"
+     aria-hidden="true">
+
+    <symbol id="crown-logo" viewBox="0 0 64 64">
+
+        <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
+              fill="none"
+              stroke="#BCA783"
+              stroke-width="2"/>
+
+        <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"
+              fill="none"
+              stroke="#BCA783"
+              stroke-width="1.3"/>
+
+        <path d="M15 52H49L45 57H19Z"
+              fill="#BCA783"/>
+
+    </symbol>
+
+</svg>
+
+<header id="header">
+
+    <div class="container navbar">
+
+        <a href="index.html"
+           class="brand"
+           aria-label="Obsidian Crown home">
+
+            <svg class="brand-mark" aria-hidden="true">
+                <use href="#crown-logo"/>
+            </svg>
+
+            <div class="brand-text">
+
+                <span class="brand-name">
+                    Obsidian Crown
+                </span>
+
+                <span class="brand-subtitle">
+                    GAME DEVELOPMENT STUDIO
+                </span>
+
+            </div>
+
+        </a>
+
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Toggle navigation"
+                aria-controls="navigation"
+                aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+        <nav class="navigation"
+             id="navigation"
+             aria-label="Main navigation">
+
+            <a href="index.html">Home</a>
+
+            <a href="index.html#studio">
+                The Studio
+            </a>
+
+            <a href="index.html#experiences">
+                Experiences
+            </a>
+
+            <a href="index.html#contact">
+                Contact
+            </a>
+
+            <a href="careers.html" class="nav-careers">
+                Careers ↗
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+<main id="main-content">
+
+    <section class="hero">
+
+        <div class="hero-decoration" aria-hidden="true">
+
+            <svg viewBox="0 0 64 64">
+                <use href="#crown-logo"/>
+            </svg>
+
+        </div>
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                <div class="breadcrumb">
+
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span>Privacy Policy</span>
+
+                </div>
+
+                <span class="eyebrow">
+                    Legal & Transparency
+                </span>
+
+                <h1>
+
+                    Privacy &
+
+                    <br>
+
+                    <em>Data Protection.</em>
+
+                </h1>
+
+                <p class="hero-description">
+
+                    Transparency, responsibility, and respect
+                    for your personal information are fundamental
+                    to the way we aspire to operate Obsidian Crown.
+
+                </p>
+
+                <div class="policy-meta">
+
+                    <div class="meta-item">
+
+                        <span class="meta-label">
+                            Policy Version
+                        </span>
+
+                        <span class="meta-value"
+                              id="policyVersion">
+
+                            1.0
+
+                        </span>
+
+                    </div>
+
+                    <div class="meta-item">
+
+                        <span class="meta-label">
+                            Effective Date
+                        </span>
+
+                        <span class="meta-value">
+                            Pending Adoption
+                        </span>
+
+                    </div>
+
+                    <div class="meta-item">
+
+                        <span class="meta-label">
+                            Document
+                        </span>
+
+                        <span class="meta-value">
+                            Website & Recruitment Privacy
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="draft-banner">
+
+        <div class="container">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.5"
+                 aria-hidden="true">
+
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 11V17"/>
+                <circle cx="12" cy="7" r=".7"/>
+
+            </svg>
+
+            <p>
+
+                This is a proposed privacy policy for our
+                developing website and recruitment system.
+                Portfolio submissions remain closed pending
+                adoption of this policy and completion of
+                our security and privacy safeguards.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="container policy-layout">
+
+        <aside class="sidebar">
+
+            <div class="sidebar-heading">
+                Table of Contents
+            </div>
+
+            <nav class="contents"
+                 id="policyContents"
+                 aria-label="Privacy policy contents">
+
+                <a href="#introduction">
+                    <span>01.</span> Introduction
+                </a>
+
+                <a href="#information">
+                    <span>02.</span> Information We Collect
+                </a>
+
+                <a href="#usage">
+                    <span>03.</span> Use of Information
+                </a>
+
+                <a href="#storage">
+                    <span>04.</span> Storage & Security
+                </a>
+
+                <a href="#retention">
+                    <span>05.</span> Data Retention
+                </a>
+
+                <a href="#third-parties">
+                    <span>06.</span> Third-Party Services
+                </a>
+
+                <a href="#cookies">
+                    <span>07.</span> Cookies & Technology
+                </a>
+
+                <a href="#sharing">
+                    <span>08.</span> Information Sharing
+                </a>
+
+                <a href="#rights">
+                    <span>09.</span> Your Privacy Rights
+                </a>
+
+                <a href="#children">
+                    <span>10.</span> Children's Privacy
+                </a>
+
+                <a href="#international">
+                    <span>11.</span> International Processing
+                </a>
+
+                <a href="#changes">
+                    <span>12.</span> Policy Changes
+                </a>
+
+                <a href="#contact">
+                    <span>13.</span> Contact Information
+                </a>
+
+            </nav>
+
+            <div class="sidebar-actions">
+
+                <button type="button"
+                        class="button button-outline"
+                        id="printPolicy">
+
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.5"
+                         aria-hidden="true">
+
+                        <path d="M6 8V3H18V8"/>
+                        <path d="M6 17H3V8H21V17H18"/>
+                        <path d="M6 13H18V21H6Z"/>
+                        <path d="M17 11H18"/>
+
+                    </svg>
+
+                    Print Policy
+
+                </button>
+
+                <a href="careers.html"
+                   class="button button-outline">
+
+                    Return to Careers ↗
+
+                </a>
+
+            </div>
+
+        </aside>
+
+        <article class="policy-content">
+
+            <section class="policy-section"
+                     id="introduction">
+
+                <span class="section-number">
+                    01 / Introduction
+                </span>
+
+                <h2>Our commitment.</h2>
+
+                <p>
+
+                    Obsidian Crown is an independent game
+                    development studio focused on the creation
+                    and design of interactive experiences,
+                    including experiences developed for the
+                    Roblox platform.
+
+                </p>
+
+                <p>
+
+                    This proposed Privacy Policy describes
+                    how information is intended to be handled
+                    when individuals visit our official website,
+                    communicate with us, or participate in our
+                    recruitment and portfolio submission process
+                    once it becomes available.
+
+                </p>
+
+                <p>
+
+                    References to "Obsidian Crown," "we,"
+                    "our," and "us" refer to the operator
+                    of the Obsidian Crown website and its
+                    associated recruitment services.
+
+                </p>
+
+                <p>
+
+                    This policy applies to our website at
+
+                    <a href="https://obsidiancrown.org">
+                        obsidiancrown.org
+                    </a>
+
+                    and does not replace the privacy policies
+                    of Roblox, Discord, or other independent
+                    third-party services.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="information">
+
+                <span class="section-number">
+                    02 / Information We Collect
+                </span>
+
+                <h2>What we collect.</h2>
+
+                <p>
+
+                    We intend to limit recruitment information
+                    to what is reasonably necessary to evaluate
+                    creative and technical experience, manage
+                    submissions, and communicate with applicants.
+
+                </p>
+
+                <h3>Recruitment Information</h3>
+
+                <p>
+
+                    When portfolio submissions become available,
+                    the recruitment form is designed to request
+                    the following information:
+
+                </p>
+
+                <div class="table-wrapper">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col">Information</th>
+                                <th scope="col">Purpose</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Preferred name</td>
+                                <td>Identifying and addressing applicants.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Roblox username</td>
+                                <td>Identifying the account associated with an application.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Discord username (optional)</td>
+                                <td>Facilitating permitted recruitment communication.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Preferred discipline</td>
+                                <td>Identifying relevant areas of creative or technical interest.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Development experience</td>
+                                <td>Understanding an applicant's self-reported experience.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Portfolio URL</td>
+                                <td>Reviewing relevant examples of previous work.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Written introduction</td>
+                                <td>Understanding qualifications and creative interests.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Privacy acknowledgement</td>
+                                <td>Recording the policy version acknowledged at submission.</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <h3>Automatically Generated Records</h3>
+
+                <p>
+
+                    Our recruitment backend is designed to
+                    generate and maintain administrative
+                    information associated with applications,
+                    including:
+
+                </p>
+
+                <ul>
+
+                    <li>Unique application reference identifiers.</li>
+
+                    <li>Application creation and update timestamps.</li>
+
+                    <li>Recruitment and application status.</li>
+
+                    <li>Application status history.</li>
+
+                    <li>Reviewer identifiers and relevant administrative notes, where used.</li>
+
+                </ul>
+
+                <h3>Technical Information</h3>
+
+                <p>
+
+                    Our hosting and security providers may
+                    process technical information associated
+                    with website requests, including IP
+                    addresses, browser information, device
+                    characteristics, request timestamps,
+                    and security-related signals.
+
+                </p>
+
+                <p>
+
+                    Our planned Turnstile verification process
+                    sends a verification token and, when
+                    available, the requesting IP address to
+                    Cloudflare for security validation.
+
+                    These values are not included in our
+                    recruitment application database schema.
+
+                </p>
+
+                <div class="notice">
+
+                    <h4>Information you should not submit</h4>
+
+                    <p>
+
+                        Do not include passwords, authentication
+                        codes, government identification numbers,
+                        financial account details, home addresses,
+                        medical information, or other sensitive
+                        personal information in your application
+                        or portfolio introduction.
+
+                    </p>
+
+                </div>
+
+            </section>
+
+            <section class="policy-section"
+                     id="usage">
+
+                <span class="section-number">
+                    03 / Use of Information
+                </span>
+
+                <h2>Why we use information.</h2>
+
+                <p>
+
+                    Information submitted through our planned
+                    recruitment system may be used for the
+                    following purposes:
+
+                </p>
+
+                <ul>
+
+                    <li>Receiving and organizing expressions of interest.</li>
+
+                    <li>Evaluating portfolios and relevant experience.</li>
+
+                    <li>Identifying potential creative and technical collaborators.</li>
+
+                    <li>Communicating about recruitment and project opportunities.</li>
+
+                    <li>Maintaining recruitment status and administrative records.</li>
+
+                    <li>Preventing spam, abuse, and duplicate submissions.</li>
+
+                    <li>Protecting the integrity and security of our website.</li>
+
+                    <li>Responding to applicable legal obligations.</li>
+
+                </ul>
+
+                <p>
+
+                    Where applicable privacy laws require a
+                    lawful basis for processing, that basis
+                    must be determined according to the purpose
+                    and circumstances of the processing.
+
+                    These may include taking steps requested
+                    by an applicant before entering an agreement,
+                    legitimate interests in operating and securing
+                    recruitment services, compliance with legal
+                    obligations, or consent where appropriate.
+
+                </p>
+
+                <p>
+
+                    Acknowledging this Privacy Policy does
+                    not constitute blanket consent to unrelated
+                    uses of personal information.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="storage">
+
+                <span class="section-number">
+                    04 / Storage & Security
+                </span>
+
+                <h2>Protecting your information.</h2>
+
+                <p>
+
+                    Our website is hosted using Cloudflare
+                    Pages. The recruitment backend is designed
+                    to store application records in a Cloudflare
+                    D1 database.
+
+                </p>
+
+                <p>
+
+                    The recruitment system incorporates or
+                    is intended to incorporate safeguards
+                    appropriate to its operation, including:
+
+                </p>
+
+                <ul>
+
+                    <li>HTTPS connections for website and application requests.</li>
+
+                    <li>Server-side application processing.</li>
+
+                    <li>Prepared database statements and input validation.</li>
+
+                    <li>Request size limits and duplicate submission controls.</li>
+
+                    <li>Server-side Turnstile security verification.</li>
+
+                    <li>Protected storage of backend credentials.</li>
+
+                    <li>Restricted administrative access before recruitment opens.</li>
+
+                </ul>
+
+                <p>
+
+                    No method of electronic transmission or
+                    storage can guarantee absolute security.
+                    We intend to maintain reasonable safeguards
+                    and respond appropriately to identified
+                    security incidents.
+
+                </p>
+
+                <div class="notice">
+
+                    <h4>Recruitment access</h4>
+
+                    <p>
+
+                        Public portfolio submissions will remain
+                        disabled until appropriate administrative
+                        access controls, privacy procedures, and
+                        end-to-end security testing are established.
+
+                    </p>
+
+                </div>
+
+            </section>
+
+            <section class="policy-section"
+                     id="retention">
+
+                <span class="section-number">
+                    05 / Data Retention
+                </span>
+
+                <h2>Keeping only what is necessary.</h2>
+
+                <p>
+
+                    Our proposed retention approach is to
+                    maintain personal information only for
+                    as long as reasonably necessary to fulfill
+                    the purposes for which it was collected,
+                    subject to applicable legal obligations.
+
+                </p>
+
+                <div class="table-wrapper">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col">Record Type</th>
+                                <th scope="col">Proposed Retention</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Active applications</td>
+                                <td>For the duration of the recruitment review, with a maximum review period of 12 months unless justified otherwise.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Declined or withdrawn applications</td>
+                                <td>Up to 90 days following the final decision or withdrawal, unless a longer period is legally necessary.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Accepted applications</td>
+                                <td>As necessary for onboarding, engagement administration, and applicable legal obligations.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Application history</td>
+                                <td>Generally retained alongside its associated application.</td>
+                            </tr>
+
+                            <tr>
+                                <td>Provider backups and technical logs</td>
+                                <td>Subject to provider settings, service retention periods, and applicable obligations.</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <p>
+
+                    Information may need to be retained
+                    for longer where reasonably necessary
+                    to resolve disputes, investigate security
+                    incidents, or comply with applicable law.
+
+                </p>
+
+                <div class="notice">
+
+                    <h4>Proposed retention schedule</h4>
+
+                    <p>
+
+                        These retention periods have not yet
+                        been adopted or implemented through
+                        automated deletion procedures.
+
+                        Recruitment will remain closed until
+                        the studio establishes an appropriate
+                        retention and deletion process.
+
+                    </p>
+
+                </div>
+
+            </section>
+
+            <section class="policy-section"
+                     id="third-parties">
+
+                <span class="section-number">
+                    06 / Third-Party Services
+                </span>
+
+                <h2>Our technology providers.</h2>
+
+                <p>
+
+                    Obsidian Crown uses or intends to use
+                    third-party services to support website
+                    hosting, security, recruitment, and
+                    communication.
+
+                </p>
+
+                <div class="service-card">
+
+                    <div>
+
+                        <h3>Cloudflare</h3>
+
+                        <p>
+
+                            Provides website hosting through
+                            Cloudflare Pages, database storage
+                            through D1, and security services.
+
+                            Cloudflare Turnstile is intended
+                            to provide automated abuse protection
+                            for recruitment submissions.
+
+                        </p>
+
+                    </div>
+
+                    <a href="https://www.cloudflare.com/privacypolicy/"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Privacy Policy ↗
+
+                    </a>
+
+                </div>
+
+                <div class="service-card">
+
+                    <div>
+
+                        <h3>Google Fonts</h3>
+
+                        <p>
+
+                            Supplies typography used throughout
+                            our website. Loading externally
+                            hosted fonts may transmit technical
+                            request information, including your
+                            IP address, to Google's infrastructure.
+
+                        </p>
+
+                    </div>
+
+                    <a href="https://policies.google.com/privacy"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Privacy Policy ↗
+
+                    </a>
+
+                </div>
+
+                <div class="service-card">
+
+                    <div>
+
+                        <h3>Discord</h3>
+
+                        <p>
+
+                            May be used for recruitment
+                            communication and private staff
+                            notifications.
+
+                            Our planned webhook integration
+                            is designed to transmit application
+                            reference identifiers, disciplines,
+                            experience categories, and application
+                            status rather than complete portfolios
+                            or applicant contact information.
+
+                        </p>
+
+                    </div>
+
+                    <a href="https://discord.com/privacy"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Privacy Policy ↗
+
+                    </a>
+
+                </div>
+
+                <div class="service-card">
+
+                    <div>
+
+                        <h3>Roblox</h3>
+
+                        <p>
+
+                            Provides the platform on which our
+                            interactive experiences are developed.
+
+                            Visiting Roblox experience links
+                            or using the Roblox platform is
+                            subject to Roblox's own policies.
+
+                        </p>
+
+                    </div>
+
+                    <a href="https://www.roblox.com/info/privacy"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Privacy Policy ↗
+
+                    </a>
+
+                </div>
+
+                <p>
+
+                    External portfolios and other linked
+                    websites may be operated by independent
+                    third parties. Their privacy practices
+                    are governed by their respective policies.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="cookies">
+
+                <span class="section-number">
+                    07 / Cookies & Technology
+                </span>
+
+                <h2>Website technology.</h2>
+
+                <p>
+
+                    The website pages developed for Obsidian
+                    Crown do not currently include dedicated
+                    advertising trackers or marketing analytics
+                    scripts in their supplied source code.
+
+                </p>
+
+                <p>
+
+                    Our infrastructure providers may use
+                    cookies, browser storage, or similar
+                    technologies for security, service delivery,
+                    abuse prevention, and other operational
+                    purposes.
+
+                </p>
+
+                <h3>Cloudflare Turnstile</h3>
+
+                <p>
+
+                    Turnstile is intended to help distinguish
+                    legitimate visitors from automated or
+                    abusive requests.
+
+                    It may process browser and device signals
+                    to perform security verification.
+
+                </p>
+
+                <p>
+
+                    Additional information is available in
+
+                    <a href="https://www.cloudflare.com/turnstile-privacy-policy/"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Cloudflare's Turnstile Privacy Addendum.
+
+                    </a>
+
+                </p>
+
+                <p>
+
+                    If nonessential analytics, advertising,
+                    or similar tracking technologies are
+                    introduced in the future, this policy
+                    and any applicable consent mechanisms
+                    should be updated before their use.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="sharing">
+
+                <span class="section-number">
+                    08 / Information Sharing
+                </span>
+
+                <h2>Responsible disclosure.</h2>
+
+                <p>
+
+                    Our proposed recruitment practices do not
+                    include selling applicant information or
+                    sharing it for targeted advertising.
+
+                </p>
+
+                <p>
+
+                    Information may be disclosed where
+                    reasonably necessary to:
+
+                </p>
+
+                <ul>
+
+                    <li>Authorized recruitment personnel and relevant studio decision-makers.</li>
+
+                    <li>Service providers supporting hosting, security, storage, and communication.</li>
+
+                    <li>Professional advisers where necessary and appropriate.</li>
+
+                    <li>Authorities or other parties when disclosure is required by applicable law.</li>
+
+                    <li>Relevant parties where necessary to protect rights, safety, or security.</li>
+
+                </ul>
+
+                <p>
+
+                    Access to recruitment information should
+                    be limited to individuals who require
+                    that information for legitimate recruitment
+                    or administrative purposes.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="rights">
+
+                <span class="section-number">
+                    09 / Your Privacy Rights
+                </span>
+
+                <h2>Your information. Your rights.</h2>
+
+                <p>
+
+                    Depending on your location and applicable
+                    privacy laws, you may have rights concerning
+                    the personal information associated with you.
+
+                </p>
+
+                <p>
+
+                    These rights may include the ability to:
+
+                </p>
+
+                <ul>
+
+                    <li>Request access to personal information held about you.</li>
+
+                    <li>Request correction of inaccurate or incomplete information.</li>
+
+                    <li>Request deletion of personal information, subject to applicable exceptions.</li>
+
+                    <li>Withdraw a recruitment application.</li>
+
+                    <li>Object to or request restriction of certain processing activities.</li>
+
+                    <li>Request a copy of information in a portable format where applicable.</li>
+
+                    <li>Withdraw consent where processing relies on consent.</li>
+
+                    <li>Submit a complaint to an applicable privacy or data protection authority.</li>
+
+                </ul>
+
+                <p>
+
+                    Requests may require reasonable verification
+                    to establish that the requester is entitled
+                    to access or modify the information concerned.
+
+                    An application reference identifier alone
+                    may not be sufficient to establish identity.
+
+                </p>
+
+                <p>
+
+                    Applicable rights, response periods,
+                    and exceptions depend on the relevant
+                    jurisdiction and circumstances.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="children">
+
+                <span class="section-number">
+                    10 / Children's Privacy
+                </span>
+
+                <h2>Protecting younger visitors.</h2>
+
+                <p>
+
+                    We recognize that the Roblox platform
+                    includes younger audiences and that
+                    additional privacy considerations apply
+                    when processing children's information.
+
+                </p>
+
+                <p>
+
+                    Our proposed recruitment system is intended
+                    for individuals aged 18 years or older.
+
+                    It is not intended to collect recruitment
+                    applications from children or other minors.
+
+                </p>
+
+                <p>
+
+                    The recruitment form must incorporate
+                    appropriate eligibility controls before
+                    submissions are enabled.
+
+                    We do not intend to request dates of birth
+                    or government identification documents
+                    through the public application form.
+
+                </p>
+
+                <p>
+
+                    If we become aware that personal information
+                    has been collected from an ineligible minor,
+                    we intend to take appropriate steps to
+                    remove that information, subject to
+                    applicable legal requirements.
+
+                </p>
+
+                <p>
+
+                    This proposed recruitment eligibility
+                    restriction does not determine eligibility
+                    to play our Roblox experiences, which are
+                    subject to applicable platform requirements.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="international">
+
+                <span class="section-number">
+                    11 / International Processing
+                </span>
+
+                <h2>A connected world.</h2>
+
+                <p>
+
+                    Our website and technology providers may
+                    operate infrastructure in multiple countries.
+
+                    Information may therefore be processed
+                    or accessed outside the country in which
+                    a visitor or applicant resides.
+
+                </p>
+
+                <p>
+
+                    Where applicable laws impose requirements
+                    on international transfers of personal
+                    information, appropriate transfer safeguards
+                    must be established before the relevant
+                    processing takes place.
+
+                </p>
+
+                <p>
+
+                    This policy does not represent a guarantee
+                    that all information remains within a
+                    particular country or geographic region.
+
+                </p>
+
+            </section>
+
+            <section class="policy-section"
+                     id="changes">
+
+                <span class="section-number">
+                    12 / Policy Changes
+                </span>
+
+                <h2>Continued transparency.</h2>
+
+                <p>
+
+                    This Privacy Policy may be updated as
+                    Obsidian Crown develops its website,
+                    introduces new services, changes its
+                    recruitment procedures, or responds to
+                    applicable legal requirements.
+
+                </p>
+
+                <p>
+
+                    When the policy is formally adopted or
+                    subsequently revised, its version number
+                    and effective date should identify the
+                    applicable document.
+
+                </p>
+
+                <p>
+
+                    Material changes should be communicated
+                    as appropriate. Where required, renewed
+                    acknowledgement or consent should be
+                    obtained before affected processing occurs.
+
+                </p>
+
+                <div class="table-wrapper">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col">Version</th>
+                                <th scope="col">Description</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>1.0 — Proposed</td>
+                                <td>Initial website and recruitment privacy policy.</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+            <section class="policy-section"
+                     id="contact">
+
+                <span class="section-number">
+                    13 / Contact Information
+                </span>
+
+                <h2>Get in touch.</h2>
+
+                <p>
+
+                    Questions concerning this Privacy Policy,
+                    recruitment information, or applicable
+                    privacy rights should be directed to
+                    the operator of Obsidian Crown.
+
+                </p>
+
+                <div class="contact-panel">
+
+                    <h3>Obsidian Crown</h3>
+
+                    <p>
+
+                        Website:
+
+                        <a href="https://obsidiancrown.org">
+                            obsidiancrown.org
+                        </a>
+
+                    </p>
+
+                    <p>
+
+                        Privacy contact: Pending establishment.
+
+                    </p>
+
+                    <p>
+
+                        The responsible operator's legal identity,
+                        applicable contact details, and a functioning
+                        privacy request channel will be provided
+                        before public recruitment submissions open.
+
+                    </p>
+
+                    <a href="index.html#contact"
+                       class="button">
+
+                        Studio Contact Information ↗
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </article>
+
+    </div>
+
+    <section class="commitment-section">
+
+        <div class="container commitment-grid">
+
+            <div>
+
+                <span class="eyebrow">
+                    Our Commitment
+                </span>
+
+                <h2>
+
+                    Your privacy
+
+                    <br>
+
+                    <em>matters.</em>
+
+                </h2>
+
+            </div>
+
+            <div>
+
+                <p>
+
+                    Responsible development extends beyond
+                    the experiences we create.
+
+                    We believe that transparency, integrity,
+                    and respect should guide our relationships
+                    with players, collaborators, and creative
+                    professionals.
+
+                </p>
+
+                <p>
+
+                    Our commitment is to build not only
+                    exceptional experiences, but also
+                    trustworthy systems that support them.
+
+                </p>
+
+                <a href="index.html"
+                   class="button">
+
+                    Return to the Studio ↗
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="brand">
+
+                    <svg class="brand-mark" aria-hidden="true">
+                        <use href="#crown-logo"/>
+                    </svg>
+
+                    <div class="brand-text">
+
+                        <span class="brand-name">
+                            Obsidian Crown
+                        </span>
+
+                        <span class="brand-subtitle">
+                            GAME DEVELOPMENT STUDIO
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <p class="footer-description">
+
+                    An independent game development studio
+                    dedicated to creativity, craftsmanship,
+                    and excellence in interactive entertainment.
+
+                </p>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>The Studio</h3>
+
+                <a href="index.html">Home</a>
+
+                <a href="index.html#studio">
+                    About Us
+                </a>
+
+                <a href="index.html#experiences">
+                    Our Experiences
+                </a>
+
+                <a href="careers.html">
+                    Careers
+                </a>
+
+                <a href="index.html#contact">
+                    Contact
+                </a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>Legal & Information</h3>
+
+                <a href="privacy.html"
+                   aria-current="page">
+
+                    Privacy Policy
+
+                </a>
+
+                <a href="careers.html#applications">
+                    Portfolio Submissions
+                </a>
+
+                <a href="#rights">
+                    Privacy Rights
+                </a>
+
+                <a href="#contact">
+                    Privacy Contact
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <span>
+
+                &copy; <span id="year">2026</span>
+                Obsidian Crown. All rights reserved.
+
+            </span>
+
+            <span class="footer-motto">
+
+                Excellence in creation. Ambition without limits.
+
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<button type="button"
+        class="back-to-top"
+        id="backToTop"
+        aria-label="Return to top of page">
+
+    <svg viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="1.5"
+         aria-hidden="true">
+
+        <path d="M12 20V4M5 11L12 4L19 11"/>
+
+    </svg>
+
+</button>
+
+<script>
+    const header = document.getElementById("header");
+    const menuToggle = document.getElementById("menuToggle");
+    const navigation = document.getElementById("navigation");
+    const backToTop = document.getElementById("backToTop");
+    const printPolicy = document.getElementById("printPolicy");
+
+    const sections = Array.from(
+        document.querySelectorAll(".policy-section")
+    );
+
+    const contentsLinks = Array.from(
+        document.querySelectorAll("#policyContents a")
+    );
+
+    function closeMenu() {
+        navigation.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    menuToggle.addEventListener("click", () => {
+        const isOpen = navigation.classList.toggle("open");
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
+    });
+
+    navigation.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("click", event => {
+        if (!header.contains(event.target)) {
+            closeMenu();
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            closeMenu();
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 800) {
+            closeMenu();
+        }
+
+        updatePageState();
+    });
+
+    function setActiveSection(sectionID) {
+        contentsLinks.forEach(link => {
+            const isActive =
+                link.getAttribute("href") === `#${sectionID}`;
+
+            link.classList.toggle("active", isActive);
+
+            if (isActive) {
+                link.setAttribute(
+                    "aria-current",
+                    "location"
+                );
+            } else {
+                link.removeAttribute("aria-current");
+            }
+        });
+    }
+
+    function updatePageState() {
+        const scrollPosition = window.scrollY;
+
+        header.classList.toggle(
+            "scrolled",
+            scrollPosition > 30
+        );
+
+        backToTop.classList.toggle(
+            "visible",
+            scrollPosition > 500
+        );
+
+        let currentSection = sections[0]?.id || "";
+
+        const activationOffset =
+            header.offsetHeight + 65;
+
+        for (const section of sections) {
+            if (
+                section.getBoundingClientRect().top
+                <= activationOffset
+            ) {
+                currentSection = section.id;
+            } else {
+                break;
+            }
+        }
+
+        if (currentSection) {
+            setActiveSection(currentSection);
+        }
+    }
+
+    let scrollScheduled = false;
+
+    window.addEventListener("scroll", () => {
+        if (scrollScheduled) {
+            return;
+        }
+
+        scrollScheduled = true;
+
+        window.requestAnimationFrame(() => {
+            updatePageState();
+            scrollScheduled = false;
+        });
+
+    }, {
+        passive: true
+    });
+
+    backToTop.addEventListener("click", () => {
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        window.scrollTo({
+            top: 0,
+            behavior: reducedMotion ? "auto" : "smooth"
+        });
+    });
+
+    printPolicy.addEventListener("click", () => {
+        window.print();
+    });
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+    updatePageState();
+</script>
+
+<noscript>
+
+    <style>
+
+        #printPolicy,
+        #backToTop {
+            display: none;
+        }
+
+        @media (max-width: 800px) {
+
+            header {
+                position: relative;
+            }
+
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .navigation {
+                display: flex;
+                position: static;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 65px;
+            }
+
+        }
+
+    </style>
+
+</noscript>
+
+</body>
+</html>
