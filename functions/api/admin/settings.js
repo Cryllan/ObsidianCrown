@@ -1,4 +1,6 @@
-const VERSION = "1.0.0";
+import { prepareAudit } from "../../_shared/audit.js";
+
+const VERSION = "1.1.0";
 
 const SETTINGS = {
     applications_open: {
@@ -238,7 +240,8 @@ async function loadSettings(env) {
             );
 
             metadata[key] = {
-                source: SETTINGS[key].environment &&
+                source:
+                    SETTINGS[key].environment &&
                     env[SETTINGS[key].environment] !== undefined
                         ? "environment"
                         : "default",
@@ -251,7 +254,8 @@ async function loadSettings(env) {
 
     return {
         settings,
-        metadata
+        metadata,
+        rows
     };
 }
 
@@ -306,7 +310,7 @@ async function readBody(context) {
             typeof body !== "object" ||
             Array.isArray(body)
         ) {
-            throw new Error("Invalid body");
+            throw new Error("Invalid request body");
         }
 
         return { body };
@@ -336,6 +340,19 @@ function handleError(context, error) {
     );
 }
 
+function getCapabilities() {
+    return {
+        persistentSettings: true,
+        recruitmentAvailability: true,
+        publicMessaging: true,
+        openingConfirmation: true,
+        auditLogging: true,
+        changeDetection: true,
+        transactionalWrites: true,
+        concurrencyProtection: true
+    };
+}
+
 export async function onRequestGet(context) {
     const denied = authorize(context);
 
@@ -362,6 +379,8 @@ export async function onRequestGet(context) {
             settings,
 
             metadata,
+
+            capabilities: getCapabilities(),
 
             availableSettings: Object.entries(
                 SETTINGS
@@ -458,63 +477,253 @@ export async function onRequestPatch(context) {
             setting =>
                 setting.key === "applications_open" &&
                 setting.value === true
-        )
+        ) &&
+        body.confirmOpen !== true
     ) {
-        if (body.confirmOpen !== true) {
-            return failure(
-                context,
-                "Opening recruitment requires confirmation",
-                400,
-                { confirmationRequired: true }
-            );
-        }
+        return failure(
+            context,
+            "Opening recruitment requires confirmation",
+            400,
+            { confirmationRequired: true }
+        );
     }
 
     try {
+        const current = await loadSettings(env);
+
+        const changes = validated
+            .filter(setting =>
+                current.settings[setting.key] !== setting.value ||
+                !current.rows.has(setting.key)
+            )
+            .map(setting => ({
+                key: setting.key,
+                previousValue: current.settings[setting.key],
+                newValue: setting.value,
+                existing: current.rows.get(setting.key) || null
+            }));
+
+        if (!changes.length) {
+            return success(context, {
+                changed: false,
+
+                message: "Recruitment settings are unchanged",
+
+                recruitment: formatRecruitment(
+                    current.settings
+                ),
+
+                settings: current.settings,
+
+                metadata: current.metadata,
+
+                audit: {
+                    recorded: false,
+                    reason: "No settings changed"
+                }
+            });
+        }
+
         const timestamp = new Date().toISOString();
 
-        const statements = validated.map(
-            setting => env.DB.prepare(`
-                INSERT INTO recruitment_settings (
-                    key,
-                    value,
-                    updated_by,
-                    updated_at
-                )
-                VALUES (?, ?, ?, ?)
-                ON CONFLICT(key)
-                DO UPDATE SET
-                    value = excluded.value,
-                    updated_by = excluded.updated_by,
-                    updated_at = excluded.updated_at
-            `).bind(
-                setting.key,
-                serializeValue(setting.value),
-                data.admin.email,
-                timestamp
-            )
-        );
+        const statements = [];
+        const operations = [];
 
-        await env.DB.batch(statements);
+        for (const change of changes) {
+            let updateStatement;
 
-        const {
-            settings,
-            metadata
-        } = await loadSettings(env);
+            if (change.existing) {
+                updateStatement = env.DB.prepare(`
+                    UPDATE recruitment_settings
+                    SET
+                        value = ?,
+                        updated_by = ?,
+                        updated_at = ?
+                    WHERE key = ?
+                    AND value IS ?
+                    AND updated_at IS ?
+                `).bind(
+                    serializeValue(change.newValue),
+                    data.admin.email,
+                    timestamp,
+                    change.key,
+                    change.existing.value,
+                    change.existing.updated_at
+                );
+
+            } else {
+                updateStatement = env.DB.prepare(`
+                    INSERT INTO recruitment_settings (
+                        key,
+                        value,
+                        updated_by,
+                        updated_at
+                    )
+                    VALUES (?, ?, ?, ?)
+                    ON CONFLICT(key) DO NOTHING
+                `).bind(
+                    change.key,
+                    serializeValue(change.newValue),
+                    data.admin.email,
+                    timestamp
+                );
+            }
+
+            let action = "settings.updated";
+            let targetType = "settings";
+            let targetId = change.key;
+
+            if (
+                change.key === "applications_open" &&
+                change.previousValue !== change.newValue
+            ) {
+                action = change.newValue
+                    ? "recruitment.opened"
+                    : "recruitment.closed";
+
+                targetType = "recruitment";
+                targetId = "applications";
+            }
+
+            const auditStatement = prepareAudit(
+                context,
+                {
+                    action,
+                    targetType,
+                    targetId,
+                    timestamp,
+
+                    details: {
+                        key: change.key,
+                        previousValue: change.previousValue,
+                        newValue: change.newValue,
+                        initialized: !change.existing
+                    }
+                },
+                {
+                    onlyIfChanged: true
+                }
+            );
+
+            operations.push({
+                key: change.key,
+                previousValue: change.previousValue,
+                newValue: change.newValue,
+                action,
+                mutationIndex: statements.length,
+                auditIndex: statements.length + 1
+            });
+
+            statements.push(
+                updateStatement,
+                auditStatement
+            );
+        }
+
+        const results = await env.DB.batch(statements);
+
+        const updated = [];
+        const conflicts = [];
+        const auditRecords = [];
+
+        for (const operation of operations) {
+            const mutationResult =
+                results[operation.mutationIndex];
+
+            const auditResult =
+                results[operation.auditIndex];
+
+            const mutationRows = Number(
+                mutationResult?.meta?.changes || 0
+            );
+
+            const auditRows = Number(
+                auditResult?.meta?.changes || 0
+            );
+
+            if (mutationRows === 0 && auditRows === 0) {
+                conflicts.push(operation.key);
+                continue;
+            }
+
+            if (mutationRows !== 1 || auditRows !== 1) {
+                console.error(
+                    "[Admin Settings] Batch verification failed",
+                    data.requestId,
+                    {
+                        key: operation.key,
+                        mutationRows,
+                        auditRows
+                    }
+                );
+
+                return failure(
+                    context,
+                    "Settings update could not be fully verified",
+                    500,
+                    { refreshRequired: true }
+                );
+            }
+
+            updated.push({
+                key: operation.key,
+                previousValue: operation.previousValue,
+                value: operation.newValue
+            });
+
+            auditRecords.push({
+                id: auditResult.meta?.last_row_id || null,
+                action: operation.action,
+                key: operation.key
+            });
+        }
+
+        const latest = await loadSettings(env);
+
+        if (conflicts.length) {
+            return failure(
+                context,
+                "One or more settings changed during the request",
+                409,
+                {
+                    conflicts,
+                    updated,
+                    partialUpdate: updated.length > 0,
+                    recruitment: formatRecruitment(
+                        latest.settings
+                    ),
+                    settings: latest.settings,
+                    metadata: latest.metadata,
+                    audit: {
+                        recorded: auditRecords.length > 0,
+                        total: auditRecords.length,
+                        records: auditRecords
+                    },
+                    refreshRequired: true
+                }
+            );
+        }
 
         return success(context, {
+            changed: updated.length > 0,
+
             message: "Recruitment settings saved successfully",
 
-            updated: validated.map(setting => ({
-                key: setting.key,
-                value: setting.value
-            })),
+            updated,
 
-            recruitment: formatRecruitment(settings),
+            recruitment: formatRecruitment(
+                latest.settings
+            ),
 
-            settings,
+            settings: latest.settings,
 
-            metadata,
+            metadata: latest.metadata,
+
+            audit: {
+                recorded: auditRecords.length > 0,
+                total: auditRecords.length,
+                records: auditRecords
+            },
 
             updatedBy: data.admin.email,
 
