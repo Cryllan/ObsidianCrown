@@ -1,4 +1,4 @@
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 
 const APPLICATION_STATUSES = [
     "pending",
@@ -10,6 +10,14 @@ const APPLICATION_STATUSES = [
     "withdrawn"
 ];
 
+const RECRUITMENT_DEFAULTS = Object.freeze({
+    applications_open: false,
+    recruitment_title: "Careers at Obsidian Crown",
+    recruitment_message:
+        "Recruitment is currently closed. Please check back for future opportunities.",
+    privacy_version: "1.0"
+});
+
 function jsonResponse(data, status = 200) {
     return new Response(JSON.stringify(data), {
         status,
@@ -17,7 +25,10 @@ function jsonResponse(data, status = 200) {
             "Content-Type": "application/json; charset=utf-8",
             "Cache-Control": "no-store, private, max-age=0",
             "Pragma": "no-cache",
-            "X-Content-Type-Options": "nosniff"
+            "X-Content-Type-Options": "nosniff",
+            "X-Frame-Options": "DENY",
+            "Referrer-Policy": "no-referrer",
+            "X-Robots-Tag": "noindex, nofollow"
         }
     });
 }
@@ -42,8 +53,142 @@ function percentage(value, total) {
 
 function isEnabled(value) {
     return ["true", "1", "yes", "on"].includes(
-        String(value || "").trim().toLowerCase()
+        String(value ?? "")
+            .trim()
+            .toLowerCase()
     );
+}
+
+function normalizeText(value) {
+    if (typeof value !== "string") {
+        return "";
+    }
+
+    return value
+        .normalize("NFKC")
+        .replace(/\r\n/g, "\n")
+        .replace(
+            /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,
+            ""
+        )
+        .trim();
+}
+
+function formatRecruitment(rows, env) {
+    const settings = new Map(
+        rows.map(row => [
+            row.key,
+            row
+        ])
+    );
+
+    const availabilityRow = settings.get(
+        "applications_open"
+    );
+
+    const titleRow = settings.get(
+        "recruitment_title"
+    );
+
+    const messageRow = settings.get(
+        "recruitment_message"
+    );
+
+    const privacyRow = settings.get(
+        "privacy_version"
+    );
+
+    const configuredOpen = availabilityRow
+        ? isEnabled(availabilityRow.value)
+        : RECRUITMENT_DEFAULTS.applications_open;
+
+    const privacyVersion = privacyRow
+        ? String(privacyRow.value)
+        : RECRUITMENT_DEFAULTS.privacy_version;
+
+    const privacyValid =
+        /^[0-9]+(?:\.[0-9]+)*$/.test(privacyVersion) &&
+        privacyVersion.length <= 30;
+
+    const securityConfigured = Boolean(
+        env.TURNSTILE_SECRET
+    );
+
+    const operational =
+        securityConfigured &&
+        privacyValid;
+
+    const open =
+        configuredOpen &&
+        operational;
+
+    const title = normalizeText(
+        titleRow?.value
+    ) || RECRUITMENT_DEFAULTS.recruitment_title;
+
+    const configuredMessage = normalizeText(
+        messageRow?.value
+    ) || (
+        configuredOpen
+            ? "We welcome expressions of interest from talented developers and creatives."
+            : RECRUITMENT_DEFAULTS.recruitment_message
+    );
+
+    const message = operational
+        ? configuredMessage
+        : "Recruitment is temporarily unavailable.";
+
+    const metadata = {};
+
+    for (
+        const key of Object.keys(
+            RECRUITMENT_DEFAULTS
+        )
+    ) {
+        const row = settings.get(key);
+
+        metadata[key] = {
+            source: row
+                ? "database"
+                : "default",
+
+            updatedBy: row?.updated_by || null,
+
+            updatedAt: row?.updated_at || null
+        };
+    }
+
+    return {
+        open,
+
+        status: open
+            ? "open"
+            : "closed",
+
+        title,
+
+        message,
+
+        privacyVersion,
+
+        configuredOpen,
+
+        configuredMessage,
+
+        operational,
+
+        source: availabilityRow
+            ? "database"
+            : "default",
+
+        persistent: true,
+
+        securityConfigured,
+
+        privacyValid,
+
+        metadata
+    };
 }
 
 export async function onRequestGet(context) {
@@ -52,10 +197,10 @@ export async function onRequestGet(context) {
         data
     } = context;
 
-    const administrator = data.admin;
-    const requestId = data.requestId;
+    const administrator = data?.admin;
+    const requestId = data?.requestId;
 
-    if (!administrator) {
+    if (!administrator?.email) {
         return jsonResponse({
             success: false,
             error: "Authentication required",
@@ -77,12 +222,14 @@ export async function onRequestGet(context) {
             statusesResult,
             disciplinesResult,
             recentResult,
-            trendsResult
+            trendsResult,
+            recruitmentResult
         ] = await env.DB.batch([
 
             env.DB.prepare(`
                 SELECT
                     COUNT(*) AS total,
+
                     COALESCE(SUM(
                         CASE
                             WHEN datetime(created_at) >=
@@ -91,6 +238,7 @@ export async function onRequestGet(context) {
                             ELSE 0
                         END
                     ), 0) AS last_24_hours,
+
                     COALESCE(SUM(
                         CASE
                             WHEN datetime(created_at) >=
@@ -99,6 +247,7 @@ export async function onRequestGet(context) {
                             ELSE 0
                         END
                     ), 0) AS last_7_days,
+
                     COALESCE(SUM(
                         CASE
                             WHEN datetime(created_at) >=
@@ -107,6 +256,7 @@ export async function onRequestGet(context) {
                             ELSE 0
                         END
                     ), 0) AS last_30_days
+
                 FROM applications
             `),
 
@@ -137,7 +287,7 @@ export async function onRequestGet(context) {
                     created_at,
                     updated_at
                 FROM applications
-                ORDER BY created_at DESC, id DESC
+                ORDER BY datetime(created_at) DESC, id DESC
                 LIMIT 10
             `),
 
@@ -155,11 +305,30 @@ export async function onRequestGet(context) {
                 SELECT
                     days.day AS date,
                     COUNT(applications.id) AS total
+
                 FROM days
+
                 LEFT JOIN applications
                     ON date(applications.created_at) = days.day
+
                 GROUP BY days.day
+
                 ORDER BY days.day ASC
+            `),
+
+            env.DB.prepare(`
+                SELECT
+                    key,
+                    value,
+                    updated_by,
+                    updated_at
+                FROM recruitment_settings
+                WHERE key IN (
+                    'applications_open',
+                    'recruitment_title',
+                    'recruitment_message',
+                    'privacy_version'
+                )
             `)
 
         ]);
@@ -220,7 +389,11 @@ export async function onRequestGet(context) {
             disciplinesResult.results || []
         ).map(row => ({
             name: row.discipline,
-            total: toNumber(row.total),
+
+            total: toNumber(
+                row.total
+            ),
+
             percentage: percentage(
                 toNumber(row.total),
                 totalApplications
@@ -243,11 +416,15 @@ export async function onRequestGet(context) {
             trendsResult.results || []
         ).map(row => ({
             date: row.date,
-            applications: toNumber(row.total)
+
+            applications: toNumber(
+                row.total
+            )
         }));
 
-        const applicationsOpen = isEnabled(
-            env.APPLICATIONS_OPEN
+        const recruitment = formatRecruitment(
+            recruitmentResult.results || [],
+            env
         );
 
         return jsonResponse({
@@ -263,10 +440,34 @@ export async function onRequestGet(context) {
             },
 
             recruitment: {
-                open: applicationsOpen,
-                status: applicationsOpen
-                    ? "open"
-                    : "closed"
+                open: recruitment.open,
+
+                status: recruitment.status,
+
+                title: recruitment.title,
+
+                message: recruitment.message,
+
+                privacyVersion:
+                    recruitment.privacyVersion,
+
+                configuredOpen:
+                    recruitment.configuredOpen,
+
+                configuredMessage:
+                    recruitment.configuredMessage,
+
+                operational:
+                    recruitment.operational,
+
+                source:
+                    recruitment.source,
+
+                persistent:
+                    recruitment.persistent,
+
+                metadata:
+                    recruitment.metadata
             },
 
             statistics: {
@@ -310,7 +511,9 @@ export async function onRequestGet(context) {
             statusDistribution: APPLICATION_STATUSES.map(
                 status => ({
                     status,
+
                     total: statuses[status],
+
                     percentage: percentage(
                         statuses[status],
                         totalApplications
@@ -326,8 +529,48 @@ export async function onRequestGet(context) {
 
             system: {
                 database: "connected",
+
                 authentication: "verified",
-                status: "operational"
+
+                recruitmentConfiguration:
+                    recruitment.privacyValid
+                        ? "valid"
+                        : "invalid",
+
+                turnstile:
+                    recruitment.securityConfigured
+                        ? "configured"
+                        : "configuration_required",
+
+                recruitmentSettings:
+                    recruitment.source,
+
+                status:
+                    recruitment.operational
+                        ? "operational"
+                        : "configuration_required"
+            },
+
+            capabilities: {
+                persistentRecruitmentSettings: true,
+
+                dynamicRecruitmentAvailability: true,
+
+                dynamicRecruitmentMessaging: true,
+
+                dynamicPrivacyVersion: true,
+
+                applicationStatistics: true,
+
+                statusDistribution: true,
+
+                disciplineDistribution: true,
+
+                recentApplications: true,
+
+                historicalTrends: true,
+
+                recruitmentConfigurationHealth: true
             },
 
             generatedAt: new Date().toISOString(),
