@@ -1,4 +1,6 @@
-const VERSION = "1.0.0";
+import { prepareAudit } from "../../_shared/audit.js";
+
+const VERSION = "1.1.0";
 const MAX_NOTE_LENGTH = 5000;
 const MAX_BODY_LENGTH = 32000;
 const MAX_NOTES_PER_PAGE = 100;
@@ -82,21 +84,46 @@ function boundedInteger(value, fallback, min, max) {
         return fallback;
     }
 
-    return Math.min(
-        Math.max(number, min),
-        max
-    );
+    return Math.min(Math.max(number, min), max);
 }
 
-function formatNote(row) {
+function normalizeString(value) {
+    return typeof value === "string"
+        ? value.trim()
+        : "";
+}
+
+function formatNote(row, administrator) {
+    const isAuthor =
+        String(row.author).toLowerCase() ===
+        String(administrator).toLowerCase();
+
     return {
         id: row.id,
         applicationId: row.application_id,
         author: row.author,
         note: row.note,
         createdAt: row.created_at,
-        updatedAt: row.updated_at
+        updatedAt: row.updated_at,
+
+        permissions: {
+            edit: isAuthor,
+            delete: isAuthor
+        }
     };
+}
+
+function nextTimestamp(previousTimestamp) {
+    const previous = Date.parse(previousTimestamp);
+
+    return new Date(
+        Math.max(
+            Date.now(),
+            Number.isFinite(previous)
+                ? previous + 1
+                : 0
+        )
+    ).toISOString();
 }
 
 async function readBody(context) {
@@ -195,6 +222,46 @@ function handleError(context, error) {
     );
 }
 
+function verifyMutation(context, results) {
+    const mutationRows = Number(
+        results[0]?.meta?.changes || 0
+    );
+
+    const auditRows = Number(
+        results[1]?.meta?.changes || 0
+    );
+
+    if (mutationRows === 0 && auditRows === 0) {
+        return {
+            changed: false,
+            verified: true
+        };
+    }
+
+    if (mutationRows !== 1 || auditRows !== 1) {
+        console.error(
+            "[Admin Notes] Batch verification failed",
+            context.data.requestId,
+            {
+                mutationRows,
+                auditRows
+            }
+        );
+
+        return {
+            changed: mutationRows > 0,
+            verified: false
+        };
+    }
+
+    return {
+        changed: true,
+        verified: true,
+        auditId:
+            results[1]?.meta?.last_row_id || null
+    };
+}
+
 export async function onRequestGet(context) {
     const denied = authorize(context);
 
@@ -202,14 +269,14 @@ export async function onRequestGet(context) {
         return denied;
     }
 
-    const { request, env } = context;
+    const { request, env, data } = context;
 
     try {
         const url = new URL(request.url);
 
-        const applicationId = String(
-            url.searchParams.get("id") || ""
-        ).trim();
+        const applicationId = normalizeString(
+            url.searchParams.get("id")
+        );
 
         if (!applicationId) {
             return success(context, {
@@ -225,6 +292,16 @@ export async function onRequestGet(context) {
                 limits: {
                     maxNoteLength: MAX_NOTE_LENGTH,
                     maxNotesPerPage: MAX_NOTES_PER_PAGE
+                },
+
+                capabilities: {
+                    privateNotes: true,
+                    noteCreation: true,
+                    noteEditing: true,
+                    noteDeletion: true,
+                    authorProtection: true,
+                    auditLogging: true,
+                    concurrencyProtection: true
                 },
 
                 visibility: "Administrators only"
@@ -308,7 +385,9 @@ export async function onRequestGet(context) {
 
         const notes = (
             result.results || []
-        ).map(formatNote);
+        ).map(row =>
+            formatNote(row, data.admin.email)
+        );
 
         return success(context, {
             application: {
@@ -352,15 +431,11 @@ export async function onRequestPost(context) {
     const { body } = parsed;
     const { env, data } = context;
 
-    const applicationId =
-        typeof body.applicationId === "string"
-            ? body.applicationId.trim()
-            : "";
+    const applicationId = normalizeString(
+        body.applicationId
+    );
 
-    const note =
-        typeof body.note === "string"
-            ? body.note.trim()
-            : "";
+    const note = normalizeString(body.note);
 
     if (!validApplicationId(applicationId)) {
         return failure(
@@ -390,7 +465,7 @@ export async function onRequestPost(context) {
     try {
         const timestamp = new Date().toISOString();
 
-        const createdNote = await env.DB.prepare(`
+        const createStatement = env.DB.prepare(`
             INSERT INTO application_notes (
                 application_id,
                 author,
@@ -419,9 +494,46 @@ export async function onRequestPost(context) {
             timestamp,
             timestamp,
             applicationId
-        ).first();
+        );
 
-        if (!createdNote) {
+        const auditStatement = prepareAudit(
+            context,
+            {
+                action: "note.created",
+                targetType: "application",
+                targetId: applicationId,
+                timestamp,
+
+                details: {
+                    applicationId,
+                    noteLength: note.length
+                }
+            },
+            {
+                onlyIfChanged: true
+            }
+        );
+
+        const results = await env.DB.batch([
+            createStatement,
+            auditStatement
+        ]);
+
+        const verification = verifyMutation(
+            context,
+            results
+        );
+
+        if (!verification.verified) {
+            return failure(
+                context,
+                "Note creation could not be fully verified",
+                500,
+                { refreshRequired: true }
+            );
+        }
+
+        if (!verification.changed) {
             return failure(
                 context,
                 "Application not found",
@@ -430,9 +542,30 @@ export async function onRequestPost(context) {
             );
         }
 
+        const createdNote = results[0]?.results?.[0];
+
+        if (!createdNote) {
+            return failure(
+                context,
+                "Created note could not be retrieved",
+                500,
+                { refreshRequired: true }
+            );
+        }
+
         return success(context, {
             message: "Private note created successfully",
-            note: formatNote(createdNote)
+
+            note: formatNote(
+                createdNote,
+                data.admin.email
+            ),
+
+            audit: {
+                recorded: true,
+                id: verification.auditId,
+                action: "note.created"
+            }
         }, 201);
 
     } catch (error) {
@@ -456,22 +589,17 @@ export async function onRequestPatch(context) {
     const { body } = parsed;
     const { env, data } = context;
 
-    const applicationId =
-        typeof body.applicationId === "string"
-            ? body.applicationId.trim()
-            : "";
+    const applicationId = normalizeString(
+        body.applicationId
+    );
 
     const noteId = body.noteId;
 
-    const note =
-        typeof body.note === "string"
-            ? body.note.trim()
-            : "";
+    const note = normalizeString(body.note);
 
-    const expectedUpdatedAt =
-        typeof body.expectedUpdatedAt === "string"
-            ? body.expectedUpdatedAt.trim()
-            : "";
+    const expectedUpdatedAt = normalizeString(
+        body.expectedUpdatedAt
+    );
 
     if (!validApplicationId(applicationId)) {
         return failure(
@@ -506,10 +634,13 @@ export async function onRequestPatch(context) {
         );
     }
 
-    if (!expectedUpdatedAt) {
+    if (
+        !expectedUpdatedAt ||
+        expectedUpdatedAt.length > 100
+    ) {
         return failure(
             context,
-            "expectedUpdatedAt is required",
+            "A valid expectedUpdatedAt is required",
             400
         );
     }
@@ -553,18 +684,24 @@ export async function onRequestPatch(context) {
             return success(context, {
                 changed: false,
                 message: "Note content is unchanged",
-                note: formatNote(existing)
+
+                note: formatNote(
+                    existing,
+                    data.admin.email
+                ),
+
+                audit: {
+                    recorded: false,
+                    reason: "No content change"
+                }
             });
         }
 
-        const timestamp = new Date(
-            Math.max(
-                Date.now(),
-                (Date.parse(existing.updated_at) || 0) + 1
-            )
-        ).toISOString();
+        const timestamp = nextTimestamp(
+            existing.updated_at
+        );
 
-        const updatedNote = await env.DB.prepare(`
+        const updateStatement = env.DB.prepare(`
             UPDATE application_notes
             SET
                 note = ?,
@@ -587,9 +724,48 @@ export async function onRequestPatch(context) {
             applicationId,
             data.admin.email,
             expectedUpdatedAt
-        ).first();
+        );
 
-        if (!updatedNote) {
+        const auditStatement = prepareAudit(
+            context,
+            {
+                action: "note.updated",
+                targetType: "note",
+                targetId: String(noteId),
+                timestamp,
+
+                details: {
+                    applicationId,
+                    noteId,
+                    previousLength: existing.note.length,
+                    newLength: note.length
+                }
+            },
+            {
+                onlyIfChanged: true
+            }
+        );
+
+        const results = await env.DB.batch([
+            updateStatement,
+            auditStatement
+        ]);
+
+        const verification = verifyMutation(
+            context,
+            results
+        );
+
+        if (!verification.verified) {
+            return failure(
+                context,
+                "Note update could not be fully verified",
+                500,
+                { refreshRequired: true }
+            );
+        }
+
+        if (!verification.changed) {
             return failure(
                 context,
                 "Note was modified by another request",
@@ -598,10 +774,32 @@ export async function onRequestPatch(context) {
             );
         }
 
+        const updatedNote = results[0]?.results?.[0];
+
+        if (!updatedNote) {
+            return failure(
+                context,
+                "Updated note could not be retrieved",
+                500,
+                { refreshRequired: true }
+            );
+        }
+
         return success(context, {
             changed: true,
+
             message: "Private note updated successfully",
-            note: formatNote(updatedNote)
+
+            note: formatNote(
+                updatedNote,
+                data.admin.email
+            ),
+
+            audit: {
+                recorded: true,
+                id: verification.auditId,
+                action: "note.updated"
+            }
         });
 
     } catch (error) {
@@ -625,17 +823,15 @@ export async function onRequestDelete(context) {
     const { body } = parsed;
     const { env, data } = context;
 
-    const applicationId =
-        typeof body.applicationId === "string"
-            ? body.applicationId.trim()
-            : "";
+    const applicationId = normalizeString(
+        body.applicationId
+    );
 
     const noteId = body.noteId;
 
-    const expectedUpdatedAt =
-        typeof body.expectedUpdatedAt === "string"
-            ? body.expectedUpdatedAt.trim()
-            : "";
+    const expectedUpdatedAt = normalizeString(
+        body.expectedUpdatedAt
+    );
 
     if (!validApplicationId(applicationId)) {
         return failure(
@@ -653,10 +849,13 @@ export async function onRequestDelete(context) {
         );
     }
 
-    if (!expectedUpdatedAt) {
+    if (
+        !expectedUpdatedAt ||
+        expectedUpdatedAt.length > 100
+    ) {
         return failure(
             context,
-            "expectedUpdatedAt is required",
+            "A valid expectedUpdatedAt is required",
             400
         );
     }
@@ -696,7 +895,9 @@ export async function onRequestDelete(context) {
             );
         }
 
-        const result = await env.DB.prepare(`
+        const timestamp = new Date().toISOString();
+
+        const deleteStatement = env.DB.prepare(`
             DELETE FROM application_notes
             WHERE id = ?
             AND application_id = ?
@@ -707,9 +908,48 @@ export async function onRequestDelete(context) {
             applicationId,
             data.admin.email,
             expectedUpdatedAt
-        ).run();
+        );
 
-        if (Number(result.meta?.changes || 0) !== 1) {
+        const auditStatement = prepareAudit(
+            context,
+            {
+                action: "note.deleted",
+                targetType: "note",
+                targetId: String(noteId),
+                timestamp,
+
+                details: {
+                    applicationId,
+                    noteId,
+                    deletedNoteLength:
+                        existing.note.length
+                }
+            },
+            {
+                onlyIfChanged: true
+            }
+        );
+
+        const results = await env.DB.batch([
+            deleteStatement,
+            auditStatement
+        ]);
+
+        const verification = verifyMutation(
+            context,
+            results
+        );
+
+        if (!verification.verified) {
+            return failure(
+                context,
+                "Note deletion could not be fully verified",
+                500,
+                { refreshRequired: true }
+            );
+        }
+
+        if (!verification.changed) {
             return failure(
                 context,
                 "Note was modified by another request",
@@ -720,9 +960,17 @@ export async function onRequestDelete(context) {
 
         return success(context, {
             deleted: true,
+
             message: "Private note deleted successfully",
+
             applicationId,
-            noteId
+            noteId,
+
+            audit: {
+                recorded: true,
+                id: verification.auditId,
+                action: "note.deleted"
+            }
         });
 
     } catch (error) {
