@@ -1448,7 +1448,7 @@
 
                     <div class="state-panel" id="closedPanel" hidden>
 
-                        <h3>Recruitment currently closed.</h3>
+                        <h3 id="closedTitle">Recruitment currently closed.</h3>
 
                         <p>
                             We are not accepting portfolio submissions
@@ -1478,6 +1478,10 @@
                     </div>
 
                     <form id="applicationForm" hidden>
+                        <div class="state-panel">
+                            <h3 id="openTitle">Careers at Obsidian Crown</h3>
+                            <p id="openMessage">Introduce yourself and share your portfolio.</p>
+                        </div>
 
                         <div class="form-grid">
 
@@ -1999,6 +2003,7 @@
         document.getElementById("applicationReference");
 
     let recruitmentOpen = false;
+    let recruitmentPrivacyVersion = CONFIG.PRIVACY_VERSION;
     let turnstileToken = "";
     let turnstileWidgetID = null;
     let turnstileLoadPromise = null;
@@ -2269,14 +2274,26 @@
                 throw new Error("Recruitment service unavailable.");
             }
 
-            if (data.privacyVersion !== CONFIG.PRIVACY_VERSION) {
+            const settings = data.recruitment || {};
+            if (data.privacyVersion !== CONFIG.PRIVACY_VERSION ||
+                (settings.privacyVersion && settings.privacyVersion !== CONFIG.PRIVACY_VERSION)) {
                 throw new Error(
                     "Recruitment privacy configuration requires an update."
                 );
             }
 
+            recruitmentPrivacyVersion = data.privacyVersion;
+            const title = typeof settings.title === "string" && settings.title.trim()
+                ? settings.title : "Careers at Obsidian Crown";
+            const message = typeof settings.message === "string" ? settings.message.trim() : "";
+            document.getElementById("openTitle").textContent = title;
+            document.getElementById("openMessage").textContent = message && !/\bclosed\b/i.test(message)
+                ? message : "Introduce yourself and share your portfolio.";
+            closedPanel.querySelector("p").textContent = message && /\bclosed\b/i.test(message)
+                ? message : "We are not accepting portfolio submissions at this time. Please check back for future opportunities with Obsidian Crown.";
+
             if (
-                data.applicationsOpen !== true ||
+                data.applicationsOpen !== true || settings.open !== true ||
                 !CONFIG.POLICY_ADOPTED
             ) {
                 setStatus("Portfolio submissions closed");
@@ -2367,7 +2384,7 @@
                 document.getElementById("privacyAccepted").checked,
 
             privacyVersion:
-                CONFIG.PRIVACY_VERSION,
+                recruitmentPrivacyVersion,
 
             turnstileToken:
                 turnstileToken
