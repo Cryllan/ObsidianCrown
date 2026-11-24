@@ -1,10 +1,14 @@
-
 const CONFIG = Object.freeze({
     SERVICE_NAME: "Obsidian Crown Recruitment",
-    VERSION: "2.0.0",
+    VERSION: "2.1.0",
     PRIVACY_VERSION: "1.0",
     MAX_BODY_SIZE: 16384,
     DUPLICATE_WINDOW_HOURS: 24,
+
+    DEFAULT_TITLE: "Careers at Obsidian Crown",
+
+    DEFAULT_MESSAGE:
+        "Recruitment is currently closed. Please check back for future opportunities.",
 
     ALLOWED_ORIGINS: [
         "https://obsidiancrown.org"
@@ -46,6 +50,7 @@ function json(data, status = 200, extraHeaders = {}) {
         headers: {
             "Content-Type": "application/json; charset=utf-8",
             "Cache-Control": "no-store, max-age=0",
+            "Pragma": "no-cache",
             "X-Content-Type-Options": "nosniff",
             "X-Frame-Options": "DENY",
             "Referrer-Policy": "no-referrer",
@@ -62,24 +67,30 @@ function success(data = {}, status = 200) {
     }, status);
 }
 
-function failure(message, status = 400, code = "BAD_REQUEST") {
+function failure(
+    message,
+    status = 400,
+    code = "BAD_REQUEST",
+    extra = {}
+) {
     return json({
         success: false,
         code,
-        message
+        message,
+        ...extra
     }, status);
-}
-
-function applicationsOpen(env) {
-    return String(env.APPLICATIONS_OPEN || "")
-        .trim()
-        .toLowerCase() === "true";
 }
 
 function backendConfigured(env) {
     return Boolean(
         env.DB &&
         env.TURNSTILE_SECRET
+    );
+}
+
+function parseBoolean(value) {
+    return ["true", "1", "yes", "on"].includes(
+        String(value ?? "").trim().toLowerCase()
     );
 }
 
@@ -91,7 +102,10 @@ function normalizeText(value) {
     return value
         .normalize("NFKC")
         .replace(/\r\n/g, "\n")
-        .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+        .replace(
+            /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,
+            ""
+        )
         .trim();
 }
 
@@ -109,14 +123,130 @@ function requiredText(value, label, min, max) {
     return text;
 }
 
+async function loadRecruitmentSettings(env) {
+    if (!env.DB) {
+        throw new APIError(
+            "Recruitment service is temporarily unavailable.",
+            503,
+            "DATABASE_UNAVAILABLE"
+        );
+    }
+
+    let result;
+
+    try {
+        result = await env.DB.prepare(`
+            SELECT
+                key,
+                value
+            FROM recruitment_settings
+            WHERE key IN (
+                'applications_open',
+                'recruitment_title',
+                'recruitment_message',
+                'privacy_version'
+            )
+        `).all();
+
+    } catch {
+        throw new APIError(
+            "Recruitment configuration is temporarily unavailable.",
+            503,
+            "SETTINGS_UNAVAILABLE"
+        );
+    }
+
+    const settings = new Map(
+        (result.results || []).map(row => [
+            row.key,
+            row.value
+        ])
+    );
+
+    const open = settings.has("applications_open")
+        ? parseBoolean(settings.get("applications_open"))
+        : false;
+
+    const title = normalizeText(
+        settings.get("recruitment_title")
+    ) || CONFIG.DEFAULT_TITLE;
+
+    const message = normalizeText(
+        settings.get("recruitment_message")
+    ) || (
+        open
+            ? "We welcome expressions of interest from talented developers and creatives."
+            : CONFIG.DEFAULT_MESSAGE
+    );
+
+    const privacyVersion = settings.has("privacy_version")
+        ? String(settings.get("privacy_version"))
+        : CONFIG.PRIVACY_VERSION;
+
+    if (
+        !/^[0-9]+(?:\.[0-9]+)*$/.test(privacyVersion) ||
+        privacyVersion.length > 30
+    ) {
+        throw new APIError(
+            "Recruitment configuration is temporarily unavailable.",
+            503,
+            "INVALID_CONFIGURATION"
+        );
+    }
+
+    return {
+        open,
+        status: open ? "open" : "closed",
+        title,
+        message,
+        privacyVersion,
+
+        source: settings.has("applications_open")
+            ? "database"
+            : "default"
+    };
+}
+
+function formatRecruitment(settings, configured = true) {
+    const open = configured && settings.open;
+
+    return {
+        open,
+        status: open ? "open" : "closed",
+        title: settings.title,
+        message: configured
+            ? settings.message
+            : "Recruitment is temporarily unavailable.",
+        privacyVersion: settings.privacyVersion
+    };
+}
+
 function validateOrigin(request) {
     const origin = request.headers.get("Origin");
 
-    if (!origin || !CONFIG.ALLOWED_ORIGINS.includes(origin)) {
+    if (
+        !origin ||
+        !CONFIG.ALLOWED_ORIGINS.includes(origin)
+    ) {
         throw new APIError(
             "This request is not permitted.",
             403,
             "INVALID_ORIGIN"
+        );
+    }
+}
+
+function validateHostname(request) {
+    const url = new URL(request.url);
+
+    if (
+        url.protocol !== "https:" ||
+        !CONFIG.ALLOWED_HOSTNAMES.includes(url.hostname)
+    ) {
+        throw new APIError(
+            "This request is not permitted.",
+            403,
+            "INVALID_HOSTNAME"
         );
     }
 }
@@ -158,6 +288,7 @@ async function readJSON(request) {
 
     const reader = request.body.getReader();
     const decoder = new TextDecoder();
+
     let size = 0;
     let raw = "";
 
@@ -196,6 +327,7 @@ async function readJSON(request) {
 
     try {
         data = JSON.parse(raw);
+
     } catch {
         throw new APIError(
             "Invalid application data.",
@@ -204,7 +336,11 @@ async function readJSON(request) {
         );
     }
 
-    if (!data || typeof data !== "object" || Array.isArray(data)) {
+    if (
+        !data ||
+        typeof data !== "object" ||
+        Array.isArray(data)
+    ) {
         throw new APIError(
             "Invalid application data.",
             400,
@@ -227,6 +363,7 @@ function validatePortfolio(value) {
 
     try {
         url = new URL(portfolio);
+
     } catch {
         throw new APIError(
             "Please provide a valid portfolio URL.",
@@ -250,10 +387,18 @@ function validatePortfolio(value) {
         );
     }
 
+    if (url.href.length > 500) {
+        throw new APIError(
+            "The portfolio URL is too long.",
+            400,
+            "INVALID_PORTFOLIO"
+        );
+    }
+
     return url.href;
 }
 
-function validateApplication(data) {
+function validateApplication(data, recruitment) {
     const displayName = requiredText(
         data.displayName,
         "Preferred name",
@@ -291,7 +436,9 @@ function validateApplication(data) {
         );
     }
 
-    const discipline = normalizeText(data.discipline);
+    const discipline = normalizeText(
+        data.discipline
+    );
 
     if (!CONFIG.DISCIPLINES.includes(discipline)) {
         throw new APIError(
@@ -301,7 +448,9 @@ function validateApplication(data) {
         );
     }
 
-    const experience = normalizeText(data.experience);
+    const experience = normalizeText(
+        data.experience
+    );
 
     if (!CONFIG.EXPERIENCE_LEVELS.includes(experience)) {
         throw new APIError(
@@ -324,7 +473,7 @@ function validateApplication(data) {
 
     if (
         data.privacyAccepted !== true ||
-        data.privacyVersion !== CONFIG.PRIVACY_VERSION
+        data.privacyVersion !== recruitment.privacyVersion
     ) {
         throw new APIError(
             "Please review and acknowledge the current privacy policy.",
@@ -333,12 +482,21 @@ function validateApplication(data) {
         );
     }
 
-    const turnstileToken = requiredText(
-        data.turnstileToken,
-        "Security verification",
-        1,
-        2048
-    );
+    const turnstileToken =
+        typeof data.turnstileToken === "string"
+            ? data.turnstileToken.trim()
+            : "";
+
+    if (
+        !turnstileToken ||
+        turnstileToken.length > 2048
+    ) {
+        throw new APIError(
+            "Please complete the security verification.",
+            400,
+            "TURNSTILE_REQUIRED"
+        );
+    }
 
     return {
         displayName,
@@ -348,6 +506,7 @@ function validateApplication(data) {
         experience,
         portfolioURL,
         introduction,
+        privacyVersion: recruitment.privacyVersion,
         turnstileToken
     };
 }
@@ -381,16 +540,24 @@ async function verifyTurnstile(env, token, request) {
             "https://challenges.cloudflare.com/turnstile/v0/siteverify",
             {
                 method: "POST",
+
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
                 },
+
                 body: form.toString(),
+
+                redirect: "manual",
+
                 signal: AbortSignal.timeout(10000)
             }
         );
 
         if (!response.ok) {
-            throw new Error("Verification service unavailable.");
+            throw new Error(
+                "Verification service unavailable."
+            );
         }
 
         result = await response.json();
@@ -403,7 +570,7 @@ async function verifyTurnstile(env, token, request) {
         );
     }
 
-    if (!result.success) {
+    if (result?.success !== true) {
         throw new APIError(
             "Security verification failed. Please complete a new verification.",
             403,
@@ -411,7 +578,11 @@ async function verifyTurnstile(env, token, request) {
         );
     }
 
-    if (!CONFIG.ALLOWED_HOSTNAMES.includes(result.hostname)) {
+    if (
+        !CONFIG.ALLOWED_HOSTNAMES.includes(
+            result.hostname
+        )
+    ) {
         throw new APIError(
             "Security verification was issued for an invalid hostname.",
             403,
@@ -436,7 +607,9 @@ function generateApplicationID() {
     crypto.getRandomValues(bytes);
 
     const reference = Array.from(bytes)
-        .map(byte => byte.toString(16).padStart(2, "0"))
+        .map(byte =>
+            byte.toString(16).padStart(2, "0")
+        )
         .join("")
         .toUpperCase();
 
@@ -448,6 +621,8 @@ async function storeApplication(env, application) {
 
     const duplicateWindow =
         `-${CONFIG.DUPLICATE_WINDOW_HOURS} hours`;
+
+    const timestamp = new Date().toISOString();
 
     const insert = env.DB.prepare(`
         INSERT INTO applications (
@@ -467,15 +642,32 @@ async function storeApplication(env, application) {
         SELECT
             ?, ?, ?, ?, ?, ?, ?, ?,
             'pending',
-            ?,
-            CURRENT_TIMESTAMP,
-            CURRENT_TIMESTAMP
-        WHERE NOT EXISTS (
+            ?, ?, ?
+        WHERE EXISTS (
+            SELECT 1
+            FROM recruitment_settings
+            WHERE key = 'applications_open'
+            AND LOWER(TRIM(value)) IN (
+                'true',
+                '1',
+                'yes',
+                'on'
+            )
+        )
+        AND COALESCE(
+            (
+                SELECT value
+                FROM recruitment_settings
+                WHERE key = 'privacy_version'
+            ),
+            ?
+        ) = ?
+        AND NOT EXISTS (
             SELECT 1
             FROM applications
             WHERE LOWER(roblox_username) = LOWER(?)
             AND discipline = ?
-            AND created_at >= datetime('now', ?)
+            AND datetime(created_at) >= datetime('now', ?)
         )
     `).bind(
         applicationID,
@@ -486,7 +678,11 @@ async function storeApplication(env, application) {
         application.experience,
         application.portfolioURL,
         application.introduction,
+        application.privacyVersion,
+        timestamp,
+        timestamp,
         CONFIG.PRIVACY_VERSION,
+        application.privacyVersion,
         application.robloxUsername,
         application.discipline,
         duplicateWindow
@@ -507,28 +703,106 @@ async function storeApplication(env, application) {
             'pending',
             'system',
             'Application submitted.',
-            CURRENT_TIMESTAMP
+            ?
         FROM applications
         WHERE application_id = ?
-    `).bind(applicationID);
+        AND changes() = 1
+    `).bind(
+        timestamp,
+        applicationID
+    );
 
     const results = await env.DB.batch([
         insert,
         history
     ]);
 
-    if (results[0].meta.changes !== 1) {
+    const insertedRows = Number(
+        results[0]?.meta?.changes || 0
+    );
+
+    const historyRows = Number(
+        results[1]?.meta?.changes || 0
+    );
+
+    if (insertedRows === 0) {
+        const latest = await loadRecruitmentSettings(env);
+
+        if (!latest.open) {
+            throw new APIError(
+                "Portfolio submissions are not currently open.",
+                503,
+                "APPLICATIONS_CLOSED"
+            );
+        }
+
+        if (
+            latest.privacyVersion !==
+            application.privacyVersion
+        ) {
+            throw new APIError(
+                "The privacy policy has changed. Please refresh the page and review the current policy.",
+                409,
+                "PRIVACY_VERSION_CHANGED"
+            );
+        }
+
+        const duplicate = await env.DB.prepare(`
+            SELECT application_id
+            FROM applications
+            WHERE LOWER(roblox_username) = LOWER(?)
+            AND discipline = ?
+            AND datetime(created_at) >= datetime('now', ?)
+            LIMIT 1
+        `).bind(
+            application.robloxUsername,
+            application.discipline,
+            duplicateWindow
+        ).first();
+
+        if (duplicate) {
+            throw new APIError(
+                "An application for this Roblox username and discipline has already been submitted within the last 24 hours.",
+                409,
+                "DUPLICATE_APPLICATION"
+            );
+        }
+
         throw new APIError(
-            "An application for this Roblox username and discipline has already been submitted within the last 24 hours.",
+            "Recruitment configuration changed during submission. Please refresh the page and try again.",
             409,
-            "DUPLICATE_APPLICATION"
+            "RECRUITMENT_CONFIGURATION_CHANGED"
+        );
+    }
+
+    if (
+        insertedRows !== 1 ||
+        historyRows !== 1
+    ) {
+        console.error(
+            "Recruitment transaction verification failed.",
+            {
+                applicationID,
+                insertedRows,
+                historyRows
+            }
+        );
+
+        throw new APIError(
+            "The submission could not be fully verified. Please contact recruitment support before submitting again.",
+            500,
+            "SUBMISSION_VERIFICATION_FAILED"
         );
     }
 
     return applicationID;
 }
 
-async function sendDiscordNotification(env, applicationID, application) {
+async function sendDiscordNotification(
+    env,
+    applicationID,
+    application
+) {
     if (!env.DISCORD_WEBHOOK_URL) {
         return;
     }
@@ -536,7 +810,9 @@ async function sendDiscordNotification(env, applicationID, application) {
     let webhook;
 
     try {
-        webhook = new URL(env.DISCORD_WEBHOOK_URL);
+        webhook = new URL(
+            env.DISCORD_WEBHOOK_URL
+        );
 
         if (
             webhook.protocol !== "https:" ||
@@ -546,12 +822,18 @@ async function sendDiscordNotification(env, applicationID, application) {
             webhook.password ||
             webhook.port
         ) {
-            console.error("Invalid recruitment webhook configuration.");
+            console.error(
+                "Invalid recruitment webhook configuration."
+            );
+
             return;
         }
 
     } catch {
-        console.error("Invalid recruitment webhook configuration.");
+        console.error(
+            "Invalid recruitment webhook configuration."
+        );
+
         return;
     }
 
@@ -608,19 +890,22 @@ async function sendDiscordNotification(env, applicationID, application) {
     };
 
     try {
-        const response = await fetch(webhook.href, {
-            method: "POST",
+        const response = await fetch(
+            webhook.href,
+            {
+                method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            body: JSON.stringify(payload),
+                body: JSON.stringify(payload),
 
-            redirect: "error",
+                redirect: "manual",
 
-            signal: AbortSignal.timeout(10000)
-        });
+                signal: AbortSignal.timeout(10000)
+            }
+        );
 
         if (!response.ok) {
             console.error(
@@ -630,7 +915,9 @@ async function sendDiscordNotification(env, applicationID, application) {
         }
 
     } catch {
-        console.error("Recruitment notification delivery failed.");
+        console.error(
+            "Recruitment notification delivery failed."
+        );
     }
 }
 
@@ -643,7 +930,9 @@ function handleError(error) {
         );
     }
 
-    console.error("Unexpected recruitment API error.");
+    console.error(
+        "Unexpected recruitment API error."
+    );
 
     return failure(
         "An unexpected error occurred. Please try again later.",
@@ -653,9 +942,11 @@ function handleError(error) {
 }
 
 export async function onRequestGet(context) {
-    const { env } = context;
+    const { request, env } = context;
 
     try {
+        validateHostname(request);
+
         if (!env.DB) {
             return failure(
                 "Recruitment service unavailable.",
@@ -676,18 +967,52 @@ export async function onRequestGet(context) {
             LIMIT 0
         `).all();
 
+        const settings = await loadRecruitmentSettings(
+            env
+        );
+
         const configured = backendConfigured(env);
+
+        const recruitment = formatRecruitment(
+            settings,
+            configured
+        );
 
         return success({
             service: CONFIG.SERVICE_NAME,
+
             version: CONFIG.VERSION,
+
             database: "connected",
+
             status: configured
                 ? "operational"
                 : "configuration_required",
-            applicationsOpen:
-                configured && applicationsOpen(env),
-            privacyVersion: CONFIG.PRIVACY_VERSION
+
+            applicationsOpen: recruitment.open,
+
+            privacyVersion: recruitment.privacyVersion,
+
+            recruitment,
+
+            configuration: {
+                source: settings.source,
+                persistent: true
+            },
+
+            capabilities: {
+                persistentRecruitmentSettings: true,
+                dynamicRecruitmentAvailability: true,
+                dynamicRecruitmentMessaging: true,
+                dynamicPrivacyVersion: true,
+                turnstileVerification: true,
+                duplicatePrevention: true,
+                submissionHistory: true,
+                transactionalSubmissions: true,
+                submissionAvailabilityRecheck: true
+            },
+
+            generatedAt: new Date().toISOString()
         });
 
     } catch (error) {
@@ -699,6 +1024,7 @@ export async function onRequestPost(context) {
     const { request, env } = context;
 
     try {
+        validateHostname(request);
         validateOrigin(request);
 
         if (!backendConfigured(env)) {
@@ -709,17 +1035,29 @@ export async function onRequestPost(context) {
             );
         }
 
-        if (!applicationsOpen(env)) {
+        const recruitment = await loadRecruitmentSettings(
+            env
+        );
+
+        if (!recruitment.open) {
             return failure(
                 "Portfolio submissions are not currently open.",
                 503,
-                "APPLICATIONS_CLOSED"
+                "APPLICATIONS_CLOSED",
+                {
+                    recruitment: formatRecruitment(
+                        recruitment
+                    )
+                }
             );
         }
 
         const data = await readJSON(request);
 
-        const application = validateApplication(data);
+        const application = validateApplication(
+            data,
+            recruitment
+        );
 
         await verifyTurnstile(
             env,
@@ -745,7 +1083,9 @@ export async function onRequestPost(context) {
         return success({
             message:
                 "Your portfolio has been successfully submitted to Obsidian Crown.",
+
             applicationID,
+
             status: "pending"
         }, 201);
 
