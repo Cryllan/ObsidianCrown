@@ -1,0 +1,949 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Obsidian Crown is an independent game development studio creating immersive experiences on Roblox.">
+    <meta name="theme-color" content="#09090b">
+    <title>Obsidian Crown | Independent Game Studio</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        :root {
+            --background: #09090b;
+            --surface: #111113;
+            --surface-light: #18181b;
+            --border: #29292e;
+            --text: #fafafa;
+            --muted: #a1a1aa;
+            --accent: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1200px, 90%);
+            margin: auto;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(9, 9, 11, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar {
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .brand-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 19px;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .nav-careers {
+            background: white;
+            color: black;
+            padding: 11px 22px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        nav .nav-careers:hover {
+            color: black;
+            background: #d4d4d8;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            color: white;
+            font-size: 26px;
+        }
+
+        .hero {
+            min-height: 90vh;
+            padding: 160px 0 100px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    ellipse at 50% 20%,
+                    #27272a 0%,
+                    #111113 40%,
+                    #09090b 75%
+                );
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                );
+            background-size: 70px 70px;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(48px, 8vw, 108px);
+            line-height: 1.02;
+            font-weight: 700;
+            letter-spacing: -0.06em;
+        }
+
+        .hero h1 span {
+            color: #a1a1aa;
+        }
+
+        .hero-description {
+            max-width: 650px;
+            margin: 30px auto;
+            color: var(--muted);
+            font-size: 18px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 36px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 27px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .button-primary {
+            background: white;
+            color: black;
+            border: 1px solid white;
+        }
+
+        .button-primary:hover {
+            background: #d4d4d8;
+            transform: translateY(-3px);
+        }
+
+        .button-secondary {
+            border: 1px solid #52525b;
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: #27272a;
+            transform: translateY(-3px);
+        }
+
+        .studio-strip {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .studio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 40px 0;
+        }
+
+        .studio-item {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .studio-item:not(:last-child) {
+            border-right: 1px solid var(--border);
+        }
+
+        .studio-item h3 {
+            font-size: 25px;
+            margin-bottom: 6px;
+        }
+
+        .studio-item p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        section {
+            padding: 110px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 45px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(34px, 5vw, 58px);
+            letter-spacing: -2px;
+            line-height: 1.15;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            margin-top: 16px;
+            max-width: 650px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .game-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform .25s, border-color .25s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: #71717a;
+        }
+
+        .game-image {
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #18181b;
+        }
+
+        .dungeon-image {
+            background:
+                radial-gradient(
+                    ellipse at center,
+                    #312e81,
+                    #17152e 50%,
+                    #09090b
+                );
+        }
+
+        .game-image svg {
+            width: 90px;
+            height: 90px;
+            opacity: .8;
+        }
+
+        .game-content {
+            padding: 28px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #3f3f46;
+            border-radius: 4px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .game-content h3 {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .game-content p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .about-section {
+            background: var(--surface);
+            border-block: 1px solid var(--border);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: clamp(35px, 5vw, 56px);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 25px;
+        }
+
+        .about-text p {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .values {
+            display: grid;
+            gap: 16px;
+        }
+
+        .value {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .value h3 {
+            margin-bottom: 6px;
+            font-size: 20px;
+        }
+
+        .value p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .careers-banner {
+            padding: 60px;
+            background:
+                radial-gradient(
+                    ellipse at top right,
+                    #27272a,
+                    #111113 65%
+                );
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .careers-banner h2 {
+            font-size: clamp(36px, 5vw, 64px);
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .careers-banner > p {
+            max-width: 650px;
+            color: var(--muted);
+        }
+
+        .departments {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 35px;
+        }
+
+        .department {
+            padding: 22px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,.025);
+            border-radius: 6px;
+        }
+
+        .department h3 {
+            font-size: 18px;
+        }
+
+        .department p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .career-notice {
+            border-top: 1px solid var(--border);
+            margin-top: 35px;
+            padding-top: 25px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        footer {
+            background: #070708;
+            border-top: 1px solid var(--border);
+            padding: 60px 0 25px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 50px;
+        }
+
+        .footer-description {
+            color: var(--muted);
+            font-size: 14px;
+            max-width: 350px;
+            margin-top: 18px;
+        }
+
+        .footer-column h3 {
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            margin-top: 45px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        :focus-visible {
+            outline: 2px solid white;
+            outline-offset: 5px;
+        }
+
+        @media (max-width: 800px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 82px;
+                left: 0;
+                width: 100%;
+                padding: 25px;
+                background: #111113;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 20px;
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            .games-grid,
+            .about-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .departments {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .studio-item h3 {
+                font-size: 18px;
+            }
+
+            .studio-item p {
+                font-size: 11px;
+            }
+
+            .careers-banner {
+                padding: 30px;
+            }
+
+            section {
+                padding: 75px 0;
+            }
+
+            .brand-name {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .departments {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container navbar">
+        <a href="#home" class="brand">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path fill="#ffffff"
+                    d="M4 13L20 27L32 5L44 27L60 13L50 47H14Z"/>
+                <path fill="#ffffff"
+                    d="M14 51H50L46 58H18Z"/>
+                <path fill="#71717a"
+                    d="M32 5V47H14L20 27Z"/>
+            </svg>
+            <span class="brand-name">OBSIDIAN CROWN</span>
+        </a>
+
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Toggle navigation"
+                aria-controls="navigation"
+                aria-expanded="false">
+            &#9776;
+        </button>
+
+        <nav id="navigation">
+            <a href="#home">Home</a>
+            <a href="#games">Our Games</a>
+            <a href="#about">About Us</a>
+            <a href="#careers" class="nav-careers">Careers &#8599;</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero" id="home">
+        <div class="container hero-content">
+
+            <span class="eyebrow">
+                Independent Game Development Studio
+            </span>
+
+            <h1>
+                Imagination<br>
+                <span>Without Limits.</span>
+            </h1>
+
+            <p class="hero-description">
+                We are Obsidian Crown, an independent development
+                studio dedicated to creating immersive, memorable
+                experiences for the Roblox community.
+            </p>
+
+            <div class="buttons">
+                <a href="#games" class="button button-primary">
+                    Explore Our Games &#8599;
+                </a>
+
+                <a href="#careers" class="button button-secondary">
+                    Join Our Team
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="studio-strip">
+        <div class="container studio-grid">
+
+            <div class="studio-item">
+                <h3>Independent</h3>
+                <p>Game Development</p>
+            </div>
+
+            <div class="studio-item">
+                <h3>Roblox</h3>
+                <p>Our Platform</p>
+            </div>
+
+            <div class="studio-item">
+                <h3>Creative</h3>
+                <p>By Design</p>
+            </div>
+
+        </div>
+    </div>
+
+    <section id="games">
+        <div class="container">
+
+            <div class="section-heading">
+                <span class="eyebrow">Our Portfolio</span>
+                <h2>Worlds we've imagined.</h2>
+                <p>
+                    Discover the experiences we are building,
+                    designed around creativity, adventure and
+                    unforgettable gameplay.
+                </p>
+            </div>
+
+            <div class="games-grid">
+
+                <article class="game-card">
+                    <div class="game-image dungeon-image">
+                        <svg viewBox="0 0 100 100" aria-hidden="true">
+                            <path fill="#c4b5fd"
+                                d="M50 5L73 36L50 95L27 36Z"/>
+                            <path fill="#8b5cf6"
+                                d="M50 5V95L27 36Z"/>
+                            <path fill="#ddd6fe"
+                                d="M50 5L73 36L50 45Z"/>
+                        </svg>
+                    </div>
+
+                    <div class="game-content">
+                        <span class="status">In Development</span>
+                        <h3>Golden Times Dungeons</h3>
+                        <p>
+                            Venture into mysterious dungeons,
+                            defeat powerful enemies and discover
+                            legendary equipment.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="game-card">
+                    <div class="game-image">
+                        <svg viewBox="0 0 100 100" aria-hidden="true">
+                            <rect x="25" y="43"
+                                  width="50" height="40"
+                                  rx="5" fill="#52525b"/>
+                            <path d="M35 43V28A15 15 0 0 1 65 28V43"
+                                  fill="none"
+                                  stroke="#52525b"
+                                  stroke-width="8"/>
+                            <circle cx="50" cy="60"
+                                    r="5" fill="#18181b"/>
+                        </svg>
+                    </div>
+
+                    <div class="game-content">
+                        <span class="status">Coming Soon</span>
+                        <h3>Unannounced Project</h3>
+                        <p>
+                            Something new is on the horizon.
+                            Stay tuned for future announcements
+                            from Obsidian Crown.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="container about-grid">
+
+            <div class="about-text">
+                <span class="eyebrow">Who We Are</span>
+
+                <h2>Built by creators.<br>Driven by passion.</h2>
+
+                <p>
+                    Obsidian Crown is an independent game development
+                    studio focused on building engaging and
+                    imaginative experiences on Roblox.
+                </p>
+
+                <p>
+                    Our vision is to bring talented creators together,
+                    push creative boundaries and develop worlds that
+                    players want to return to.
+                </p>
+
+                <a href="#careers" class="button button-secondary">
+                    Become Part of Our Story &#8599;
+                </a>
+            </div>
+
+            <div class="values">
+
+                <div class="value">
+                    <h3>01 — Creativity</h3>
+                    <p>
+                        Original ideas and ambitious worlds
+                        are at the heart of our work.
+                    </p>
+                </div>
+
+                <div class="value">
+                    <h3>02 — Quality</h3>
+                    <p>
+                        We value thoughtful design, polished
+                        gameplay and attention to detail.
+                    </p>
+                </div>
+
+                <div class="value">
+                    <h3>03 — Community</h3>
+                    <p>
+                        We believe exceptional experiences
+                        begin with the people who create and play them.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="careers">
+        <div class="container">
+
+            <div class="careers-banner">
+
+                <span class="eyebrow">
+                    Careers at Obsidian Crown
+                </span>
+
+                <h2>Build the future<br>of play.</h2>
+
+                <p>
+                    Great games are built by great people.
+                    Our ambition is to bring together talented
+                    developers, artists and designers who share
+                    a passion for creating exceptional experiences.
+                </p>
+
+                <div class="departments">
+
+                    <div class="department">
+                        <h3>Engineering</h3>
+                        <p>Programming & Game Systems</p>
+                    </div>
+
+                    <div class="department">
+                        <h3>Art</h3>
+                        <p>3D Modeling & Environment Art</p>
+                    </div>
+
+                    <div class="department">
+                        <h3>Design</h3>
+                        <p>Game Design & UI/UX</p>
+                    </div>
+
+                    <div class="department">
+                        <h3>Animation</h3>
+                        <p>Character Animation & Rigging</p>
+                    </div>
+
+                    <div class="department">
+                        <h3>Production</h3>
+                        <p>Management & Development</p>
+                    </div>
+
+                    <div class="department">
+                        <h3>Community</h3>
+                        <p>Community & Quality Assurance</p>
+                    </div>
+
+                </div>
+
+                <div class="career-notice">
+                    <strong>Recruitment updates coming soon.</strong>
+                    <p>
+                        Available positions and application details
+                        will be published here.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+                <a href="#home" class="brand">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <path fill="#ffffff"
+                            d="M4 13L20 27L32 5L44 27L60 13L50 47H14Z"/>
+                        <path fill="#ffffff"
+                            d="M14 51H50L46 58H18Z"/>
+                    </svg>
+                    <span class="brand-name">OBSIDIAN CROWN</span>
+                </a>
+
+                <p class="footer-description">
+                    An independent game development studio
+                    creating immersive experiences on Roblox.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Studio</h3>
+                <a href="#home">Home</a>
+                <a href="#games">Our Games</a>
+                <a href="#about">About Us</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Opportunities</h3>
+                <a href="#careers">Careers</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <span>
+                &copy; <span id="year">2026</span>
+                Obsidian Crown. All rights reserved.
+            </span>
+
+            <span>Independent Game Development Studio</span>
+        </div>
+
+    </div>
+</footer>
+
+<script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navigation = document.getElementById("navigation");
+
+    function closeMenu() {
+        navigation.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    menuToggle.addEventListener("click", () => {
+        const isOpen = navigation.classList.toggle("open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navigation.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            closeMenu();
+        }
+    });
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+</script>
+
+</body>
+</html>
