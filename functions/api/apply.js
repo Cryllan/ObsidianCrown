@@ -1,9 +1,11 @@
 const CONFIG = Object.freeze({
     SERVICE_NAME: "Obsidian Crown Recruitment",
-    VERSION: "2.1.0",
+    VERSION: "2.1.2",
     PRIVACY_VERSION: "1.0",
     MAX_BODY_SIZE: 16384,
     DUPLICATE_WINDOW_HOURS: 24,
+    TURNSTILE_TIMEOUT: 10000,
+    TURNSTILE_ACTION: "recruitment",
 
     DEFAULT_TITLE: "Careers at Obsidian Crown",
 
@@ -44,6 +46,24 @@ class APIError extends Error {
     }
 }
 
+function diagnostic(stage, details = {}, level = "log") {
+    const entry = JSON.stringify({
+        service: CONFIG.SERVICE_NAME,
+        version: CONFIG.VERSION,
+        stage,
+        timestamp: new Date().toISOString(),
+        ...details
+    });
+
+    if (level === "error") {
+        console.error(entry);
+    } else if (level === "warn") {
+        console.warn(entry);
+    } else {
+        console.log(entry);
+    }
+}
+
 function json(data, status = 200, extraHeaders = {}) {
     return new Response(JSON.stringify(data), {
         status,
@@ -81,10 +101,16 @@ function failure(
     }, status);
 }
 
+function getTurnstileSecret(env) {
+    return typeof env.TURNSTILE_SECRET === "string"
+        ? env.TURNSTILE_SECRET.trim()
+        : "";
+}
+
 function backendConfigured(env) {
     return Boolean(
         env.DB &&
-        env.TURNSTILE_SECRET
+        getTurnstileSecret(env)
     );
 }
 
@@ -136,9 +162,7 @@ async function loadRecruitmentSettings(env) {
 
     try {
         result = await env.DB.prepare(`
-            SELECT
-                key,
-                value
+            SELECT key, value
             FROM recruitment_settings
             WHERE key IN (
                 'applications_open',
@@ -149,6 +173,12 @@ async function loadRecruitmentSettings(env) {
         `).all();
 
     } catch {
+        diagnostic(
+            "settings.load_failed",
+            {},
+            "error"
+        );
+
         throw new APIError(
             "Recruitment configuration is temporarily unavailable.",
             503,
@@ -214,9 +244,11 @@ function formatRecruitment(settings, configured = true) {
         open,
         status: open ? "open" : "closed",
         title: settings.title,
+
         message: configured
             ? settings.message
             : "Recruitment is temporarily unavailable.",
+
         privacyVersion: settings.privacyVersion
     };
 }
@@ -511,8 +543,21 @@ function validateApplication(data, recruitment) {
     };
 }
 
-async function verifyTurnstile(env, token, request) {
-    if (!env.TURNSTILE_SECRET) {
+async function verifyTurnstile(
+    env,
+    token,
+    request,
+    requestID
+) {
+    const secret = getTurnstileSecret(env);
+
+    if (!secret) {
+        diagnostic(
+            "turnstile.secret_missing",
+            { requestID },
+            "error"
+        );
+
         throw new APIError(
             "Security verification is temporarily unavailable.",
             503,
@@ -520,9 +565,17 @@ async function verifyTurnstile(env, token, request) {
         );
     }
 
+    diagnostic("turnstile.started", {
+        requestID,
+        tokenPresent: Boolean(token),
+        tokenLength: token.length,
+        secretConfigured: true,
+        expectedAction: CONFIG.TURNSTILE_ACTION
+    });
+
     const form = new URLSearchParams();
 
-    form.set("secret", env.TURNSTILE_SECRET);
+    form.set("secret", secret);
     form.set("response", token);
     form.set("idempotency_key", crypto.randomUUID());
 
@@ -535,6 +588,8 @@ async function verifyTurnstile(env, token, request) {
     let response;
     let result;
 
+    const startedAt = Date.now();
+
     try {
         response = await fetch(
             "https://challenges.cloudflare.com/turnstile/v0/siteverify",
@@ -543,18 +598,33 @@ async function verifyTurnstile(env, token, request) {
 
                 headers: {
                     "Content-Type":
-                        "application/x-www-form-urlencoded"
+                        "application/x-www-form-urlencoded",
+
+                    "Accept":
+                        "application/json"
                 },
 
                 body: form.toString(),
 
                 redirect: "manual",
 
-                signal: AbortSignal.timeout(10000)
+                signal: AbortSignal.timeout(
+                    CONFIG.TURNSTILE_TIMEOUT
+                )
             }
         );
 
         if (!response.ok) {
+            diagnostic(
+                "turnstile.http_error",
+                {
+                    requestID,
+                    status: response.status,
+                    durationMs: Date.now() - startedAt
+                },
+                "error"
+            );
+
             throw new Error(
                 "Verification service unavailable."
             );
@@ -563,6 +633,15 @@ async function verifyTurnstile(env, token, request) {
         result = await response.json();
 
     } catch {
+        diagnostic(
+            "turnstile.service_unavailable",
+            {
+                requestID,
+                durationMs: Date.now() - startedAt
+            },
+            "error"
+        );
+
         throw new APIError(
             "Security verification is temporarily unavailable. Please try again.",
             503,
@@ -570,7 +649,62 @@ async function verifyTurnstile(env, token, request) {
         );
     }
 
+    const knownErrorCodes = new Set([
+        "missing-input-secret",
+        "invalid-input-secret",
+        "missing-input-response",
+        "invalid-input-response",
+        "bad-request",
+        "timeout-or-duplicate",
+        "internal-error"
+    ]);
+
+    const codes = Array.isArray(result?.["error-codes"])
+        ? result["error-codes"].map(code =>
+            knownErrorCodes.has(code)
+                ? code
+                : "unknown-error"
+        )
+        : [];
+
+    diagnostic("turnstile.siteverify_response", {
+        requestID,
+        httpStatus: response.status,
+        verified: result?.success === true,
+        codes,
+        durationMs: Date.now() - startedAt
+    });
+
     if (result?.success !== true) {
+        diagnostic(
+            "turnstile.rejected",
+            {
+                requestID,
+                codes
+            },
+            "warn"
+        );
+
+        if (
+            codes.includes("invalid-input-secret") ||
+            codes.includes("missing-input-secret") ||
+            codes.includes("internal-error")
+        ) {
+            throw new APIError(
+                "Security verification is temporarily unavailable. Please try again later.",
+                503,
+                "SECURITY_UNAVAILABLE"
+            );
+        }
+
+        if (codes.includes("timeout-or-duplicate")) {
+            throw new APIError(
+                "Your security verification has expired or has already been used. Please complete a new verification.",
+                403,
+                "TURNSTILE_FAILED"
+            );
+        }
+
         throw new APIError(
             "Security verification failed. Please complete a new verification.",
             403,
@@ -583,6 +717,15 @@ async function verifyTurnstile(env, token, request) {
             result.hostname
         )
     ) {
+        diagnostic(
+            "turnstile.hostname_mismatch",
+            {
+                requestID,
+                hostnameMatched: false
+            },
+            "warn"
+        );
+
         throw new APIError(
             "Security verification was issued for an invalid hostname.",
             403,
@@ -590,13 +733,30 @@ async function verifyTurnstile(env, token, request) {
         );
     }
 
-    if (result.action !== "recruitment") {
+    if (result.action !== CONFIG.TURNSTILE_ACTION) {
+        diagnostic(
+            "turnstile.action_mismatch",
+            {
+                requestID,
+                expectedAction: CONFIG.TURNSTILE_ACTION,
+                actionMatched: false
+            },
+            "warn"
+        );
+
         throw new APIError(
             "Invalid security verification action.",
             403,
             "INVALID_ACTION"
         );
     }
+
+    diagnostic("turnstile.verified", {
+        requestID,
+        hostnameMatched: true,
+        actionMatched: true,
+        durationMs: Date.now() - startedAt
+    });
 
     return true;
 }
@@ -616,7 +776,11 @@ function generateApplicationID() {
     return `OC-${reference}`;
 }
 
-async function storeApplication(env, application) {
+async function storeApplication(
+    env,
+    application,
+    requestID
+) {
     const applicationID = generateApplicationID();
 
     const duplicateWindow =
@@ -712,10 +876,27 @@ async function storeApplication(env, application) {
         applicationID
     );
 
-    const results = await env.DB.batch([
-        insert,
-        history
-    ]);
+    let results;
+
+    try {
+        results = await env.DB.batch([
+            insert,
+            history
+        ]);
+
+    } catch {
+        diagnostic(
+            "submission.database_error",
+            { requestID },
+            "error"
+        );
+
+        throw new APIError(
+            "Your application could not be saved. Please try again later.",
+            503,
+            "DATABASE_WRITE_FAILED"
+        );
+    }
 
     const insertedRows = Number(
         results[0]?.meta?.changes || 0
@@ -761,6 +942,10 @@ async function storeApplication(env, application) {
         ).first();
 
         if (duplicate) {
+            diagnostic("submission.duplicate", {
+                requestID
+            });
+
             throw new APIError(
                 "An application for this Roblox username and discipline has already been submitted within the last 24 hours.",
                 409,
@@ -779,13 +964,14 @@ async function storeApplication(env, application) {
         insertedRows !== 1 ||
         historyRows !== 1
     ) {
-        console.error(
-            "Recruitment transaction verification failed.",
+        diagnostic(
+            "submission.transaction_verification_failed",
             {
-                applicationID,
+                requestID,
                 insertedRows,
                 historyRows
-            }
+            },
+            "error"
         );
 
         throw new APIError(
@@ -794,6 +980,12 @@ async function storeApplication(env, application) {
             "SUBMISSION_VERIFICATION_FAILED"
         );
     }
+
+    diagnostic("submission.saved", {
+        requestID,
+        insertedRows,
+        historyRows
+    });
 
     return applicationID;
 }
@@ -822,16 +1014,20 @@ async function sendDiscordNotification(
             webhook.password ||
             webhook.port
         ) {
-            console.error(
-                "Invalid recruitment webhook configuration."
+            diagnostic(
+                "notification.invalid_configuration",
+                {},
+                "error"
             );
 
             return;
         }
 
     } catch {
-        console.error(
-            "Invalid recruitment webhook configuration."
+        diagnostic(
+            "notification.invalid_configuration",
+            {},
+            "error"
         );
 
         return;
@@ -908,41 +1104,70 @@ async function sendDiscordNotification(
         );
 
         if (!response.ok) {
-            console.error(
-                "Recruitment notification failed:",
-                response.status
+            diagnostic(
+                "notification.delivery_failed",
+                {
+                    status: response.status
+                },
+                "error"
             );
+
+            return;
         }
 
+        diagnostic("notification.delivered");
+
     } catch {
-        console.error(
-            "Recruitment notification delivery failed."
+        diagnostic(
+            "notification.delivery_failed",
+            {},
+            "error"
         );
     }
 }
 
-function handleError(error) {
+function handleError(error, requestID = null) {
     if (error instanceof APIError) {
+        diagnostic(
+            "request.rejected",
+            {
+                requestID,
+                status: error.status,
+                code: error.code
+            },
+            error.status >= 500 ? "error" : "warn"
+        );
+
         return failure(
             error.message,
             error.status,
-            error.code
+            error.code,
+            {
+                requestId: requestID
+            }
         );
     }
 
-    console.error(
-        "Unexpected recruitment API error."
+    diagnostic(
+        "request.unexpected_error",
+        { requestID },
+        "error"
     );
 
     return failure(
         "An unexpected error occurred. Please try again later.",
         500,
-        "INTERNAL_ERROR"
+        "INTERNAL_ERROR",
+        {
+            requestId: requestID
+        }
     );
 }
 
 export async function onRequestGet(context) {
     const { request, env } = context;
+
+    const requestID = crypto.randomUUID();
 
     try {
         validateHostname(request);
@@ -1006,32 +1231,70 @@ export async function onRequestGet(context) {
                 dynamicRecruitmentMessaging: true,
                 dynamicPrivacyVersion: true,
                 turnstileVerification: true,
+                turnstileDiagnostics: true,
                 duplicatePrevention: true,
                 submissionHistory: true,
                 transactionalSubmissions: true,
                 submissionAvailabilityRecheck: true
             },
 
-            generatedAt: new Date().toISOString()
+            generatedAt: new Date().toISOString(),
+
+            requestId: requestID
         });
 
     } catch (error) {
-        return handleError(error);
+        return handleError(
+            error,
+            requestID
+        );
     }
 }
 
 export async function onRequestPost(context) {
     const { request, env } = context;
 
+    const requestID = crypto.randomUUID();
+
+    diagnostic("submission.received", {
+        requestID
+    });
+
     try {
         validateHostname(request);
         validateOrigin(request);
 
-        if (!backendConfigured(env)) {
+        if (!env.DB) {
+            diagnostic(
+                "submission.database_missing",
+                { requestID },
+                "error"
+            );
+
             return failure(
                 "Recruitment service is temporarily unavailable.",
                 503,
-                "SERVICE_UNAVAILABLE"
+                "DATABASE_UNAVAILABLE",
+                {
+                    requestId: requestID
+                }
+            );
+        }
+
+        if (!getTurnstileSecret(env)) {
+            diagnostic(
+                "turnstile.secret_missing",
+                { requestID },
+                "error"
+            );
+
+            return failure(
+                "Security verification is temporarily unavailable.",
+                503,
+                "SECURITY_UNAVAILABLE",
+                {
+                    requestId: requestID
+                }
             );
         }
 
@@ -1040,6 +1303,10 @@ export async function onRequestPost(context) {
         );
 
         if (!recruitment.open) {
+            diagnostic("submission.recruitment_closed", {
+                requestID
+            });
+
             return failure(
                 "Portfolio submissions are not currently open.",
                 503,
@@ -1047,7 +1314,9 @@ export async function onRequestPost(context) {
                 {
                     recruitment: formatRecruitment(
                         recruitment
-                    )
+                    ),
+
+                    requestId: requestID
                 }
             );
         }
@@ -1059,15 +1328,21 @@ export async function onRequestPost(context) {
             recruitment
         );
 
+        diagnostic("submission.validation_passed", {
+            requestID
+        });
+
         await verifyTurnstile(
             env,
             application.turnstileToken,
-            request
+            request,
+            requestID
         );
 
         const applicationID = await storeApplication(
             env,
-            application
+            application,
+            requestID
         );
 
         if (env.DISCORD_WEBHOOK_URL) {
@@ -1080,17 +1355,26 @@ export async function onRequestPost(context) {
             );
         }
 
+        diagnostic("submission.completed", {
+            requestID
+        });
+
         return success({
             message:
                 "Your portfolio has been successfully submitted to Obsidian Crown.",
 
             applicationID,
 
-            status: "pending"
+            status: "pending",
+
+            requestId: requestID
         }, 201);
 
     } catch (error) {
-        return handleError(error);
+        return handleError(
+            error,
+            requestID
+        );
     }
 }
 
