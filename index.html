@@ -4,21 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Obsidian Crown is an independent game development studio creating immersive experiences on Roblox.">
-    <meta name="theme-color" content="#09090b">
-    <title>Obsidian Crown | Independent Game Studio</title>
+
+    <meta name="description" content="Obsidian Crown is an independent game development studio dedicated to excellence in game development, design and creative collaboration.">
+
+    <meta name="theme-color" content="#0C0C0D">
+
+    <meta property="og:title" content="Obsidian Crown — Independent Game Studio">
+    <meta property="og:description" content="Excellence in creation. Ambition without limits.">
+    <meta property="og:url" content="https://obsidiancrown.org">
+    <meta property="og:type" content="website">
+
+    <title>Obsidian Crown — Excellence in Creation</title>
+
+    <link rel="canonical" href="https://obsidiancrown.org/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230C0C0D'/%3E%3Cpath d='M6 15L20 29L32 6L44 29L58 15L49 47H15ZM15 52H49L45 57H19Z' fill='%23BCA783'/%3E%3C/svg%3E">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
         :root {
-            --background: #09090b;
-            --surface: #111113;
-            --surface-light: #18181b;
-            --border: #29292e;
-            --text: #fafafa;
-            --muted: #a1a1aa;
-            --accent: #ffffff;
+            --obsidian: #0C0C0D;
+            --carbon: #141414;
+            --surface: #191817;
+            --gold: #BCA783;
+            --gold-light: #D9C7A6;
+            --ivory: #EDE9E1;
+            --muted: #A39F97;
+            --border: rgba(188, 167, 131, 0.18);
+            --heading: 'Cormorant Garamond', Georgia, serif;
+            --body: 'Manrope', Arial, sans-serif;
         }
 
         * {
@@ -29,14 +47,34 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 100px;
+            scroll-padding-top: 110px;
         }
 
         body {
-            background: var(--background);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            background: var(--obsidian);
+            color: var(--ivory);
+            font-family: var(--body);
+            font-size: 15px;
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--obsidian);
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--obsidian);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #51483A;
         }
 
         a {
@@ -49,97 +87,228 @@
             cursor: pointer;
         }
 
+        svg {
+            display: block;
+        }
+
         .container {
-            width: min(1200px, 90%);
-            margin: auto;
+            width: min(1320px, 88%);
+            margin-inline: auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 30px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--heading);
+            font-weight: 500;
+        }
+
+        .gold {
+            color: var(--gold);
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            min-height: 54px;
+            padding: 15px 27px;
+            border: 1px solid transparent;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            transition:
+                background .3s,
+                color .3s,
+                border-color .3s,
+                transform .3s;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+        }
+
+        .button-primary {
+            background: var(--gold);
+            color: var(--obsidian);
+            border-color: var(--gold);
+        }
+
+        .button-primary:hover {
+            background: var(--gold-light);
+            border-color: var(--gold-light);
+        }
+
+        .button-outline {
+            border-color: rgba(188,167,131,.45);
+            color: var(--gold-light);
+        }
+
+        .button-outline:hover {
+            background: var(--gold);
+            color: var(--obsidian);
+            border-color: var(--gold);
+        }
+
+        .arrow {
+            font-size: 17px;
+            line-height: 1;
         }
 
         header {
             position: fixed;
-            top: 0;
-            width: 100%;
+            inset: 0 0 auto;
             z-index: 1000;
-            background: rgba(9, 9, 11, 0.85);
-            backdrop-filter: blur(20px);
+            background: rgba(12,12,13,.86);
             border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            transition: background .3s;
+        }
+
+        header.scrolled {
+            background: rgba(12,12,13,.98);
         }
 
         .navbar {
-            height: 82px;
+            min-height: 94px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 25px;
         }
 
         .brand {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 13px;
+            gap: 15px;
         }
 
-        .brand svg {
-            width: 40px;
-            height: 40px;
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
         }
 
         .brand-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 19px;
-            letter-spacing: 1px;
+            font-family: var(--heading);
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        .brand-subtitle {
+            color: var(--gold);
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 3.8px;
+            margin-top: 6px;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 32px;
+            gap: 38px;
         }
 
         nav a {
-            font-size: 14px;
-            font-weight: 500;
+            position: relative;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
             color: var(--muted);
-            transition: color 0.2s;
+            transition: color .25s;
         }
 
-        nav a:hover {
-            color: white;
+        nav a:hover,
+        nav a.active {
+            color: var(--gold-light);
+        }
+
+        nav a:not(.nav-careers)::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width .3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         .nav-careers {
-            background: white;
-            color: black;
-            padding: 11px 22px;
-            border-radius: 6px;
-            font-weight: 700;
+            padding: 12px 23px;
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
         }
 
-        nav .nav-careers:hover {
-            color: black;
-            background: #d4d4d8;
+        .nav-careers:hover {
+            background: var(--gold);
+            color: var(--obsidian);
         }
 
         .menu-toggle {
             display: none;
-            background: transparent;
             border: 0;
-            color: white;
-            font-size: 26px;
+            background: transparent;
+            color: var(--gold);
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 1px;
+            background: currentColor;
+            margin: 6px 0;
         }
 
         .hero {
-            min-height: 90vh;
-            padding: 160px 0 100px;
+            min-height: 100svh;
             display: flex;
             align-items: center;
             position: relative;
+            isolation: isolate;
+            padding: 175px 0 130px;
             overflow: hidden;
             background:
                 radial-gradient(
-                    ellipse at 50% 20%,
-                    #27272a 0%,
-                    #111113 40%,
-                    #09090b 75%
+                    ellipse at 78% 45%,
+                    #302A21 0%,
+                    #1B1815 22%,
+                    #0C0C0D 62%
                 );
         }
 
@@ -147,375 +316,649 @@
             content: "";
             position: absolute;
             inset: 0;
+            z-index: -1;
+            opacity: .3;
             background-image:
                 linear-gradient(
-                    rgba(255,255,255,.025) 1px,
+                    rgba(188,167,131,.035) 1px,
                     transparent 1px
                 ),
                 linear-gradient(
                     90deg,
-                    rgba(255,255,255,.025) 1px,
+                    rgba(188,167,131,.035) 1px,
                     transparent 1px
                 );
-            background-size: 70px 70px;
-            pointer-events: none;
+            background-size: 100px 100px;
+            mask-image: linear-gradient(to left, black, transparent);
         }
 
         .hero-content {
             position: relative;
-            text-align: center;
-            max-width: 1000px;
-            margin: auto;
+            z-index: 2;
+            max-width: 770px;
         }
 
-        .eyebrow {
-            display: inline-block;
-            color: var(--muted);
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 24px;
+        .hero h1 {
+            font-size: clamp(60px, 7.3vw, 116px);
+            line-height: .98;
+            letter-spacing: -3px;
+            margin: 35px 0;
         }
 
-        h1, h2, h3 {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        h1 {
-            font-size: clamp(48px, 8vw, 108px);
-            line-height: 1.02;
-            font-weight: 700;
-            letter-spacing: -0.06em;
-        }
-
-        .hero h1 span {
-            color: #a1a1aa;
+        .hero h1 em {
+            color: var(--gold);
+            font-weight: 400;
         }
 
         .hero-description {
-            max-width: 650px;
-            margin: 30px auto;
+            max-width: 570px;
             color: var(--muted);
-            font-size: 18px;
+            font-size: 15px;
+            line-height: 1.95;
         }
 
-        .buttons {
+        .hero-buttons {
             display: flex;
-            justify-content: center;
             flex-wrap: wrap;
-            gap: 14px;
-            margin-top: 36px;
+            gap: 15px;
+            margin-top: 38px;
         }
 
-        .button {
-            display: inline-flex;
+        .hero-art {
+            position: absolute;
+            right: 3%;
+            top: 50%;
+            transform: translateY(-46%);
+            width: min(43vw, 650px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-crown {
+            width: 100%;
+            filter: drop-shadow(0 30px 60px rgba(0,0,0,.6));
+            animation: crownFloat 9s ease-in-out infinite;
+        }
+
+        @keyframes crownFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .hero-ring {
+            position: absolute;
+            width: 100%;
+            aspect-ratio: 1;
+            border: 1px solid rgba(188,167,131,.08);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .hero-ring::after {
+            content: "";
+            position: absolute;
+            inset: 30px;
+            border: 1px solid rgba(188,167,131,.06);
+            border-radius: 50%;
+        }
+
+        .hero-bottom {
+            position: absolute;
+            bottom: 35px;
+            left: 6%;
+            right: 6%;
+            display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px 27px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            transition: 0.25s;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            padding-top: 22px;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        .button-primary {
-            background: white;
-            color: black;
-            border: 1px solid white;
+        .scroll-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .button-primary:hover {
-            background: #d4d4d8;
-            transform: translateY(-3px);
-        }
-
-        .button-secondary {
-            border: 1px solid #52525b;
-            color: white;
-        }
-
-        .button-secondary:hover {
-            background: #27272a;
-            transform: translateY(-3px);
+        .scroll-link span {
+            color: var(--gold);
+            font-size: 20px;
         }
 
         .studio-strip {
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            background: var(--surface);
+            border-block: 1px solid var(--border);
+            background: #111110;
         }
 
-        .studio-grid {
+        .strip-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            padding: 40px 0;
         }
 
-        .studio-item {
+        .strip-item {
             text-align: center;
-            padding: 15px;
+            padding: 35px 20px;
         }
 
-        .studio-item:not(:last-child) {
+        .strip-item:not(:last-child) {
             border-right: 1px solid var(--border);
         }
 
-        .studio-item h3 {
-            font-size: 25px;
-            margin-bottom: 6px;
+        .strip-item h3 {
+            font-size: 30px;
+            color: var(--ivory);
         }
 
-        .studio-item p {
-            color: var(--muted);
-            font-size: 13px;
+        .strip-item p {
+            font-size: 9px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 4px;
         }
 
-        section {
-            padding: 110px 0;
+        section.content-section {
+            padding: 125px 0;
         }
 
         .section-heading {
-            margin-bottom: 45px;
+            margin-bottom: 50px;
         }
 
         .section-heading h2 {
-            font-size: clamp(34px, 5vw, 58px);
-            letter-spacing: -2px;
-            line-height: 1.15;
+            font-size: clamp(45px, 5vw, 76px);
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            margin: 22px 0;
         }
 
         .section-heading p {
             color: var(--muted);
-            margin-top: 16px;
-            max-width: 650px;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-        }
-
-        .game-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform .25s, border-color .25s;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            border-color: #71717a;
-        }
-
-        .game-image {
-            aspect-ratio: 16 / 9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #18181b;
-        }
-
-        .dungeon-image {
-            background:
-                radial-gradient(
-                    ellipse at center,
-                    #312e81,
-                    #17152e 50%,
-                    #09090b
-                );
-        }
-
-        .game-image svg {
-            width: 90px;
-            height: 90px;
-            opacity: .8;
-        }
-
-        .game-content {
-            padding: 28px;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 5px 10px;
-            border: 1px solid #3f3f46;
-            border-radius: 4px;
-            font-size: 10px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #d4d4d8;
-            margin-bottom: 14px;
-        }
-
-        .game-content h3 {
-            font-size: 26px;
-            margin-bottom: 10px;
-        }
-
-        .game-content p {
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        .about-section {
-            background: var(--surface);
-            border-block: 1px solid var(--border);
+            max-width: 620px;
         }
 
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 70px;
+            gap: 100px;
             align-items: center;
         }
 
-        .about-text h2 {
-            font-size: clamp(35px, 5vw, 56px);
-            line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 25px;
+        .about-copy h2 {
+            font-size: clamp(48px, 5vw, 80px);
+            line-height: 1;
+            margin: 25px 0 32px;
+            letter-spacing: -1px;
         }
 
-        .about-text p {
+        .about-copy p {
             color: var(--muted);
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
-        .values {
-            display: grid;
-            gap: 16px;
+        .about-copy .button {
+            margin-top: 12px;
         }
 
-        .value {
-            background: var(--surface-light);
+        .manifesto {
             border: 1px solid var(--border);
-            padding: 24px;
-            border-radius: 8px;
-        }
-
-        .value h3 {
-            margin-bottom: 6px;
-            font-size: 20px;
-        }
-
-        .value p {
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        .careers-banner {
-            padding: 60px;
+            padding: 60px 45px;
+            position: relative;
             background:
                 radial-gradient(
                     ellipse at top right,
-                    #27272a,
-                    #111113 65%
+                    #242019,
+                    #111110 75%
                 );
+        }
+
+        .manifesto::before,
+        .manifesto::after {
+            content: "";
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            pointer-events: none;
+        }
+
+        .manifesto::before {
+            top: -1px;
+            left: -1px;
+            border-top: 1px solid var(--gold);
+            border-left: 1px solid var(--gold);
+        }
+
+        .manifesto::after {
+            bottom: -1px;
+            right: -1px;
+            border-bottom: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+        }
+
+        .manifesto-mark {
+            width: 65px;
+            margin: 0 auto 25px;
+        }
+
+        .manifesto blockquote {
+            font-family: var(--heading);
+            font-size: clamp(30px, 3.5vw, 48px);
+            line-height: 1.25;
+            text-align: center;
+        }
+
+        .manifesto-divider {
+            width: 45px;
+            height: 1px;
+            background: var(--gold);
+            margin: 30px auto;
+        }
+
+        .manifesto-caption {
+            text-align: center;
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .games-section {
+            background: #111110;
+            border-block: 1px solid var(--border);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .game-card {
             border: 1px solid var(--border);
-            border-radius: 14px;
+            background: var(--obsidian);
+            overflow: hidden;
+            transition: border-color .35s;
         }
 
-        .careers-banner h2 {
-            font-size: clamp(36px, 5vw, 64px);
-            letter-spacing: -2px;
-            line-height: 1.1;
-            margin-bottom: 20px;
+        .game-card:hover {
+            border-color: var(--gold);
         }
 
-        .careers-banner > p {
-            max-width: 650px;
+        .game-image {
+            aspect-ratio: 16 / 10;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-image svg {
+            width: 100%;
+            height: 100%;
+            transition: transform .7s;
+        }
+
+        .game-card:hover .game-image svg {
+            transform: scale(1.045);
+        }
+
+        .game-status {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 14px;
+            background: rgba(12,12,13,.85);
+            border: 1px solid var(--border);
+            color: var(--gold-light);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .game-details {
+            padding: 32px;
+        }
+
+        .game-category {
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .game-details h3 {
+            font-size: 38px;
+            line-height: 1.15;
+            margin: 12px 0;
+        }
+
+        .game-details p {
             color: var(--muted);
+            font-size: 13px;
         }
 
-        .departments {
+        .future-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(
+                    ellipse at center,
+                    #29251E,
+                    #111110 70%
+                );
+        }
+
+        .future-image .future-monogram {
+            font-family: var(--heading);
+            font-size: clamp(80px, 12vw, 160px);
+            color: rgba(188,167,131,.15);
+            letter-spacing: -12px;
+        }
+
+        .values-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            margin-top: 35px;
+            gap: 25px;
         }
 
-        .department {
-            padding: 22px;
-            border: 1px solid var(--border);
-            background: rgba(255,255,255,.025);
-            border-radius: 6px;
-        }
-
-        .department h3 {
-            font-size: 18px;
-        }
-
-        .department p {
-            font-size: 13px;
-            color: var(--muted);
-            margin-top: 5px;
-        }
-
-        .career-notice {
+        .value-card {
             border-top: 1px solid var(--border);
-            margin-top: 35px;
-            padding-top: 25px;
+            padding: 30px 15px 20px 0;
+        }
+
+        .value-number {
+            color: var(--gold);
+            font-family: var(--heading);
+            font-size: 24px;
+            font-style: italic;
+        }
+
+        .value-card h3 {
+            font-size: 37px;
+            margin: 15px 0;
+        }
+
+        .value-card p {
             color: var(--muted);
             font-size: 14px;
         }
 
-        footer {
-            background: #070708;
+        .careers-section {
+            background: #E6E0D5;
+            color: #191815;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .careers-section .eyebrow {
+            color: #776548;
+        }
+
+        .careers-section .eyebrow::before {
+            background: #776548;
+        }
+
+        .careers-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 90px;
+            align-items: center;
+        }
+
+        .careers-copy h2 {
+            font-size: clamp(48px, 5.8vw, 90px);
+            line-height: .98;
+            letter-spacing: -2px;
+            margin: 28px 0;
+        }
+
+        .careers-copy h2 em {
+            color: #89734F;
+            font-weight: 400;
+        }
+
+        .careers-copy p {
+            color: #686258;
+            max-width: 550px;
+            margin-bottom: 30px;
+        }
+
+        .button-dark {
+            background: #191815;
+            color: #E6E0D5;
+            border-color: #191815;
+        }
+
+        .button-dark:hover {
+            background: #3D3528;
+            border-color: #3D3528;
+        }
+
+        .departments {
+            border-top: 1px solid rgba(25,24,21,.2);
+        }
+
+        .department {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(25,24,21,.2);
+        }
+
+        .department h3 {
+            font-size: 27px;
+            line-height: 1.2;
+        }
+
+        .department p {
+            color: #746E63;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .department-number {
+            color: #89734F;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .contact-section {
+            background:
+                radial-gradient(
+                    ellipse at bottom center,
+                    #211C15,
+                    #0C0C0D 70%
+                );
+        }
+
+        .contact-heading {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto 55px;
+        }
+
+        .contact-heading h2 {
+            font-size: clamp(48px, 6vw, 85px);
+            line-height: 1.05;
+            margin: 25px 0;
+        }
+
+        .contact-heading p {
+            color: var(--muted);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            max-width: 1000px;
+            margin-inline: auto;
+        }
+
+        .contact-card {
+            padding: 40px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,.015);
+        }
+
+        .contact-card h3 {
+            font-size: 36px;
+            margin: 18px 0;
+        }
+
+        .contact-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .contact-icon {
+            width: 35px;
+            height: 35px;
+            color: var(--gold);
+        }
+
+        .contact-note {
+            margin-top: 25px;
+            padding-top: 18px;
             border-top: 1px solid var(--border);
-            padding: 60px 0 25px;
+            font-size: 10px;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        footer {
+            background: #090909;
+            border-top: 1px solid var(--border);
+            padding: 65px 0 25px;
         }
 
         .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
-            gap: 50px;
+            gap: 70px;
         }
 
         .footer-description {
             color: var(--muted);
-            font-size: 14px;
+            font-size: 13px;
             max-width: 350px;
-            margin-top: 18px;
+            margin-top: 22px;
         }
 
         .footer-column h3 {
-            font-size: 15px;
-            margin-bottom: 16px;
+            font-family: var(--body);
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
         }
 
         .footer-column a {
             display: block;
+            width: fit-content;
             color: var(--muted);
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: 13px;
+            margin-bottom: 12px;
+            transition: color .25s;
         }
 
         .footer-column a:hover {
-            color: white;
+            color: var(--gold-light);
         }
 
         .footer-bottom {
-            margin-top: 45px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
-            font-size: 12px;
-            color: var(--muted);
+            gap: 15px;
+            border-top: 1px solid var(--border);
+            margin-top: 55px;
+            padding-top: 25px;
+            color: #8E8980;
+            font-size: 10px;
+        }
+
+        .footer-motto {
+            color: var(--gold);
+            font-family: var(--heading);
+            font-style: italic;
+            font-size: 17px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition:
+                opacity .8s ease,
+                transform .8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         :focus-visible {
-            outline: 2px solid white;
+            outline: 2px solid var(--gold);
             outline-offset: 5px;
         }
 
+        @media (max-width: 1100px) {
+            nav {
+                gap: 22px;
+            }
+
+            .hero-art {
+                right: -7%;
+                opacity: .6;
+            }
+
+            .hero-content {
+                max-width: 650px;
+            }
+
+            .about-grid,
+            .careers-grid {
+                gap: 50px;
+            }
+        }
+
         @media (max-width: 800px) {
+            .navbar {
+                min-height: 80px;
+            }
+
+            .brand-name {
+                font-size: 22px;
+            }
+
+            .brand-mark {
+                width: 35px;
+                height: 35px;
+            }
+
+            .brand-subtitle {
+                font-size: 7px;
+                letter-spacing: 2.5px;
+            }
+
             .menu-toggle {
                 display: block;
             }
@@ -523,59 +966,115 @@
             nav {
                 display: none;
                 position: absolute;
-                top: 82px;
+                top: 80px;
                 left: 0;
-                width: 100%;
-                padding: 25px;
-                background: #111113;
+                right: 0;
+                padding: 30px 6%;
+                background: var(--obsidian);
                 border-bottom: 1px solid var(--border);
                 flex-direction: column;
                 align-items: stretch;
-                gap: 20px;
+                gap: 25px;
             }
 
             nav.open {
                 display: flex;
             }
 
-            .games-grid,
+            .nav-careers {
+                text-align: center;
+            }
+
+            .hero {
+                padding: 150px 0 130px;
+                min-height: 90svh;
+            }
+
+            .hero h1 {
+                letter-spacing: -1.5px;
+            }
+
+            .hero-art {
+                width: 75vw;
+                right: -20%;
+                opacity: .2;
+            }
+
+            .hero-bottom {
+                font-size: 8px;
+                letter-spacing: 1px;
+            }
+
+            .hero-bottom > span {
+                display: none;
+            }
+
             .about-grid,
-            .footer-grid {
+            .careers-grid,
+            .games-grid,
+            .contact-grid {
                 grid-template-columns: 1fr;
             }
 
-            .departments {
-                grid-template-columns: repeat(2, 1fr);
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
 
-            .studio-item h3 {
-                font-size: 18px;
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 35px;
             }
 
-            .studio-item p {
-                font-size: 11px;
+            .footer-brand {
+                grid-column: 1 / -1;
             }
 
-            .careers-banner {
-                padding: 30px;
+            section.content-section {
+                padding: 85px 0;
             }
 
-            section {
-                padding: 75px 0;
+            .strip-item h3 {
+                font-size: 23px;
             }
 
-            .brand-name {
-                font-size: 16px;
+            .strip-item p {
+                font-size: 7px;
+                letter-spacing: 1px;
+            }
+
+            .strip-item {
+                padding: 25px 10px;
             }
         }
 
         @media (max-width: 450px) {
-            .departments {
-                grid-template-columns: 1fr;
+            .hero h1 {
+                font-size: 55px;
             }
 
-            .hero-description {
-                font-size: 16px;
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .eyebrow {
+                font-size: 9px;
+                letter-spacing: 2px;
+            }
+
+            .manifesto {
+                padding: 40px 25px;
+            }
+
+            .contact-card,
+            .game-details {
+                padding: 25px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
 
@@ -584,8 +1083,14 @@
                 scroll-behavior: auto;
             }
 
-            * {
+            *, *::before, *::after {
+                animation: none !important;
                 transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
             }
         }
     </style>
@@ -593,18 +1098,31 @@
 
 <body>
 
-<header>
+<header id="header">
     <div class="container navbar">
-        <a href="#home" class="brand">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-                <path fill="#ffffff"
-                    d="M4 13L20 27L32 5L44 27L60 13L50 47H14Z"/>
-                <path fill="#ffffff"
-                    d="M14 51H50L46 58H18Z"/>
-                <path fill="#71717a"
-                    d="M32 5V47H14L20 27Z"/>
+
+        <a href="#home" class="brand" aria-label="Obsidian Crown home">
+
+            <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
+                      fill="none"
+                      stroke="#BCA783"
+                      stroke-width="2"/>
+
+                <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"
+                      fill="none"
+                      stroke="#BCA783"
+                      stroke-width="1.3"/>
+
+                <path d="M15 52H49L45 57H19Z"
+                      fill="#BCA783"/>
             </svg>
-            <span class="brand-name">OBSIDIAN CROWN</span>
+
+            <div class="brand-text">
+                <span class="brand-name">Obsidian Crown</span>
+                <span class="brand-subtitle">GAME DEVELOPMENT STUDIO</span>
+            </div>
+
         </a>
 
         <button class="menu-toggle"
@@ -612,312 +1130,748 @@
                 aria-label="Toggle navigation"
                 aria-controls="navigation"
                 aria-expanded="false">
-            &#9776;
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
 
         <nav id="navigation">
-            <a href="#home">Home</a>
-            <a href="#games">Our Games</a>
-            <a href="#about">About Us</a>
-            <a href="#careers" class="nav-careers">Careers &#8599;</a>
+            <a href="#home" class="active">Home</a>
+            <a href="#studio">The Studio</a>
+            <a href="#experiences">Experiences</a>
+            <a href="#contact">Contact</a>
+            <a href="#careers" class="nav-careers">Careers ↗</a>
         </nav>
+
     </div>
 </header>
 
 <main>
 
     <section class="hero" id="home">
-        <div class="container hero-content">
 
-            <span class="eyebrow">
-                Independent Game Development Studio
-            </span>
+        <div class="hero-art" aria-hidden="true">
 
-            <h1>
-                Imagination<br>
-                <span>Without Limits.</span>
-            </h1>
+            <div class="hero-ring"></div>
 
-            <p class="hero-description">
-                We are Obsidian Crown, an independent development
-                studio dedicated to creating immersive, memorable
-                experiences for the Roblox community.
-            </p>
+            <svg class="hero-crown" viewBox="0 0 500 520">
 
-            <div class="buttons">
-                <a href="#games" class="button button-primary">
-                    Explore Our Games &#8599;
-                </a>
+                <defs>
+                    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#736B5D"/>
+                        <stop offset="35%" stop-color="#39352F"/>
+                        <stop offset="70%" stop-color="#171615"/>
+                        <stop offset="100%" stop-color="#080808"/>
+                    </linearGradient>
 
-                <a href="#careers" class="button button-secondary">
-                    Join Our Team
-                </a>
+                    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#D4C19D"/>
+                        <stop offset="45%" stop-color="#827157"/>
+                        <stop offset="100%" stop-color="#31291F"/>
+                    </linearGradient>
+                </defs>
+
+                <g stroke="#8A7B64" stroke-width="0.8">
+
+                    <path d="M250 30L310 180L455 110L395 370L250 445L105 370L45 110L190 180Z"
+                          fill="url(#metal)"/>
+
+                    <path d="M250 30L190 180L250 300Z"
+                          fill="#62594B"/>
+
+                    <path d="M250 30L310 180L250 300Z"
+                          fill="#24211D"/>
+
+                    <path d="M45 110L190 180L250 300L105 370Z"
+                          fill="#39342D"/>
+
+                    <path d="M455 110L310 180L250 300L395 370Z"
+                          fill="#151515"/>
+
+                    <path d="M105 370L250 300L250 445Z"
+                          fill="#4C4539"/>
+
+                    <path d="M395 370L250 300L250 445Z"
+                          fill="#101010"/>
+
+                    <path d="M105 391L250 465L395 391L380 425L250 495L120 425Z"
+                          fill="url(#edge)"/>
+
+                    <path d="M250 30V300L250 445"
+                          fill="none"
+                          stroke="#BCA783"
+                          stroke-opacity=".6"/>
+
+                    <path d="M45 110L105 370L250 445L395 370L455 110"
+                          fill="none"
+                          stroke="#BCA783"
+                          stroke-width="1.5"/>
+
+                </g>
+            </svg>
+
+        </div>
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                <span class="eyebrow">
+                    Independent Game Development Studio
+                </span>
+
+                <h1>
+                    Excellence<br>
+                    in creation.<br>
+                    <em>Without limits.</em>
+                </h1>
+
+                <p class="hero-description">
+                    Welcome to Obsidian Crown. An independent
+                    game development studio dedicated to
+                    excellence in the art of building and
+                    designing extraordinary experiences.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="#contact" class="button button-primary">
+                        Business Inquiries
+                        <span class="arrow">↗</span>
+                    </a>
+
+                    <a href="#careers" class="button button-outline">
+                        Join Our Studio
+                        <span class="arrow">↗</span>
+                    </a>
+
+                </div>
+
             </div>
 
         </div>
+
+        <div class="hero-bottom">
+
+            <a href="#studio" class="scroll-link">
+                <span>↓</span>
+                Discover Our Studio
+            </a>
+
+            <span>
+                Creativity · Craftsmanship · Ambition
+            </span>
+
+        </div>
+
     </section>
 
     <div class="studio-strip">
-        <div class="container studio-grid">
 
-            <div class="studio-item">
+        <div class="container strip-grid">
+
+            <div class="strip-item">
                 <h3>Independent</h3>
-                <p>Game Development</p>
+                <p>By Nature</p>
             </div>
 
-            <div class="studio-item">
-                <h3>Roblox</h3>
-                <p>Our Platform</p>
-            </div>
-
-            <div class="studio-item">
+            <div class="strip-item">
                 <h3>Creative</h3>
                 <p>By Design</p>
             </div>
 
+            <div class="strip-item">
+                <h3>Exceptional</h3>
+                <p>By Ambition</p>
+            </div>
+
         </div>
+
     </div>
 
-    <section id="games">
+    <section class="content-section" id="studio">
+
+        <div class="container about-grid">
+
+            <div class="about-copy reveal">
+
+                <span class="eyebrow">
+                    01 / The Studio
+                </span>
+
+                <h2>
+                    Welcome to<br>
+                    <span class="gold italic">
+                        Obsidian Crown.
+                    </span>
+                </h2>
+
+                <p>
+                    At Obsidian Crown, we strive for excellence
+                    in the art of game development and design.
+                    Driven by creativity, ambition, and craftsmanship,
+                    we are dedicated to creating exceptional
+                    experiences that leave a lasting impression.
+                </p>
+
+                <p>
+                    We welcome business inquiries, creative
+                    partnerships, and opportunities for collaboration.
+                </p>
+
+                <p>
+                    If you are interested in contributing to our
+                    current or upcoming projects, we invite you
+                    to introduce yourself and share your portfolio
+                    with us.
+                </p>
+
+                <a href="#experiences" class="button button-outline">
+                    Discover Our Work
+                    <span class="arrow">↗</span>
+                </a>
+
+            </div>
+
+            <div class="manifesto reveal">
+
+                <svg class="manifesto-mark"
+                     viewBox="0 0 64 64"
+                     aria-hidden="true">
+
+                    <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
+                          fill="none"
+                          stroke="#BCA783"
+                          stroke-width="1.5"/>
+
+                    <path d="M32 5V47M19 29L32 47L45 29M15 54H49"
+                          fill="none"
+                          stroke="#BCA783"
+                          stroke-width="1.5"/>
+
+                </svg>
+
+                <blockquote>
+                    Excellence in creation.
+                    <br>
+                    <span class="gold italic">
+                        Ambition without limits.
+                    </span>
+                </blockquote>
+
+                <div class="manifesto-divider"></div>
+
+                <div class="manifesto-caption">
+                    The Obsidian Crown Philosophy
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="content-section games-section" id="experiences">
+
         <div class="container">
 
-            <div class="section-heading">
-                <span class="eyebrow">Our Portfolio</span>
-                <h2>Worlds we've imagined.</h2>
+            <div class="section-heading reveal">
+
+                <span class="eyebrow">
+                    02 / Selected Experiences
+                </span>
+
+                <h2>
+                    Worlds worth
+                    <span class="gold italic">exploring.</span>
+                </h2>
+
                 <p>
-                    Discover the experiences we are building,
-                    designed around creativity, adventure and
-                    unforgettable gameplay.
+                    Discover the worlds we are creating.
+                    Each experience is shaped by imagination,
+                    thoughtful design, and a passion for
+                    extraordinary gameplay.
                 </p>
+
             </div>
 
             <div class="games-grid">
 
-                <article class="game-card">
-                    <div class="game-image dungeon-image">
-                        <svg viewBox="0 0 100 100" aria-hidden="true">
-                            <path fill="#c4b5fd"
-                                d="M50 5L73 36L50 95L27 36Z"/>
-                            <path fill="#8b5cf6"
-                                d="M50 5V95L27 36Z"/>
-                            <path fill="#ddd6fe"
-                                d="M50 5L73 36L50 45Z"/>
-                        </svg>
-                    </div>
+                <article class="game-card reveal">
 
-                    <div class="game-content">
-                        <span class="status">In Development</span>
-                        <h3>Golden Times Dungeons</h3>
-                        <p>
-                            Venture into mysterious dungeons,
-                            defeat powerful enemies and discover
-                            legendary equipment.
-                        </p>
-                    </div>
-                </article>
-
-                <article class="game-card">
                     <div class="game-image">
-                        <svg viewBox="0 0 100 100" aria-hidden="true">
-                            <rect x="25" y="43"
-                                  width="50" height="40"
-                                  rx="5" fill="#52525b"/>
-                            <path d="M35 43V28A15 15 0 0 1 65 28V43"
-                                  fill="none"
-                                  stroke="#52525b"
-                                  stroke-width="8"/>
-                            <circle cx="50" cy="60"
-                                    r="5" fill="#18181b"/>
+
+                        <svg viewBox="0 0 800 500"
+                             preserveAspectRatio="xMidYMid slice"
+                             aria-hidden="true">
+
+                            <defs>
+                                <radialGradient id="dungeonSky">
+                                    <stop stop-color="#383078"/>
+                                    <stop offset="1" stop-color="#09091D"/>
+                                </radialGradient>
+
+                                <linearGradient id="dungeonGround"
+                                                x1="0" y1="0"
+                                                x2="0" y2="1">
+                                    <stop stop-color="#30294C"/>
+                                    <stop offset="1" stop-color="#101020"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="800" height="500"
+                                  fill="url(#dungeonSky)"/>
+
+                            <circle cx="400" cy="190" r="110"
+                                    fill="#6655BB" opacity=".14"/>
+
+                            <g fill="#17172C">
+
+                                <path d="M0 500V120H45V80L80 10L115 80V120H160V500Z"/>
+
+                                <path d="M640 500V120H685V80L720 10L755 80V120H800V500Z"/>
+
+                                <path d="M140 500V220Q400 -80 660 220V500H595V235Q400 10 205 235V500Z"/>
+
+                            </g>
+
+                            <g fill="#8B6DFF">
+                                <path d="M80 150L95 180L80 210L65 180Z"/>
+                                <path d="M720 150L735 180L720 210L705 180Z"/>
+                                <path d="M400 170L430 235L400 300L370 235Z"/>
+                            </g>
+
+                            <path d="M0 500L400 320L800 500Z"
+                                  fill="url(#dungeonGround)"/>
+
+                            <g fill="#302A66">
+                                <path d="M50 500L100 340L145 500Z"/>
+                                <path d="M100 500L180 390L205 500Z"/>
+                                <path d="M590 500L640 355L685 500Z"/>
+                                <path d="M680 500L755 325L790 500Z"/>
+                            </g>
+
+                            <path d="M300 500L400 350L500 500Z"
+                                  fill="#4B4265"/>
+
                         </svg>
+
+                        <span class="game-status">
+                            In Development
+                        </span>
+
                     </div>
 
-                    <div class="game-content">
-                        <span class="status">Coming Soon</span>
-                        <h3>Unannounced Project</h3>
+                    <div class="game-details">
+
+                        <span class="game-category">
+                            Fantasy / Roleplaying
+                        </span>
+
+                        <h3>Golden Times Dungeons</h3>
+
                         <p>
-                            Something new is on the horizon.
-                            Stay tuned for future announcements
-                            from Obsidian Crown.
+                            Venture into mysterious worlds,
+                            confront formidable enemies,
+                            and discover legendary equipment
+                            in an immersive dungeon adventure.
                         </p>
+
                     </div>
+
+                </article>
+
+                <article class="game-card reveal">
+
+                    <div class="game-image future-image">
+
+                        <span class="future-monogram">
+                            OC.
+                        </span>
+
+                        <span class="game-status">
+                            Future Projects
+                        </span>
+
+                    </div>
+
+                    <div class="game-details">
+
+                        <span class="game-category">
+                            The Next Chapter
+                        </span>
+
+                        <h3>Beyond the Horizon</h3>
+
+                        <p>
+                            Our creative journey continues.
+                            Future experiences and studio
+                            announcements will be revealed here.
+                        </p>
+
+                    </div>
+
                 </article>
 
             </div>
-        </div>
-    </section>
-
-    <section class="about-section" id="about">
-        <div class="container about-grid">
-
-            <div class="about-text">
-                <span class="eyebrow">Who We Are</span>
-
-                <h2>Built by creators.<br>Driven by passion.</h2>
-
-                <p>
-                    Obsidian Crown is an independent game development
-                    studio focused on building engaging and
-                    imaginative experiences on Roblox.
-                </p>
-
-                <p>
-                    Our vision is to bring talented creators together,
-                    push creative boundaries and develop worlds that
-                    players want to return to.
-                </p>
-
-                <a href="#careers" class="button button-secondary">
-                    Become Part of Our Story &#8599;
-                </a>
-            </div>
-
-            <div class="values">
-
-                <div class="value">
-                    <h3>01 — Creativity</h3>
-                    <p>
-                        Original ideas and ambitious worlds
-                        are at the heart of our work.
-                    </p>
-                </div>
-
-                <div class="value">
-                    <h3>02 — Quality</h3>
-                    <p>
-                        We value thoughtful design, polished
-                        gameplay and attention to detail.
-                    </p>
-                </div>
-
-                <div class="value">
-                    <h3>03 — Community</h3>
-                    <p>
-                        We believe exceptional experiences
-                        begin with the people who create and play them.
-                    </p>
-                </div>
-
-            </div>
 
         </div>
+
     </section>
 
-    <section id="careers">
+    <section class="content-section" id="philosophy">
+
         <div class="container">
 
-            <div class="careers-banner">
+            <div class="section-heading reveal">
 
                 <span class="eyebrow">
-                    Careers at Obsidian Crown
+                    03 / Our Philosophy
                 </span>
 
-                <h2>Build the future<br>of play.</h2>
+                <h2>
+                    Defined by
+                    <span class="gold italic">excellence.</span>
+                </h2>
 
                 <p>
-                    Great games are built by great people.
-                    Our ambition is to bring together talented
-                    developers, artists and designers who share
-                    a passion for creating exceptional experiences.
+                    The principles that guide our creative vision
+                    and the experiences we aspire to build.
                 </p>
 
-                <div class="departments">
+            </div>
 
-                    <div class="department">
+            <div class="values-grid">
+
+                <article class="value-card reveal">
+
+                    <span class="value-number">01.</span>
+
+                    <h3>Creativity</h3>
+
+                    <p>
+                        We embrace imagination, original ideas,
+                        and the freedom to explore new possibilities
+                        in interactive entertainment.
+                    </p>
+
+                </article>
+
+                <article class="value-card reveal">
+
+                    <span class="value-number">02.</span>
+
+                    <h3>Craftsmanship</h3>
+
+                    <p>
+                        From the smallest detail to the largest
+                        world, we believe thoughtful execution
+                        is fundamental to exceptional experiences.
+                    </p>
+
+                </article>
+
+                <article class="value-card reveal">
+
+                    <span class="value-number">03.</span>
+
+                    <h3>Ambition</h3>
+
+                    <p>
+                        We continually challenge ourselves
+                        to grow, innovate, and pursue a higher
+                        standard of creative excellence.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="content-section careers-section" id="careers">
+
+        <div class="container careers-grid">
+
+            <div class="careers-copy reveal">
+
+                <span class="eyebrow">
+                    04 / Careers & Collaboration
+                </span>
+
+                <h2>
+                    Exceptional worlds.
+                    <br>
+                    <em>Exceptional people.</em>
+                </h2>
+
+                <p>
+                    We believe remarkable experiences begin
+                    with remarkable people. If you share our
+                    passion for game development and design,
+                    we welcome the opportunity to discover
+                    your work.
+                </p>
+
+                <p>
+                    Interested in contributing to our current
+                    or upcoming projects? Introduce yourself
+                    and share your portfolio when submissions open.
+                </p>
+
+                <a href="#portfolio-inquiries"
+                   class="button button-dark">
+
+                    Portfolio Inquiries
+                    <span class="arrow">↗</span>
+
+                </a>
+
+            </div>
+
+            <div class="departments reveal">
+
+                <div class="department">
+                    <div>
                         <h3>Engineering</h3>
                         <p>Programming & Game Systems</p>
                     </div>
+                    <span class="department-number">01</span>
+                </div>
 
-                    <div class="department">
-                        <h3>Art</h3>
-                        <p>3D Modeling & Environment Art</p>
+                <div class="department">
+                    <div>
+                        <h3>Art & Environment</h3>
+                        <p>3D Modeling & World Building</p>
                     </div>
+                    <span class="department-number">02</span>
+                </div>
 
-                    <div class="department">
-                        <h3>Design</h3>
+                <div class="department">
+                    <div>
+                        <h3>Creative Design</h3>
                         <p>Game Design & UI/UX</p>
                     </div>
+                    <span class="department-number">03</span>
+                </div>
 
-                    <div class="department">
+                <div class="department">
+                    <div>
                         <h3>Animation</h3>
                         <p>Character Animation & Rigging</p>
                     </div>
-
-                    <div class="department">
-                        <h3>Production</h3>
-                        <p>Management & Development</p>
-                    </div>
-
-                    <div class="department">
-                        <h3>Community</h3>
-                        <p>Community & Quality Assurance</p>
-                    </div>
-
+                    <span class="department-number">04</span>
                 </div>
 
-                <div class="career-notice">
-                    <strong>Recruitment updates coming soon.</strong>
-                    <p>
-                        Available positions and application details
-                        will be published here.
-                    </p>
+                <div class="department">
+                    <div>
+                        <h3>Production</h3>
+                        <p>Project Management & Operations</p>
+                    </div>
+                    <span class="department-number">05</span>
+                </div>
+
+                <div class="department">
+                    <div>
+                        <h3>Community</h3>
+                        <p>Community Relations & Quality Assurance</p>
+                    </div>
+                    <span class="department-number">06</span>
                 </div>
 
             </div>
 
         </div>
+
+    </section>
+
+    <section class="content-section contact-section" id="contact">
+
+        <div class="container">
+
+            <div class="contact-heading reveal">
+
+                <span class="eyebrow">
+                    05 / Get In Touch
+                </span>
+
+                <h2>
+                    Let's create
+                    <span class="gold italic">something remarkable.</span>
+                </h2>
+
+                <p>
+                    Whether you are interested in a business
+                    opportunity, creative collaboration, or
+                    becoming part of our studio, we welcome
+                    the opportunity to connect.
+                </p>
+
+            </div>
+
+            <div class="contact-grid">
+
+                <article class="contact-card reveal"
+                         id="business-inquiries">
+
+                    <svg class="contact-icon"
+                         viewBox="0 0 32 32"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.3"
+                         aria-hidden="true">
+
+                        <rect x="3" y="8" width="26" height="19"/>
+
+                        <path d="M11 8V4H21V8M3 15H29M13 13V18H19V13"/>
+
+                    </svg>
+
+                    <h3>Business Inquiries</h3>
+
+                    <p>
+                        For business opportunities, strategic
+                        partnerships, commissions, and professional
+                        collaborations with Obsidian Crown.
+                    </p>
+
+                    <div class="contact-note">
+                        Contact details coming soon
+                    </div>
+
+                </article>
+
+                <article class="contact-card reveal"
+                         id="portfolio-inquiries">
+
+                    <svg class="contact-icon"
+                         viewBox="0 0 32 32"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.3"
+                         aria-hidden="true">
+
+                        <path d="M3 8H13L16 11H29V27H3Z"/>
+
+                        <path d="M7 19H25M7 23H19"/>
+
+                    </svg>
+
+                    <h3>Portfolio Submissions</h3>
+
+                    <p>
+                        Interested in our projects? We welcome
+                        talented developers, artists, designers,
+                        and creative professionals to introduce
+                        themselves and share their work.
+                    </p>
+
+                    <div class="contact-note">
+                        Submission details coming soon
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
     </section>
 
 </main>
 
 <footer>
+
     <div class="container">
 
         <div class="footer-grid">
 
-            <div>
+            <div class="footer-brand">
+
                 <a href="#home" class="brand">
-                    <svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path fill="#ffffff"
-                            d="M4 13L20 27L32 5L44 27L60 13L50 47H14Z"/>
-                        <path fill="#ffffff"
-                            d="M14 51H50L46 58H18Z"/>
+
+                    <svg class="brand-mark"
+                         viewBox="0 0 64 64"
+                         aria-hidden="true">
+
+                        <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
+                              fill="none"
+                              stroke="#BCA783"
+                              stroke-width="2"/>
+
+                        <path d="M32 5V47M19 29L32 47L45 29M15 54H49"
+                              fill="none"
+                              stroke="#BCA783"
+                              stroke-width="1.5"/>
+
                     </svg>
-                    <span class="brand-name">OBSIDIAN CROWN</span>
+
+                    <div class="brand-text">
+
+                        <span class="brand-name">
+                            Obsidian Crown
+                        </span>
+
+                        <span class="brand-subtitle">
+                            GAME DEVELOPMENT STUDIO
+                        </span>
+
+                    </div>
+
                 </a>
 
                 <p class="footer-description">
                     An independent game development studio
-                    creating immersive experiences on Roblox.
+                    dedicated to creativity, craftsmanship,
+                    and excellence in interactive entertainment.
                 </p>
+
             </div>
 
             <div class="footer-column">
-                <h3>Studio</h3>
+
+                <h3>The Studio</h3>
+
                 <a href="#home">Home</a>
-                <a href="#games">Our Games</a>
-                <a href="#about">About Us</a>
+                <a href="#studio">About Us</a>
+                <a href="#experiences">Our Experiences</a>
+                <a href="#philosophy">Our Philosophy</a>
+
             </div>
 
             <div class="footer-column">
+
                 <h3>Opportunities</h3>
+
                 <a href="#careers">Careers</a>
+                <a href="#business-inquiries">Business Inquiries</a>
+                <a href="#portfolio-inquiries">Portfolio Submissions</a>
+
             </div>
 
         </div>
 
         <div class="footer-bottom">
+
             <span>
                 &copy; <span id="year">2026</span>
                 Obsidian Crown. All rights reserved.
             </span>
 
-            <span>Independent Game Development Studio</span>
+            <span class="footer-motto">
+                Excellence in creation. Ambition without limits.
+            </span>
+
         </div>
 
     </div>
+
 </footer>
 
 <script>
+    const header = document.getElementById("header");
     const menuToggle = document.getElementById("menuToggle");
     const navigation = document.getElementById("navigation");
 
@@ -941,9 +1895,127 @@
         }
     });
 
+    document.addEventListener("click", event => {
+        if (!header.contains(event.target)) {
+            closeMenu();
+        }
+    });
+
+    function updateHeader() {
+        header.classList.toggle("scrolled", window.scrollY > 30);
+    }
+
+    window.addEventListener("scroll", updateHeader, {
+        passive: true
+    });
+
+    updateHeader();
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if ("IntersectionObserver" in window && !reducedMotion) {
+
+        const revealObserver = new IntersectionObserver(entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    revealObserver.unobserve(entry.target);
+                }
+
+            });
+
+        }, {
+            threshold: 0.08
+        });
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+
+    } else {
+
+        revealElements.forEach(element => {
+            element.classList.add("visible");
+        });
+
+    }
+
+    const sections = Array.from(
+        document.querySelectorAll("main section[id]")
+    );
+
+    const navigationLinks = Array.from(
+        navigation.querySelectorAll("a")
+    );
+
+    function updateActiveNavigation() {
+
+        let currentSection = "home";
+        const offset = window.scrollY + 160;
+
+        sections.forEach(section => {
+
+            if (section.offsetTop <= offset) {
+                currentSection = section.id;
+            }
+
+        });
+
+        navigationLinks.forEach(link => {
+
+            link.classList.toggle(
+                "active",
+                link.getAttribute("href") === "#" + currentSection
+            );
+
+        });
+
+    }
+
+    window.addEventListener("scroll", updateActiveNavigation, {
+        passive: true
+    });
+
+    updateActiveNavigation();
+
     document.getElementById("year").textContent =
         new Date().getFullYear();
 </script>
+
+<noscript>
+    <style>
+        .reveal {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        @media (max-width: 800px) {
+            header {
+                position: relative;
+            }
+
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                display: flex;
+                position: static;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+</noscript>
 
 </body>
 </html>
