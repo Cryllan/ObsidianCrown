@@ -26,7 +26,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/admin/admin.css?v=1.0.4">
+    <link rel="stylesheet" href="/admin/admin.css?v=1.0.5">
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230C0C0D'/%3E%3Cpath d='M5 15L19 29L32 5L45 29L59 15L49 47H15Z' fill='none' stroke='%23BCA783' stroke-width='3'/%3E%3Cpath d='M15 52H49L45 57H19Z' fill='%23BCA783'/%3E%3C/svg%3E">
 
@@ -34,9 +34,9 @@
         body { margin: 0; background: #0C0C0D; color: #EDE9E1; }
         [hidden] { display: none !important; }
         .svg-library { position: absolute; width: 0; height: 0; overflow: hidden; }
-        #loadingScreen:not([hidden]) { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: #0C0C0D; text-align: center; }
+        #loadingScreen:not([hidden]) { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: radial-gradient(ellipse at 50% 40%, #30281C 0%, #171511 30%, #0C0C0D 65%); text-align: center; }
         #loadingScreen .loading-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 600px; margin: 0; }
-        #loadingScreen .loading-crown { display: block; width: 90px; height: 90px; margin: 0 0 24px; color: #BCA783; fill: none; }
+        #loadingScreen .loading-crown { display: block; width: 170px; height: 149px; margin: 0 0 24px; color: #BCA783; fill: none; }
         #loadingScreen h1 { margin: 0; font: 500 clamp(40px, 6vw, 58px)/1.1 "Cormorant Garamond", Georgia, serif; color: #EDE9E1; }
         #loadingScreen .eyebrow { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px 0 0; color: #BCA783; font: 700 10px/1.5 "Manrope", Arial, sans-serif; letter-spacing: 3px; text-transform: uppercase; }
         #loadingScreen .eyebrow::before, #loadingScreen .eyebrow::after { content: ""; display: block; width: 20px; height: 1px; background: #BCA783; }
@@ -58,13 +58,22 @@
          width="0"
          height="0">
 
-        <symbol id="icon-crown" viewBox="0 0 64 64">
-        <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
-              fill="none" stroke="#BCA783" stroke-width="2"/>
-        <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"
-              fill="none" stroke="#BCA783" stroke-width="1.3"/>
-        <path d="M15 52H49L45 57H19Z" fill="#BCA783"/>
-    </symbol>
+        <defs>
+            <linearGradient id="adminGoldA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8D6B2"/><stop offset="1" stop-color="#8C744D"/></linearGradient>
+            <linearGradient id="adminGoldB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BCA783"/><stop offset="1" stop-color="#4D3E29"/></linearGradient>
+        </defs>
+        <symbol id="icon-crown" viewBox="0 0 400 350" stroke="none">
+            <polygon points="30,80 120,160 200,20 280,160 370,80 310,275 90,275" fill="#332A1D"/>
+            <polygon points="30,80 120,160 90,275" fill="url(#adminGoldB)"/>
+            <polygon points="120,160 200,20 200,275" fill="url(#adminGoldA)"/>
+            <polygon points="200,20 280,160 200,275" fill="#8F7956"/>
+            <polygon points="280,160 370,80 310,275" fill="url(#adminGoldA)"/>
+            <polygon points="120,160 90,275 200,275" fill="#77603E"/>
+            <polygon points="280,160 200,275 310,275" fill="#C0A77D"/>
+            <path d="M30 80L120 160L200 20L280 160L370 80L310 275H90Z" fill="none" stroke="#D9C7A6" stroke-width="2"/>
+            <polygon points="90,292 310,292 290,320 110,320" fill="url(#adminGoldA)"/>
+            <polygon points="110,320 290,320 280,330 120,330" fill="#54432D"/>
+        </symbol>
 
         <symbol id="icon-overview" viewBox="0 0 24 24">
             <rect x="3" y="3" width="7" height="7" rx="1"/>
