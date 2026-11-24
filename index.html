@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Obsidian Crown is an independent game development studio dedicated to excellence in game development, design and creative collaboration.">
-
+    <meta name="description" content="Obsidian Crown is an independent game development studio dedicated to excellence in game development, design, and creative collaboration.">
     <meta name="theme-color" content="#0C0C0D">
 
     <meta property="og:title" content="Obsidian Crown — Independent Game Studio">
@@ -17,7 +16,6 @@
     <title>Obsidian Crown — Excellence in Creation</title>
 
     <link rel="canonical" href="https://obsidiancrown.org/">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -91,9 +89,27 @@
             display: block;
         }
 
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--heading);
+            font-weight: 500;
+        }
+
         .container {
             width: min(1320px, 88%);
             margin-inline: auto;
+        }
+
+        .gold {
+            color: var(--gold);
+        }
+
+        .italic {
+            font-style: italic;
         }
 
         .eyebrow {
@@ -111,20 +127,7 @@
             content: "";
             width: 30px;
             height: 1px;
-            background: var(--gold);
-        }
-
-        h1, h2, h3 {
-            font-family: var(--heading);
-            font-weight: 500;
-        }
-
-        .gold {
-            color: var(--gold);
-        }
-
-        .italic {
-            font-style: italic;
+            background: currentColor;
         }
 
         .button {
@@ -162,7 +165,7 @@
         }
 
         .button-outline {
-            border-color: rgba(188,167,131,.45);
+            border-color: rgba(188, 167, 131, .45);
             color: var(--gold-light);
         }
 
@@ -170,6 +173,17 @@
             background: var(--gold);
             color: var(--obsidian);
             border-color: var(--gold);
+        }
+
+        .button-dark {
+            background: #191815;
+            color: #E6E0D5;
+            border-color: #191815;
+        }
+
+        .button-dark:hover {
+            background: #3D3528;
+            border-color: #3D3528;
         }
 
         .arrow {
@@ -181,14 +195,14 @@
             position: fixed;
             inset: 0 0 auto;
             z-index: 1000;
-            background: rgba(12,12,13,.86);
+            background: rgba(12, 12, 13, .86);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(20px);
             transition: background .3s;
         }
 
         header.scrolled {
-            background: rgba(12,12,13,.98);
+            background: rgba(12, 12, 13, .98);
         }
 
         .navbar {
@@ -264,7 +278,8 @@
             transition: width .3s;
         }
 
-        nav a:hover::after {
+        nav a:hover::after,
+        nav a.active::after {
             width: 100%;
         }
 
@@ -320,12 +335,12 @@
             opacity: .3;
             background-image:
                 linear-gradient(
-                    rgba(188,167,131,.035) 1px,
+                    rgba(188, 167, 131, .035) 1px,
                     transparent 1px
                 ),
                 linear-gradient(
                     90deg,
-                    rgba(188,167,131,.035) 1px,
+                    rgba(188, 167, 131, .035) 1px,
                     transparent 1px
                 );
             background-size: 100px 100px;
@@ -376,7 +391,7 @@
 
         .hero-crown {
             width: 100%;
-            filter: drop-shadow(0 30px 60px rgba(0,0,0,.6));
+            filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .6));
             animation: crownFloat 9s ease-in-out infinite;
         }
 
@@ -384,6 +399,7 @@
             0%, 100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-12px);
             }
@@ -393,7 +409,7 @@
             position: absolute;
             width: 100%;
             aspect-ratio: 1;
-            border: 1px solid rgba(188,167,131,.08);
+            border: 1px solid rgba(188, 167, 131, .08);
             border-radius: 50%;
             top: 50%;
             left: 50%;
@@ -405,7 +421,7 @@
             content: "";
             position: absolute;
             inset: 30px;
-            border: 1px solid rgba(188,167,131,.06);
+            border: 1px solid rgba(188, 167, 131, .06);
             border-radius: 50%;
         }
 
@@ -458,7 +474,6 @@
 
         .strip-item h3 {
             font-size: 30px;
-            color: var(--ivory);
         }
 
         .strip-item p {
@@ -586,38 +601,65 @@
         }
 
         .game-card {
+            display: flex;
+            flex-direction: column;
             border: 1px solid var(--border);
             background: var(--obsidian);
             overflow: hidden;
-            transition: border-color .35s;
+            transition:
+                border-color .35s,
+                transform .35s,
+                box-shadow .35s;
         }
 
         .game-card:hover {
             border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .2);
         }
 
         .game-image {
             aspect-ratio: 16 / 10;
             position: relative;
             overflow: hidden;
+            background: #181B14;
         }
 
+        .game-image img,
         .game-image svg {
             width: 100%;
             height: 100%;
-            transition: transform .7s;
+            object-fit: cover;
+            transition: transform .7s ease;
         }
 
+        .game-card:hover .game-image img,
         .game-card:hover .game-image svg {
             transform: scale(1.045);
+        }
+
+        .game-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, .3),
+                transparent 50%
+            );
+            pointer-events: none;
         }
 
         .game-status {
             position: absolute;
             top: 20px;
             left: 20px;
-            padding: 8px 14px;
-            background: rgba(12,12,13,.85);
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            background: rgba(12, 12, 13, .9);
             border: 1px solid var(--border);
             color: var(--gold-light);
             font-size: 9px;
@@ -626,7 +668,19 @@
             text-transform: uppercase;
         }
 
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 10px rgba(188, 167, 131, .5);
+        }
+
         .game-details {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            align-items: flex-start;
             padding: 32px;
         }
 
@@ -646,6 +700,68 @@
         .game-details p {
             color: var(--muted);
             font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .game-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 28px;
+        }
+
+        .game-link {
+            min-height: 45px;
+            padding: 12px 20px;
+        }
+
+        .game-fallback {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 35px;
+            text-align: center;
+            background:
+                radial-gradient(
+                    ellipse at 50% 40%,
+                    #3D4930,
+                    #20271B 45%,
+                    #11150F 90%
+                );
+        }
+
+        .game-fallback svg {
+            width: 125px;
+            height: 125px;
+        }
+
+        .fallback-title {
+            font-family: var(--heading);
+            font-size: clamp(28px, 4vw, 45px);
+            line-height: 1;
+            color: #E4D8B9;
+        }
+
+        .fallback-subtitle {
+            color: #B6B79A;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .dino-thumbnail {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .dino-thumbnail[hidden] {
+            display: none;
         }
 
         .future-image {
@@ -660,11 +776,20 @@
                 );
         }
 
-        .future-image .future-monogram {
+        .future-monogram {
             font-family: var(--heading);
             font-size: clamp(80px, 12vw, 160px);
-            color: rgba(188,167,131,.15);
+            color: rgba(188, 167, 131, .15);
             letter-spacing: -12px;
+        }
+
+        .future-note {
+            margin-top: auto;
+            padding-top: 28px;
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .values-grid {
@@ -706,10 +831,6 @@
             color: #776548;
         }
 
-        .careers-section .eyebrow::before {
-            background: #776548;
-        }
-
         .careers-grid {
             display: grid;
             grid-template-columns: 1.1fr .9fr;
@@ -735,19 +856,8 @@
             margin-bottom: 30px;
         }
 
-        .button-dark {
-            background: #191815;
-            color: #E6E0D5;
-            border-color: #191815;
-        }
-
-        .button-dark:hover {
-            background: #3D3528;
-            border-color: #3D3528;
-        }
-
         .departments {
-            border-top: 1px solid rgba(25,24,21,.2);
+            border-top: 1px solid rgba(25, 24, 21, .2);
         }
 
         .department {
@@ -756,7 +866,7 @@
             justify-content: space-between;
             gap: 15px;
             padding: 20px 0;
-            border-bottom: 1px solid rgba(25,24,21,.2);
+            border-bottom: 1px solid rgba(25, 24, 21, .2);
         }
 
         .department h3 {
@@ -774,6 +884,12 @@
             color: #89734F;
             font-size: 11px;
             letter-spacing: 1px;
+        }
+
+        .department-caption {
+            margin-top: 18px;
+            color: #746E63;
+            font-size: 11px;
         }
 
         .contact-section {
@@ -812,7 +928,7 @@
         .contact-card {
             padding: 40px;
             border: 1px solid var(--border);
-            background: rgba(255,255,255,.015);
+            background: rgba(255, 255, 255, .015);
         }
 
         .contact-card h3 {
@@ -902,7 +1018,7 @@
             font-size: 17px;
         }
 
-        .reveal {
+        .animations-enabled .reveal {
             opacity: 0;
             transform: translateY(25px);
             transition:
@@ -910,7 +1026,7 @@
                 transform .8s ease;
         }
 
-        .reveal.visible {
+        .animations-enabled .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -1050,7 +1166,7 @@
 
         @media (max-width: 450px) {
             .hero h1 {
-                font-size: 55px;
+                font-size: clamp(43px, 12vw, 55px);
             }
 
             .hero-buttons {
@@ -1072,9 +1188,22 @@
                 padding: 25px;
             }
 
+            .game-details h3 {
+                font-size: 32px;
+            }
+
             .footer-bottom {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .game-fallback svg {
+                width: 85px;
+                height: 85px;
+            }
+
+            .fallback-subtitle {
+                letter-spacing: 1.5px;
             }
         }
 
@@ -1088,7 +1217,7 @@
                 transition: none !important;
             }
 
-            .reveal {
+            .animations-enabled .reveal {
                 opacity: 1;
                 transform: none;
             }
@@ -1098,29 +1227,53 @@
 
 <body>
 
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="0"
+     height="0"
+     style="position:absolute"
+     aria-hidden="true">
+
+    <symbol id="crown-logo" viewBox="0 0 64 64">
+
+        <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
+              fill="none"
+              stroke="#BCA783"
+              stroke-width="2"/>
+
+        <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"
+              fill="none"
+              stroke="#BCA783"
+              stroke-width="1.3"/>
+
+        <path d="M15 52H49L45 57H19Z"
+              fill="#BCA783"/>
+
+    </symbol>
+
+</svg>
+
 <header id="header">
+
     <div class="container navbar">
 
-        <a href="#home" class="brand" aria-label="Obsidian Crown home">
+        <a href="#home"
+           class="brand"
+           aria-label="Obsidian Crown home">
 
-            <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
-                <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
-                      fill="none"
-                      stroke="#BCA783"
-                      stroke-width="2"/>
-
-                <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"
-                      fill="none"
-                      stroke="#BCA783"
-                      stroke-width="1.3"/>
-
-                <path d="M15 52H49L45 57H19Z"
-                      fill="#BCA783"/>
+            <svg class="brand-mark" aria-hidden="true">
+                <use href="#crown-logo"/>
             </svg>
 
             <div class="brand-text">
-                <span class="brand-name">Obsidian Crown</span>
-                <span class="brand-subtitle">GAME DEVELOPMENT STUDIO</span>
+
+                <span class="brand-name">
+                    Obsidian Crown
+                </span>
+
+                <span class="brand-subtitle">
+                    GAME DEVELOPMENT STUDIO
+                </span>
+
             </div>
 
         </a>
@@ -1130,20 +1283,39 @@
                 aria-label="Toggle navigation"
                 aria-controls="navigation"
                 aria-expanded="false">
+
             <span></span>
             <span></span>
             <span></span>
+
         </button>
 
-        <nav id="navigation">
-            <a href="#home" class="active">Home</a>
-            <a href="#studio">The Studio</a>
-            <a href="#experiences">Experiences</a>
-            <a href="#contact">Contact</a>
-            <a href="#careers" class="nav-careers">Careers ↗</a>
+        <nav id="navigation" aria-label="Main navigation">
+
+            <a href="#home" class="active">
+                Home
+            </a>
+
+            <a href="#studio">
+                The Studio
+            </a>
+
+            <a href="#experiences">
+                Experiences
+            </a>
+
+            <a href="#contact">
+                Contact
+            </a>
+
+            <a href="#careers" class="nav-careers">
+                Careers ↗
+            </a>
+
         </nav>
 
     </div>
+
 </header>
 
 <main>
@@ -1157,18 +1329,28 @@
             <svg class="hero-crown" viewBox="0 0 500 520">
 
                 <defs>
-                    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+
+                    <linearGradient id="metal"
+                                    x1="0" y1="0"
+                                    x2="1" y2="1">
+
                         <stop offset="0%" stop-color="#736B5D"/>
                         <stop offset="35%" stop-color="#39352F"/>
                         <stop offset="70%" stop-color="#171615"/>
                         <stop offset="100%" stop-color="#080808"/>
+
                     </linearGradient>
 
-                    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+                    <linearGradient id="edge"
+                                    x1="0" y1="0"
+                                    x2="1" y2="1">
+
                         <stop offset="0%" stop-color="#D4C19D"/>
                         <stop offset="45%" stop-color="#827157"/>
                         <stop offset="100%" stop-color="#31291F"/>
+
                     </linearGradient>
+
                 </defs>
 
                 <g stroke="#8A7B64" stroke-width="0.8">
@@ -1208,6 +1390,7 @@
                           stroke-width="1.5"/>
 
                 </g>
+
             </svg>
 
         </div>
@@ -1227,22 +1410,30 @@
                 </h1>
 
                 <p class="hero-description">
+
                     Welcome to Obsidian Crown. An independent
                     game development studio dedicated to
                     excellence in the art of building and
                     designing extraordinary experiences.
+
                 </p>
 
                 <div class="hero-buttons">
 
-                    <a href="#contact" class="button button-primary">
+                    <a href="#business-inquiries"
+                       class="button button-primary">
+
                         Business Inquiries
                         <span class="arrow">↗</span>
+
                     </a>
 
-                    <a href="#careers" class="button button-outline">
+                    <a href="#careers"
+                       class="button button-outline">
+
                         Join Our Studio
                         <span class="arrow">↗</span>
+
                     </a>
 
                 </div>
@@ -1254,8 +1445,10 @@
         <div class="hero-bottom">
 
             <a href="#studio" class="scroll-link">
+
                 <span>↓</span>
                 Discover Our Studio
+
             </a>
 
             <span>
@@ -1271,18 +1464,24 @@
         <div class="container strip-grid">
 
             <div class="strip-item">
+
                 <h3>Independent</h3>
                 <p>By Nature</p>
+
             </div>
 
             <div class="strip-item">
+
                 <h3>Creative</h3>
                 <p>By Design</p>
+
             </div>
 
             <div class="strip-item">
+
                 <h3>Exceptional</h3>
                 <p>By Ambition</p>
+
             </div>
 
         </div>
@@ -1300,63 +1499,67 @@
                 </span>
 
                 <h2>
+
                     Welcome to<br>
+
                     <span class="gold italic">
                         Obsidian Crown.
                     </span>
+
                 </h2>
 
                 <p>
+
                     At Obsidian Crown, we strive for excellence
                     in the art of game development and design.
                     Driven by creativity, ambition, and craftsmanship,
                     we are dedicated to creating exceptional
                     experiences that leave a lasting impression.
+
                 </p>
 
                 <p>
+
                     We welcome business inquiries, creative
                     partnerships, and opportunities for collaboration.
+
                 </p>
 
                 <p>
+
                     If you are interested in contributing to our
                     current or upcoming projects, we invite you
                     to introduce yourself and share your portfolio
                     with us.
+
                 </p>
 
-                <a href="#experiences" class="button button-outline">
+                <a href="#experiences"
+                   class="button button-outline">
+
                     Discover Our Work
                     <span class="arrow">↗</span>
+
                 </a>
 
             </div>
 
             <div class="manifesto reveal">
 
-                <svg class="manifesto-mark"
-                     viewBox="0 0 64 64"
-                     aria-hidden="true">
-
-                    <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
-                          fill="none"
-                          stroke="#BCA783"
-                          stroke-width="1.5"/>
-
-                    <path d="M32 5V47M19 29L32 47L45 29M15 54H49"
-                          fill="none"
-                          stroke="#BCA783"
-                          stroke-width="1.5"/>
-
+                <svg class="manifesto-mark" aria-hidden="true">
+                    <use href="#crown-logo"/>
                 </svg>
 
                 <blockquote>
+
                     Excellence in creation.
+
                     <br>
+
                     <span class="gold italic">
                         Ambition without limits.
                     </span>
+
                 </blockquote>
 
                 <div class="manifesto-divider"></div>
@@ -1371,7 +1574,8 @@
 
     </section>
 
-    <section class="content-section games-section" id="experiences">
+    <section class="content-section games-section"
+             id="experiences">
 
         <div class="container">
 
@@ -1382,15 +1586,19 @@
                 </span>
 
                 <h2>
+
                     Worlds worth
                     <span class="gold italic">exploring.</span>
+
                 </h2>
 
                 <p>
+
                     Discover the worlds we are creating.
                     Each experience is shaped by imagination,
                     thoughtful design, and a passion for
                     extraordinary gameplay.
+
                 </p>
 
             </div>
@@ -1401,63 +1609,103 @@
 
                     <div class="game-image">
 
-                        <svg viewBox="0 0 800 500"
-                             preserveAspectRatio="xMidYMid slice"
+                        <div class="game-fallback"
                              aria-hidden="true">
 
-                            <defs>
-                                <radialGradient id="dungeonSky">
-                                    <stop stop-color="#383078"/>
-                                    <stop offset="1" stop-color="#09091D"/>
-                                </radialGradient>
+                            <svg viewBox="0 0 160 160">
 
-                                <linearGradient id="dungeonGround"
-                                                x1="0" y1="0"
-                                                x2="0" y2="1">
-                                    <stop stop-color="#30294C"/>
-                                    <stop offset="1" stop-color="#101020"/>
-                                </linearGradient>
-                            </defs>
+                                <g stroke="#C7B58C"
+                                   stroke-width="1"
+                                   stroke-linejoin="round">
 
-                            <rect width="800" height="500"
-                                  fill="url(#dungeonSky)"/>
+                                    <path d="M80 7L124 22L150 65L137 113L99 150L50 143L15 107L9 59L38 20Z"
+                                          fill="#514B36"/>
 
-                            <circle cx="400" cy="190" r="110"
-                                    fill="#6655BB" opacity=".14"/>
+                                    <path d="M80 7L91 36L38 20Z"
+                                          fill="#827557"/>
 
-                            <g fill="#17172C">
+                                    <path d="M80 7L124 22L91 36Z"
+                                          fill="#655A41"/>
 
-                                <path d="M0 500V120H45V80L80 10L115 80V120H160V500Z"/>
+                                    <path d="M124 22L150 65L115 57L91 36Z"
+                                          fill="#71664B"/>
 
-                                <path d="M640 500V120H685V80L720 10L755 80V120H800V500Z"/>
+                                    <path d="M150 65L137 113L113 97L115 57Z"
+                                          fill="#3C3C2B"/>
 
-                                <path d="M140 500V220Q400 -80 660 220V500H595V235Q400 10 205 235V500Z"/>
+                                    <path d="M137 113L99 150L91 117L113 97Z"
+                                          fill="#39382A"/>
 
-                            </g>
+                                    <path d="M99 150L50 143L62 114L91 117Z"
+                                          fill="#4A4430"/>
 
-                            <g fill="#8B6DFF">
-                                <path d="M80 150L95 180L80 210L65 180Z"/>
-                                <path d="M720 150L735 180L720 210L705 180Z"/>
-                                <path d="M400 170L430 235L400 300L370 235Z"/>
-                            </g>
+                                    <path d="M50 143L15 107L42 91L62 114Z"
+                                          fill="#6B6044"/>
 
-                            <path d="M0 500L400 320L800 500Z"
-                                  fill="url(#dungeonGround)"/>
+                                    <path d="M15 107L9 59L43 53L42 91Z"
+                                          fill="#79704F"/>
 
-                            <g fill="#302A66">
-                                <path d="M50 500L100 340L145 500Z"/>
-                                <path d="M100 500L180 390L205 500Z"/>
-                                <path d="M590 500L640 355L685 500Z"/>
-                                <path d="M680 500L755 325L790 500Z"/>
-                            </g>
+                                    <path d="M9 59L38 20L43 53Z"
+                                          fill="#96845F"/>
 
-                            <path d="M300 500L400 350L500 500Z"
-                                  fill="#4B4265"/>
+                                </g>
 
-                        </svg>
+                                <g stroke="#A89A78"
+                                   stroke-width="1.5"
+                                   stroke-linejoin="round">
+
+                                    <path d="M39 54L55 36L86 31L108 41L121 58L139 66L133 86L106 90L90 83L72 86L63 100L47 90L32 75Z"
+                                          fill="#DDD0AD"/>
+
+                                    <path d="M43 53L59 41L82 39L71 59Z"
+                                          fill="#EEE3C9"/>
+
+                                    <path d="M82 39L108 47L121 62L94 56Z"
+                                          fill="#B9AA86"/>
+
+                                    <path d="M76 55L93 52L103 64L94 76L77 70Z"
+                                          fill="#34362B"/>
+
+                                    <path d="M115 65L130 70L125 79L113 77Z"
+                                          fill="#34362B"/>
+
+                                    <path d="M47 91L66 103L91 98L119 99L130 88L135 100L117 115L85 121L61 116L45 103Z"
+                                          fill="#C4B48D"/>
+
+                                    <path d="M91 83L98 96L105 87L111 97L117 89L123 98L130 86"
+                                          fill="#EEE3C9"/>
+
+                                    <path d="M71 105L78 94L85 103L92 93L99 102"
+                                          fill="#EEE3C9"/>
+
+                                </g>
+
+                            </svg>
+
+                            <span class="fallback-title">
+                                Throw Meat for Dinos!
+                            </span>
+
+                            <span class="fallback-subtitle">
+                                A Prehistoric Adventure
+                            </span>
+
+                        </div>
+
+                        <img
+                            id="dinoThumbnail"
+                            class="dino-thumbnail"
+                            src="assets/throw-meat-for-dinos.jpg"
+                            alt="Throw Meat for Dinos game artwork"
+                            loading="lazy"
+                            hidden
+                        >
 
                         <span class="game-status">
+
+                            <span class="status-dot"></span>
                             In Development
+
                         </span>
 
                     </div>
@@ -1465,17 +1713,35 @@
                     <div class="game-details">
 
                         <span class="game-category">
-                            Fantasy / Roleplaying
+                            Prehistoric / Simulator / Collection
                         </span>
 
-                        <h3>Golden Times Dungeons</h3>
+                        <h3>Throw Meat for Dinos!</h3>
 
                         <p>
-                            Venture into mysterious worlds,
-                            confront formidable enemies,
-                            and discover legendary equipment
-                            in an immersive dungeon adventure.
+
+                            Embark on a prehistoric adventure
+                            where you attract, discover, and
+                            collect extraordinary dinosaurs.
+                            Explore a world inspired by the
+                            prehistoric era and uncover rare
+                            species as your collection grows.
+
                         </p>
+
+                        <div class="game-actions">
+
+                            <a href="https://www.roblox.com/games/97838462286552/Throw-Meat-for-Dinos-Assets"
+                               class="button button-outline game-link"
+                               target="_blank"
+                               rel="noopener noreferrer">
+
+                                View Experience
+                                <span class="arrow">↗</span>
+
+                            </a>
+
+                        </div>
 
                     </div>
 
@@ -1504,10 +1770,17 @@
                         <h3>Beyond the Horizon</h3>
 
                         <p>
-                            Our creative journey continues.
-                            Future experiences and studio
-                            announcements will be revealed here.
+
+                            Our creative journey is only beginning.
+                            Future experiences, new worlds, and
+                            studio announcements will be
+                            revealed here.
+
                         </p>
+
+                        <div class="future-note">
+                            More to be revealed
+                        </div>
 
                     </div>
 
@@ -1530,13 +1803,17 @@
                 </span>
 
                 <h2>
+
                     Defined by
                     <span class="gold italic">excellence.</span>
+
                 </h2>
 
                 <p>
+
                     The principles that guide our creative vision
                     and the experiences we aspire to build.
+
                 </p>
 
             </div>
@@ -1550,9 +1827,11 @@
                     <h3>Creativity</h3>
 
                     <p>
+
                         We embrace imagination, original ideas,
                         and the freedom to explore new possibilities
                         in interactive entertainment.
+
                     </p>
 
                 </article>
@@ -1564,9 +1843,11 @@
                     <h3>Craftsmanship</h3>
 
                     <p>
+
                         From the smallest detail to the largest
                         world, we believe thoughtful execution
                         is fundamental to exceptional experiences.
+
                     </p>
 
                 </article>
@@ -1578,9 +1859,11 @@
                     <h3>Ambition</h3>
 
                     <p>
+
                         We continually challenge ourselves
                         to grow, innovate, and pursue a higher
                         standard of creative excellence.
+
                     </p>
 
                 </article>
@@ -1591,7 +1874,8 @@
 
     </section>
 
-    <section class="content-section careers-section" id="careers">
+    <section class="content-section careers-section"
+             id="careers">
 
         <div class="container careers-grid">
 
@@ -1602,23 +1886,32 @@
                 </span>
 
                 <h2>
+
                     Exceptional worlds.
+
                     <br>
+
                     <em>Exceptional people.</em>
+
                 </h2>
 
                 <p>
+
                     We believe remarkable experiences begin
                     with remarkable people. If you share our
                     passion for game development and design,
                     we welcome the opportunity to discover
                     your work.
+
                 </p>
 
                 <p>
+
                     Interested in contributing to our current
-                    or upcoming projects? Introduce yourself
-                    and share your portfolio when submissions open.
+                    or upcoming projects? We invite talented
+                    individuals to introduce themselves and
+                    share their portfolios when submissions open.
+
                 </p>
 
                 <a href="#portfolio-inquiries"
@@ -1631,55 +1924,96 @@
 
             </div>
 
-            <div class="departments reveal">
+            <div class="reveal">
 
-                <div class="department">
-                    <div>
-                        <h3>Engineering</h3>
-                        <p>Programming & Game Systems</p>
+                <div class="departments">
+
+                    <div class="department">
+
+                        <div>
+
+                            <h3>Engineering</h3>
+                            <p>Programming & Game Systems</p>
+
+                        </div>
+
+                        <span class="department-number">01</span>
+
                     </div>
-                    <span class="department-number">01</span>
+
+                    <div class="department">
+
+                        <div>
+
+                            <h3>Art & Environment</h3>
+                            <p>3D Modeling & World Building</p>
+
+                        </div>
+
+                        <span class="department-number">02</span>
+
+                    </div>
+
+                    <div class="department">
+
+                        <div>
+
+                            <h3>Creative Design</h3>
+                            <p>Game Design & UI/UX</p>
+
+                        </div>
+
+                        <span class="department-number">03</span>
+
+                    </div>
+
+                    <div class="department">
+
+                        <div>
+
+                            <h3>Animation</h3>
+                            <p>Character Animation & Rigging</p>
+
+                        </div>
+
+                        <span class="department-number">04</span>
+
+                    </div>
+
+                    <div class="department">
+
+                        <div>
+
+                            <h3>Production</h3>
+                            <p>Project Management & Operations</p>
+
+                        </div>
+
+                        <span class="department-number">05</span>
+
+                    </div>
+
+                    <div class="department">
+
+                        <div>
+
+                            <h3>Community</h3>
+                            <p>Community Relations & Quality Assurance</p>
+
+                        </div>
+
+                        <span class="department-number">06</span>
+
+                    </div>
+
                 </div>
 
-                <div class="department">
-                    <div>
-                        <h3>Art & Environment</h3>
-                        <p>3D Modeling & World Building</p>
-                    </div>
-                    <span class="department-number">02</span>
-                </div>
+                <p class="department-caption">
 
-                <div class="department">
-                    <div>
-                        <h3>Creative Design</h3>
-                        <p>Game Design & UI/UX</p>
-                    </div>
-                    <span class="department-number">03</span>
-                </div>
+                    Areas of creative interest.
+                    Specific vacancies will be announced separately.
 
-                <div class="department">
-                    <div>
-                        <h3>Animation</h3>
-                        <p>Character Animation & Rigging</p>
-                    </div>
-                    <span class="department-number">04</span>
-                </div>
-
-                <div class="department">
-                    <div>
-                        <h3>Production</h3>
-                        <p>Project Management & Operations</p>
-                    </div>
-                    <span class="department-number">05</span>
-                </div>
-
-                <div class="department">
-                    <div>
-                        <h3>Community</h3>
-                        <p>Community Relations & Quality Assurance</p>
-                    </div>
-                    <span class="department-number">06</span>
-                </div>
+                </p>
 
             </div>
 
@@ -1687,7 +2021,8 @@
 
     </section>
 
-    <section class="content-section contact-section" id="contact">
+    <section class="content-section contact-section"
+             id="contact">
 
         <div class="container">
 
@@ -1698,15 +2033,22 @@
                 </span>
 
                 <h2>
+
                     Let's create
-                    <span class="gold italic">something remarkable.</span>
+
+                    <span class="gold italic">
+                        something remarkable.
+                    </span>
+
                 </h2>
 
                 <p>
+
                     Whether you are interested in a business
                     opportunity, creative collaboration, or
                     becoming part of our studio, we welcome
                     the opportunity to connect.
+
                 </p>
 
             </div>
@@ -1723,7 +2065,8 @@
                          stroke-width="1.3"
                          aria-hidden="true">
 
-                        <rect x="3" y="8" width="26" height="19"/>
+                        <rect x="3" y="8"
+                              width="26" height="19"/>
 
                         <path d="M11 8V4H21V8M3 15H29M13 13V18H19V13"/>
 
@@ -1732,13 +2075,17 @@
                     <h3>Business Inquiries</h3>
 
                     <p>
+
                         For business opportunities, strategic
                         partnerships, commissions, and professional
                         collaborations with Obsidian Crown.
+
                     </p>
 
                     <div class="contact-note">
+
                         Contact details coming soon
+
                     </div>
 
                 </article>
@@ -1762,14 +2109,18 @@
                     <h3>Portfolio Submissions</h3>
 
                     <p>
+
                         Interested in our projects? We welcome
                         talented developers, artists, designers,
                         and creative professionals to introduce
                         themselves and share their work.
+
                     </p>
 
                     <div class="contact-note">
+
                         Submission details coming soon
+
                     </div>
 
                 </article>
@@ -1790,22 +2141,12 @@
 
             <div class="footer-brand">
 
-                <a href="#home" class="brand">
+                <a href="#home"
+                   class="brand"
+                   aria-label="Obsidian Crown home">
 
-                    <svg class="brand-mark"
-                         viewBox="0 0 64 64"
-                         aria-hidden="true">
-
-                        <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"
-                              fill="none"
-                              stroke="#BCA783"
-                              stroke-width="2"/>
-
-                        <path d="M32 5V47M19 29L32 47L45 29M15 54H49"
-                              fill="none"
-                              stroke="#BCA783"
-                              stroke-width="1.5"/>
-
+                    <svg class="brand-mark" aria-hidden="true">
+                        <use href="#crown-logo"/>
                     </svg>
 
                     <div class="brand-text">
@@ -1823,9 +2164,11 @@
                 </a>
 
                 <p class="footer-description">
+
                     An independent game development studio
                     dedicated to creativity, craftsmanship,
                     and excellence in interactive entertainment.
+
                 </p>
 
             </div>
@@ -1845,9 +2188,25 @@
 
                 <h3>Opportunities</h3>
 
-                <a href="#careers">Careers</a>
-                <a href="#business-inquiries">Business Inquiries</a>
-                <a href="#portfolio-inquiries">Portfolio Submissions</a>
+                <a href="#careers">
+                    Careers
+                </a>
+
+                <a href="#business-inquiries">
+                    Business Inquiries
+                </a>
+
+                <a href="#portfolio-inquiries">
+                    Portfolio Submissions
+                </a>
+
+                <a href="https://www.roblox.com/games/97838462286552/Throw-Meat-for-Dinos-Assets"
+                   target="_blank"
+                   rel="noopener noreferrer">
+
+                    Throw Meat for Dinos! ↗
+
+                </a>
 
             </div>
 
@@ -1856,12 +2215,16 @@
         <div class="footer-bottom">
 
             <span>
+
                 &copy; <span id="year">2026</span>
                 Obsidian Crown. All rights reserved.
+
             </span>
 
             <span class="footer-motto">
+
                 Excellence in creation. Ambition without limits.
+
             </span>
 
         </div>
@@ -1874,6 +2237,24 @@
     const header = document.getElementById("header");
     const menuToggle = document.getElementById("menuToggle");
     const navigation = document.getElementById("navigation");
+    const dinoThumbnail = document.getElementById("dinoThumbnail");
+
+    function showThumbnail() {
+        if (dinoThumbnail.naturalWidth > 0) {
+            dinoThumbnail.hidden = false;
+        }
+    }
+
+    function hideThumbnail() {
+        dinoThumbnail.hidden = true;
+    }
+
+    dinoThumbnail.addEventListener("load", showThumbnail);
+    dinoThumbnail.addEventListener("error", hideThumbnail);
+
+    if (dinoThumbnail.complete) {
+        showThumbnail();
+    }
 
     function closeMenu() {
         navigation.classList.remove("open");
@@ -1901,63 +2282,37 @@
         }
     });
 
-    function updateHeader() {
-        header.classList.toggle("scrolled", window.scrollY > 30);
-    }
-
-    window.addEventListener("scroll", updateHeader, {
-        passive: true
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 800) {
+            closeMenu();
+        }
     });
-
-    updateHeader();
-
-    const revealElements = document.querySelectorAll(".reveal");
-
-    const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if ("IntersectionObserver" in window && !reducedMotion) {
-
-        const revealObserver = new IntersectionObserver(entries => {
-
-            entries.forEach(entry => {
-
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("visible");
-                    revealObserver.unobserve(entry.target);
-                }
-
-            });
-
-        }, {
-            threshold: 0.08
-        });
-
-        revealElements.forEach(element => {
-            revealObserver.observe(element);
-        });
-
-    } else {
-
-        revealElements.forEach(element => {
-            element.classList.add("visible");
-        });
-
-    }
-
-    const sections = Array.from(
-        document.querySelectorAll("main section[id]")
-    );
 
     const navigationLinks = Array.from(
         navigation.querySelectorAll("a")
     );
 
-    function updateActiveNavigation() {
+    const sections = Array.from(
+        document.querySelectorAll("main section[id]")
+    ).filter(section =>
+        navigationLinks.some(link =>
+            link.getAttribute("href") === "#" + section.id
+        )
+    );
+
+    let scrollPending = false;
+
+    function updateScrollState() {
+
+        header.classList.toggle(
+            "scrolled",
+            window.scrollY > 30
+        );
 
         let currentSection = "home";
-        const offset = window.scrollY + 160;
+
+        const offset =
+            window.scrollY + header.offsetHeight + 80;
 
         sections.forEach(section => {
 
@@ -1969,33 +2324,82 @@
 
         navigationLinks.forEach(link => {
 
-            link.classList.toggle(
-                "active",
-                link.getAttribute("href") === "#" + currentSection
-            );
+            const active =
+                link.getAttribute("href") === "#" + currentSection;
+
+            link.classList.toggle("active", active);
+
+            if (active) {
+                link.setAttribute("aria-current", "location");
+            } else {
+                link.removeAttribute("aria-current");
+            }
 
         });
 
+        scrollPending = false;
+
     }
 
-    window.addEventListener("scroll", updateActiveNavigation, {
+    window.addEventListener("scroll", () => {
+
+        if (!scrollPending) {
+            scrollPending = true;
+            requestAnimationFrame(updateScrollState);
+        }
+
+    }, {
         passive: true
     });
 
-    updateActiveNavigation();
+    updateScrollState();
+
+    const revealElements =
+        document.querySelectorAll(".reveal");
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if ("IntersectionObserver" in window && !reducedMotion) {
+
+        const revealObserver =
+            new IntersectionObserver(entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("visible");
+
+                        revealObserver.unobserve(entry.target);
+
+                    }
+
+                });
+
+            }, {
+                threshold: 0.05
+            });
+
+        document.body.classList.add("animations-enabled");
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+
+    }
 
     document.getElementById("year").textContent =
         new Date().getFullYear();
 </script>
 
 <noscript>
+
     <style>
-        .reveal {
-            opacity: 1 !important;
-            transform: none !important;
-        }
 
         @media (max-width: 800px) {
+
             header {
                 position: relative;
             }
@@ -2013,8 +2417,11 @@
             .menu-toggle {
                 display: none;
             }
+
         }
+
     </style>
+
 </noscript>
 
 </body>
