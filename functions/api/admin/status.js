@@ -1,10 +1,18 @@
-const VERSION = "1.0.0";
+import { prepareAudit } from "../../_shared/audit.js";
+
+const VERSION = "1.1.0";
 
 const VALID_STATUSES = [
     "pending",
     "under_review",
     "shortlisted",
     "interview",
+    "accepted",
+    "declined",
+    "withdrawn"
+];
+
+const COMPLETED_STATUSES = [
     "accepted",
     "declined",
     "withdrawn"
@@ -68,6 +76,45 @@ function jsonResponse(data, status = 200) {
     });
 }
 
+function failure(context, error, status, extra = {}) {
+    return jsonResponse({
+        success: false,
+        error,
+        ...extra,
+        requestId: context.data.requestId
+    }, status);
+}
+
+function success(context, payload = {}) {
+    return jsonResponse({
+        success: true,
+        service: "Obsidian Crown Administration",
+        version: VERSION,
+        ...payload,
+        requestId: context.data.requestId
+    });
+}
+
+function authorize(context) {
+    if (!context.data.admin?.email) {
+        return failure(
+            context,
+            "Authentication required",
+            401
+        );
+    }
+
+    if (!context.env.DB) {
+        return failure(
+            context,
+            "Database unavailable",
+            503
+        );
+    }
+
+    return null;
+}
+
 function validApplicationId(value) {
     return (
         typeof value === "string" &&
@@ -77,24 +124,84 @@ function validApplicationId(value) {
     );
 }
 
-export async function onRequestGet(context) {
-    const { data } = context;
+async function readBody(context) {
+    const contentType = (
+        context.request.headers.get("Content-Type") || ""
+    ).split(";")[0].trim().toLowerCase();
 
-    if (!data.admin) {
-        return jsonResponse({
-            success: false,
-            error: "Authentication required",
-            requestId: data.requestId
-        }, 401);
+    if (contentType !== "application/json") {
+        return {
+            error: failure(
+                context,
+                "Content-Type must be application/json",
+                415
+            )
+        };
     }
 
-    return jsonResponse({
-        success: true,
+    try {
+        const rawBody = await context.request.text();
 
-        service: "Obsidian Crown Administration",
+        if (rawBody.length > 16000) {
+            return {
+                error: failure(
+                    context,
+                    "Request body is too large",
+                    413
+                )
+            };
+        }
 
-        version: VERSION,
+        const body = JSON.parse(rawBody);
 
+        if (
+            !body ||
+            typeof body !== "object" ||
+            Array.isArray(body)
+        ) {
+            throw new Error("Invalid request body");
+        }
+
+        return { body };
+
+    } catch {
+        return {
+            error: failure(
+                context,
+                "Invalid JSON request body",
+                400
+            )
+        };
+    }
+}
+
+function normalizeStatus(value) {
+    return typeof value === "string"
+        ? value.trim().toLowerCase()
+        : "";
+}
+
+function nextTimestamp(previousTimestamp) {
+    const previous = Date.parse(previousTimestamp);
+
+    return new Date(
+        Math.max(
+            Date.now(),
+            Number.isFinite(previous)
+                ? previous + 1
+                : 0
+        )
+    ).toISOString();
+}
+
+export async function onRequestGet(context) {
+    const denied = authorize(context);
+
+    if (denied) {
+        return denied;
+    }
+
+    return success(context, {
         endpoint: "Application Status Management",
 
         method: "POST",
@@ -110,107 +217,61 @@ export async function onRequestGet(context) {
         ],
 
         optionalFields: [
-            "notes"
+            "notes",
+            "expectedUpdatedAt"
         ],
 
-        requestId: data.requestId
+        capabilities: {
+            statusManagement: true,
+            historyTracking: true,
+            auditLogging: true,
+            concurrencyProtection: true,
+            reopeningProtection: true
+        }
     });
 }
 
 export async function onRequestPost(context) {
-    const {
-        request,
-        env,
-        data
-    } = context;
+    const denied = authorize(context);
+
+    if (denied) {
+        return denied;
+    }
+
+    const parsed = await readBody(context);
+
+    if (parsed.error) {
+        return parsed.error;
+    }
+
+    const { body } = parsed;
+    const { env, data } = context;
 
     const administrator = data.admin;
-    const requestId = data.requestId;
-
-    if (!administrator?.email) {
-        return jsonResponse({
-            success: false,
-            error: "Authentication required",
-            requestId
-        }, 401);
-    }
-
-    if (!env.DB) {
-        return jsonResponse({
-            success: false,
-            error: "Database unavailable",
-            requestId
-        }, 503);
-    }
-
-    const contentType = (
-        request.headers.get("Content-Type") || ""
-    ).split(";")[0].trim().toLowerCase();
-
-    if (contentType !== "application/json") {
-        return jsonResponse({
-            success: false,
-            error: "Content-Type must be application/json",
-            requestId
-        }, 415);
-    }
-
-    let body;
-
-    try {
-        const rawBody = await request.text();
-
-        if (rawBody.length > 16000) {
-            return jsonResponse({
-                success: false,
-                error: "Request body is too large",
-                requestId
-            }, 413);
-        }
-
-        body = JSON.parse(rawBody);
-
-        if (
-            !body ||
-            typeof body !== "object" ||
-            Array.isArray(body)
-        ) {
-            throw new Error("Invalid body");
-        }
-
-    } catch {
-        return jsonResponse({
-            success: false,
-            error: "Invalid JSON request body",
-            requestId
-        }, 400);
-    }
 
     const applicationId =
         typeof body.applicationId === "string"
             ? body.applicationId.trim()
             : "";
 
-    const newStatus =
-        typeof body.status === "string"
-            ? body.status.trim().toLowerCase()
-            : "";
+    const newStatus = normalizeStatus(
+        body.status
+    );
 
-    const expectedStatus =
-        typeof body.expectedStatus === "string"
-            ? body.expectedStatus.trim().toLowerCase()
-            : "";
+    const expectedStatus = normalizeStatus(
+        body.expectedStatus
+    );
 
     if (
         body.notes !== undefined &&
         body.notes !== null &&
         typeof body.notes !== "string"
     ) {
-        return jsonResponse({
-            success: false,
-            error: "Notes must be a string",
-            requestId
-        }, 400);
+        return failure(
+            context,
+            "Notes must be a string",
+            400
+        );
     }
 
     const notes =
@@ -218,38 +279,60 @@ export async function onRequestPost(context) {
             ? body.notes.trim()
             : "";
 
+    if (
+        body.expectedUpdatedAt !== undefined &&
+        (
+            typeof body.expectedUpdatedAt !== "string" ||
+            !body.expectedUpdatedAt.trim() ||
+            body.expectedUpdatedAt.length > 100
+        )
+    ) {
+        return failure(
+            context,
+            "Invalid expectedUpdatedAt",
+            400
+        );
+    }
+
+    const expectedUpdatedAt =
+        body.expectedUpdatedAt || null;
+
     if (!validApplicationId(applicationId)) {
-        return jsonResponse({
-            success: false,
-            error: "Invalid application ID",
-            requestId
-        }, 400);
+        return failure(
+            context,
+            "Invalid application ID",
+            400
+        );
     }
 
     if (!VALID_STATUSES.includes(newStatus)) {
-        return jsonResponse({
-            success: false,
-            error: "Invalid application status",
-            validStatuses: VALID_STATUSES,
-            requestId
-        }, 400);
+        return failure(
+            context,
+            "Invalid application status",
+            400,
+            {
+                validStatuses: VALID_STATUSES
+            }
+        );
     }
 
     if (!VALID_STATUSES.includes(expectedStatus)) {
-        return jsonResponse({
-            success: false,
-            error: "A valid expectedStatus is required",
-            validStatuses: VALID_STATUSES,
-            requestId
-        }, 400);
+        return failure(
+            context,
+            "A valid expectedStatus is required",
+            400,
+            {
+                validStatuses: VALID_STATUSES
+            }
+        );
     }
 
     if (notes.length > 3000) {
-        return jsonResponse({
-            success: false,
-            error: "Decision notes cannot exceed 3000 characters",
-            requestId
-        }, 400);
+        return failure(
+            context,
+            "Decision notes cannot exceed 3000 characters",
+            400
+        );
     }
 
     try {
@@ -266,36 +349,62 @@ export async function onRequestPost(context) {
         `).bind(applicationId).first();
 
         if (!application) {
-            return jsonResponse({
-                success: false,
-                error: "Application not found",
-                applicationId,
-                requestId
-            }, 404);
+            return failure(
+                context,
+                "Application not found",
+                404,
+                { applicationId }
+            );
         }
 
         const previousStatus = application.status;
 
         if (previousStatus !== expectedStatus) {
-            return jsonResponse({
-                success: false,
-                error: "Application status has changed",
-                applicationId,
-                expectedStatus,
-                currentStatus: previousStatus,
-                refreshRequired: true,
-                requestId
-            }, 409);
+            return failure(
+                context,
+                "Application status has changed",
+                409,
+                {
+                    applicationId,
+                    expectedStatus,
+                    currentStatus: previousStatus,
+                    refreshRequired: true
+                }
+            );
+        }
+
+        if (
+            expectedUpdatedAt &&
+            expectedUpdatedAt !== application.updated_at
+        ) {
+            return failure(
+                context,
+                "Application has been modified",
+                409,
+                {
+                    applicationId,
+                    currentStatus: previousStatus,
+                    currentUpdatedAt: application.updated_at,
+                    refreshRequired: true
+                }
+            );
         }
 
         if (previousStatus === newStatus) {
-            return jsonResponse({
-                success: true,
+            return success(context, {
                 changed: false,
-                message: "Application already has this status",
+
+                message:
+                    "Application already has this status",
+
                 applicationId,
+
                 status: previousStatus,
-                requestId
+
+                audit: {
+                    recorded: false,
+                    reason: "No status change"
+                }
             });
         }
 
@@ -303,79 +412,115 @@ export async function onRequestPost(context) {
             STATUS_TRANSITIONS[previousStatus] || [];
 
         if (!allowedTransitions.includes(newStatus)) {
-            return jsonResponse({
-                success: false,
-                error: "Invalid status transition",
-                applicationId,
-                previousStatus,
-                requestedStatus: newStatus,
-                allowedTransitions,
-                requestId
-            }, 409);
+            return failure(
+                context,
+                "Invalid status transition",
+                409,
+                {
+                    applicationId,
+                    previousStatus,
+                    requestedStatus: newStatus,
+                    allowedTransitions
+                }
+            );
         }
 
-        const reopening = [
-            "accepted",
-            "declined",
-            "withdrawn"
-        ].includes(previousStatus);
+        const reopening = COMPLETED_STATUSES.includes(
+            previousStatus
+        );
 
         if (reopening && !notes) {
-            return jsonResponse({
-                success: false,
-                error: "A reason is required to reopen an application",
-                requestId
-            }, 400);
+            return failure(
+                context,
+                "A reason is required to reopen an application",
+                400
+            );
         }
 
-        const timestamp = new Date().toISOString();
+        const timestamp = nextTimestamp(
+            application.updated_at
+        );
+
+        const auditAction = reopening
+            ? "application.reopened"
+            : "application.status_changed";
+
+        const updateStatement = env.DB.prepare(`
+            UPDATE applications
+            SET
+                status = ?,
+                reviewer = ?,
+                updated_at = ?
+            WHERE application_id = ?
+            AND status = ?
+            AND updated_at = ?
+        `).bind(
+            newStatus,
+            administrator.email,
+            timestamp,
+            applicationId,
+            previousStatus,
+            application.updated_at
+        );
+
+        const historyStatement = env.DB.prepare(`
+            INSERT INTO application_history (
+                application_id,
+                previous_status,
+                new_status,
+                changed_by,
+                notes,
+                created_at
+            )
+            SELECT
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?
+            WHERE changes() = 1
+        `).bind(
+            applicationId,
+            previousStatus,
+            newStatus,
+            administrator.email,
+            notes || null,
+            timestamp
+        );
+
+        const auditStatement = prepareAudit(
+            context,
+            {
+                action: auditAction,
+
+                targetType: "application",
+
+                targetId: applicationId,
+
+                timestamp,
+
+                details: {
+                    previousStatus,
+                    newStatus,
+                    previousReviewer:
+                        application.reviewer || null,
+                    newReviewer:
+                        administrator.email,
+                    reopened: reopening,
+                    hasDecisionNotes:
+                        notes.length > 0
+                }
+            },
+            {
+                onlyIfChanged: true
+            }
+        );
 
         const results = await env.DB.batch([
-
-            env.DB.prepare(`
-                UPDATE applications
-                SET
-                    status = ?,
-                    reviewer = ?,
-                    updated_at = ?
-                WHERE application_id = ?
-                AND status = ?
-                AND updated_at = ?
-            `).bind(
-                newStatus,
-                administrator.email,
-                timestamp,
-                applicationId,
-                previousStatus,
-                application.updated_at
-            ),
-
-            env.DB.prepare(`
-                INSERT INTO application_history (
-                    application_id,
-                    previous_status,
-                    new_status,
-                    changed_by,
-                    notes,
-                    created_at
-                )
-                SELECT
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?
-                WHERE changes() = 1
-            `).bind(
-                applicationId,
-                previousStatus,
-                newStatus,
-                administrator.email,
-                notes || null,
-                timestamp
-            )
-
+            updateStatement,
+            historyStatement,
+            auditStatement
         ]);
 
         const updatedRows = Number(
@@ -386,77 +531,121 @@ export async function onRequestPost(context) {
             results[1]?.meta?.changes || 0
         );
 
-        if (updatedRows !== 1) {
-            return jsonResponse({
-                success: false,
-                error: "Application was modified by another request",
-                applicationId,
-                refreshRequired: true,
-                requestId
-            }, 409);
+        const auditRows = Number(
+            results[2]?.meta?.changes || 0
+        );
+
+        if (updatedRows === 0) {
+            return failure(
+                context,
+                "Application was modified by another request",
+                409,
+                {
+                    applicationId,
+                    refreshRequired: true
+                }
+            );
         }
 
-        if (historyRows !== 1) {
+        if (
+            updatedRows !== 1 ||
+            historyRows !== 1 ||
+            auditRows !== 1
+        ) {
             console.error(
-                "[Admin Status] History verification failed",
-                requestId,
-                applicationId
+                "[Admin Status] Batch verification failed",
+                data.requestId,
+                {
+                    applicationId,
+                    updatedRows,
+                    historyRows,
+                    auditRows
+                }
             );
 
-            return jsonResponse({
-                success: false,
-                error: "Status update could not be fully verified",
-                refreshRequired: true,
-                requestId
-            }, 500);
+            return failure(
+                context,
+                "Status update could not be fully verified",
+                500,
+                {
+                    refreshRequired: true
+                }
+            );
         }
 
-        return jsonResponse({
-            success: true,
-
-            service: "Obsidian Crown Administration",
-
-            version: VERSION,
-
+        return success(context, {
             changed: true,
 
-            message: "Application status updated successfully",
+            message:
+                "Application status updated successfully",
 
             application: {
                 applicationId,
-                displayName: application.display_name,
+
+                displayName:
+                    application.display_name,
+
                 previousStatus,
+
                 status: newStatus,
-                reviewer: administrator.email,
+
+                reviewer:
+                    administrator.email,
+
                 updatedAt: timestamp
             },
 
             history: {
                 recorded: true,
+
+                id:
+                    results[1]?.meta?.last_row_id || null,
+
                 previousStatus,
+
                 newStatus,
-                changedBy: administrator.email,
+
+                changedBy:
+                    administrator.email,
+
                 notes: notes || null,
+
+                createdAt: timestamp
+            },
+
+            audit: {
+                recorded: true,
+
+                id:
+                    results[2]?.meta?.last_row_id || null,
+
+                action: auditAction,
+
+                actor:
+                    administrator.email,
+
+                targetType: "application",
+
+                targetId: applicationId,
+
                 createdAt: timestamp
             },
 
             allowedTransitions:
-                STATUS_TRANSITIONS[newStatus] || [],
-
-            requestId
+                STATUS_TRANSITIONS[newStatus] || []
         });
 
     } catch (error) {
         console.error(
             "[Admin Status]",
-            requestId,
+            data.requestId,
             error.message
         );
 
-        return jsonResponse({
-            success: false,
-            error: "Unable to update application status",
-            requestId
-        }, 500);
+        return failure(
+            context,
+            "Unable to update application status",
+            500
+        );
     }
 }
