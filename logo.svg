@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -25 400 400">
+    <defs>
+        <linearGradient id="goldA" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#E8D6B2"></stop>
+            <stop offset="1" stop-color="#8C744D"></stop>
+        </linearGradient>
+
+        <linearGradient id="goldB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#BCA783"></stop>
+            <stop offset="1" stop-color="#4D3E29"></stop>
+        </linearGradient>
+    </defs>
+
+    <polygon points="30,80 120,160 200,20 280,160 370,80 310,275 90,275" fill="#332A1D"></polygon>
+
+    <polygon points="30,80 120,160 90,275" fill="url(#goldB)"></polygon>
+
+    <polygon points="120,160 200,20 200,275" fill="url(#goldA)"></polygon>
+
+    <polygon points="200,20 280,160 200,275" fill="#8F7956"></polygon>
+
+    <polygon points="280,160 370,80 310,275" fill="url(#goldA)"></polygon>
+
+    <polygon points="120,160 90,275 200,275" fill="#77603E"></polygon>
+
+    <polygon points="280,160 200,275 310,275" fill="#C0A77D"></polygon>
+
+    <path d="M30 80L120 160L200 20L280 160L370 80L310 275H90Z" fill="none" stroke="#D9C7A6" stroke-width="2"></path>
+
+    <polygon points="90,292 310,292 290,320 110,320" fill="url(#goldA)"></polygon>
+
+    <polygon points="110,320 290,320 280,330 120,330" fill="#54432D"></polygon>
+</svg>
