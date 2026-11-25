@@ -1,0 +1,1704 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Experiences — Obsidian Crown</title>
+
+    <meta name="description" content="Discover the worlds, experiences and creative projects developed by Obsidian Crown, an independent game development studio.">
+    <meta name="theme-color" content="#0C0C0D">
+
+    <link rel="canonical" href="https://obsidiancrown.org/games">
+
+    <meta property="og:title" content="Experiences — Obsidian Crown">
+    <meta property="og:description" content="Distinctive experiences. Thoughtful design. Uncompromising ambition.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://obsidiancrown.org/games">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background: #0C0C0D;
+            --surface: #141414;
+            --surface-light: #1B1B1B;
+            --gold: #BCA783;
+            --gold-light: #D9C7A6;
+            --ivory: #EDE9E1;
+            --muted: #A39F97;
+            --border: rgba(188, 167, 131, 0.17);
+            --serif: "Cormorant Garamond", Georgia, serif;
+            --sans: "Manrope", Arial, sans-serif;
+            --max-width: 1440px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--ivory);
+            font-family: var(--sans);
+            font-size: 14px;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 6px;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--background);
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .container {
+            width: min(calc(100% - 112px), var(--max-width));
+            margin-inline: auto;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: -100px;
+            left: 20px;
+            padding: 12px 20px;
+            background: var(--gold);
+            color: var(--background);
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 20px;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(12, 12, 13, 0.94);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 17px;
+            flex-shrink: 0;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            color: var(--gold);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-family: var(--serif);
+            font-size: 23px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            margin-top: 6px;
+            font-size: 8px;
+            letter-spacing: 2.7px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+        }
+
+        .navigation a {
+            position: relative;
+            padding-block: 12px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            transition: color 200ms ease;
+        }
+
+        .navigation a:hover,
+        .navigation a[aria-current="page"] {
+            color: var(--gold-light);
+        }
+
+        .navigation a[aria-current="page"]::after {
+            content: "";
+            position: absolute;
+            bottom: 3px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .navigation .nav-contact {
+            padding: 12px 22px;
+            border: 1px solid var(--border);
+            color: var(--gold);
+        }
+
+        .navigation .nav-contact:hover {
+            border-color: var(--gold);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--gold);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 125px 0 100px;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(
+                ellipse at 50% 0%,
+                rgba(188, 167, 131, 0.055),
+                transparent 65%
+            );
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 1050px;
+            margin-inline: auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            margin: 28px 0;
+            font-family: var(--serif);
+            font-size: clamp(70px, 9vw, 142px);
+            font-weight: 400;
+            letter-spacing: -0.045em;
+            line-height: 0.83;
+        }
+
+        .hero h1 em {
+            display: block;
+            color: var(--gold);
+            font-weight: 400;
+            margin-top: 15px;
+        }
+
+        .hero-description {
+            max-width: 580px;
+            margin: 36px auto 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .hero-line {
+            width: 1px;
+            height: 55px;
+            margin: 38px auto 0;
+            background: linear-gradient(
+                var(--gold),
+                transparent
+            );
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .section-label {
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        .section-rule {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .section-number {
+            font-family: var(--serif);
+            color: var(--muted);
+            font-size: 21px;
+        }
+
+        .featured {
+            padding-bottom: 110px;
+        }
+
+        .featured-card {
+            display: grid;
+            grid-template-columns: 1.55fr 1fr;
+            min-height: 490px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .featured-art {
+            position: relative;
+            overflow: hidden;
+            min-height: 490px;
+            background: #20271F;
+        }
+
+        .featured-art svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 700ms ease;
+        }
+
+        .featured-card:hover .featured-art svg {
+            transform: scale(1.035);
+        }
+
+        .featured-art::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                0deg,
+                rgba(8, 10, 8, 0.7),
+                transparent 45%
+            );
+            pointer-events: none;
+        }
+
+        .art-caption {
+            position: absolute;
+            bottom: 28px;
+            left: 30px;
+            z-index: 2;
+            color: rgba(237, 233, 225, 0.75);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .art-index {
+            position: absolute;
+            top: 26px;
+            left: 30px;
+            z-index: 2;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--ivory);
+        }
+
+        .featured-content {
+            padding: clamp(35px, 5vw, 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--gold);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        .featured-content h2 {
+            margin: 23px 0;
+            font-family: var(--serif);
+            font-size: clamp(46px, 5vw, 79px);
+            font-weight: 500;
+            line-height: 0.95;
+            letter-spacing: -2px;
+        }
+
+        .featured-content p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 25px 0;
+            margin-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .meta-label {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            color: var(--ivory);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            width: fit-content;
+            padding: 17px 25px;
+            border: 1px solid var(--gold);
+            background: var(--gold);
+            color: var(--background);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            transition:
+                background 200ms ease,
+                color 200ms ease,
+                border-color 200ms ease;
+        }
+
+        .button:hover {
+            background: var(--gold-light);
+            border-color: var(--gold-light);
+        }
+
+        .button svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .button-outline {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        .button-outline:hover {
+            background: var(--gold);
+            color: var(--background);
+        }
+
+        .portfolio {
+            padding: 85px 0 120px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .portfolio-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .portfolio-heading h2 {
+            font-family: var(--serif);
+            font-size: clamp(50px, 6vw, 86px);
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .portfolio-heading p {
+            color: var(--muted);
+            max-width: 370px;
+            font-size: 13px;
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px 0;
+            margin-bottom: 32px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter {
+            padding: 10px 18px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            transition: 200ms ease;
+        }
+
+        .filter:hover {
+            color: var(--gold-light);
+        }
+
+        .filter[aria-pressed="true"] {
+            border-color: var(--border);
+            background: rgba(188, 167, 131, 0.06);
+            color: var(--gold-light);
+        }
+
+        .project-count {
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            background: var(--background);
+            transition:
+                border-color 250ms ease,
+                transform 250ms ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .project-image {
+            position: relative;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            background: #222B21;
+        }
+
+        .project-image svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .project-image-label {
+            position: absolute;
+            left: 18px;
+            bottom: 16px;
+            color: var(--ivory);
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .project-body {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .project-body h3 {
+            margin: 15px 0 10px;
+            font-family: var(--serif);
+            font-size: 35px;
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        .project-body p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .project-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .project-link:hover {
+            color: var(--gold-light);
+        }
+
+        .project-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .empty-state {
+            padding: 75px 30px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .empty-state h3 {
+            font-family: var(--serif);
+            font-size: 40px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .philosophy {
+            padding: 125px 0;
+            text-align: center;
+        }
+
+        .philosophy-inner {
+            max-width: 850px;
+            margin-inline: auto;
+        }
+
+        .philosophy-mark {
+            width: 50px;
+            height: 50px;
+            color: var(--gold);
+            margin-bottom: 25px;
+        }
+
+        .philosophy h2 {
+            font-family: var(--serif);
+            font-size: clamp(44px, 6vw, 78px);
+            font-weight: 400;
+            line-height: 1.05;
+        }
+
+        .philosophy h2 em {
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .philosophy p {
+            color: var(--muted);
+            max-width: 620px;
+            margin: 25px auto 0;
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .collaboration {
+            background: var(--ivory);
+            color: var(--background);
+            padding: 80px 0;
+        }
+
+        .collaboration-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 45px;
+        }
+
+        .collaboration .section-label {
+            color: #756344;
+        }
+
+        .collaboration h2 {
+            margin: 15px 0;
+            font-family: var(--serif);
+            font-size: clamp(45px, 6vw, 77px);
+            font-weight: 500;
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .collaboration p {
+            color: #5E5A53;
+            max-width: 550px;
+            font-size: 13px;
+        }
+
+        .collaboration .button {
+            background: var(--background);
+            color: var(--ivory);
+            border-color: var(--background);
+            flex-shrink: 0;
+        }
+
+        .collaboration .button:hover {
+            background: #33302B;
+        }
+
+        .site-footer {
+            padding: 65px 0 25px;
+        }
+
+        .footer-main {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 50px;
+            padding-bottom: 45px;
+        }
+
+        .footer-brand p {
+            max-width: 340px;
+            margin-top: 22px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 65px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 5px;
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-column a {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer-column a:hover {
+            color: var(--ivory);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            gap: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .footer-motto {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .reveal-ready {
+            opacity: 0;
+            transform: translateY(22px);
+            transition:
+                opacity 650ms ease,
+                transform 650ms ease;
+        }
+
+        .reveal-ready.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1100px) {
+            .container {
+                width: calc(100% - 72px);
+            }
+
+            .navigation {
+                gap: 23px;
+            }
+
+            .brand-name {
+                font-size: 19px;
+            }
+
+            .featured-content {
+                padding: 35px;
+            }
+
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .header-inner {
+                min-height: 82px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .navigation {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                height: calc(100dvh - 82px);
+                padding: 40px 36px;
+                background: var(--background);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                overflow-y: auto;
+            }
+
+            .navigation.open {
+                display: flex;
+            }
+
+            .navigation a {
+                padding: 20px 0;
+                font-size: 13px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .navigation a[aria-current="page"]::after {
+                display: none;
+            }
+
+            .navigation .nav-contact {
+                padding: 18px;
+                margin-top: 15px;
+                text-align: center;
+            }
+
+            .hero {
+                padding: 90px 0 65px;
+            }
+
+            .featured-card {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-art {
+                min-height: 0;
+                aspect-ratio: 16 / 10;
+            }
+
+            .featured-content {
+                padding: 45px;
+            }
+
+            .portfolio-heading,
+            .collaboration-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-main {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                width: calc(100% - 40px);
+            }
+
+            .brand {
+                gap: 10px;
+            }
+
+            .brand-mark {
+                width: 33px;
+                height: 33px;
+            }
+
+            .brand-name {
+                font-size: 17px;
+                letter-spacing: 1.6px;
+            }
+
+            .brand-subtitle {
+                font-size: 6px;
+                letter-spacing: 1.8px;
+            }
+
+            .hero h1 {
+                font-size: clamp(58px, 13vw, 85px);
+            }
+
+            .eyebrow {
+                font-size: 8px;
+                letter-spacing: 2.4px;
+            }
+
+            .eyebrow::before,
+            .eyebrow::after {
+                width: 14px;
+            }
+
+            .hero-description {
+                font-size: 12px;
+            }
+
+            .featured {
+                padding-bottom: 65px;
+            }
+
+            .featured-content {
+                padding: 28px;
+            }
+
+            .featured-content h2 {
+                font-size: 52px;
+            }
+
+            .art-caption {
+                left: 18px;
+                bottom: 18px;
+                font-size: 7px;
+            }
+
+            .art-index {
+                left: 18px;
+                top: 18px;
+            }
+
+            .portfolio {
+                padding: 65px 0;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filters {
+                gap: 5px;
+            }
+
+            .filter {
+                padding: 9px 12px;
+                font-size: 9px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .philosophy {
+                padding: 80px 0;
+            }
+
+            .collaboration {
+                padding: 65px 0;
+            }
+
+            .footer-links {
+                width: 100%;
+                gap: 25px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal-ready {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">
+        Skip to content
+    </a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+
+            <a class="brand" href="/" aria-label="Obsidian Crown home">
+
+                <svg class="brand-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                    <path d="M5 16L18 28L32 5L46 28L59 16L51 49H13L5 16Z" fill="currentColor"/>
+                    <path d="M18 28L32 5L32 49H13L18 28Z" fill="#D9C7A6"/>
+                    <path d="M32 5L46 28L51 49H32V5Z" fill="#9A8462"/>
+                    <path d="M5 16L18 28L13 49L5 16Z" fill="#8A7555"/>
+                    <path d="M46 28L59 16L51 49L46 28Z" fill="#D9C7A6"/>
+                    <path d="M13 54H51V59H13V54Z" fill="currentColor"/>
+                </svg>
+
+                <span class="brand-text">
+                    <span class="brand-name">Obsidian Crown</span>
+                    <span class="brand-subtitle">Independent Game Studio</span>
+                </span>
+
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="navigation"
+            >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M4 6H20M4 12H20M4 18H20"/>
+                </svg>
+            </button>
+
+            <nav class="navigation" id="navigation" aria-label="Main navigation">
+                <a href="/">Home</a>
+                <a href="/games" aria-current="page">Experiences</a>
+                <a href="/#studio">Studio</a>
+                <a href="/careers">Careers</a>
+                <a href="/#contact" class="nav-contact">Contact</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main id="main">
+
+        <section class="hero">
+            <div class="container hero-inner">
+
+                <span class="eyebrow">
+                    Our Creative Portfolio
+                </span>
+
+                <h1>
+                    Worlds worth
+                    <em>discovering.</em>
+                </h1>
+
+                <p class="hero-description">
+                    Distinctive experiences. Thoughtful design.
+                    Uncompromising ambition. Explore the worlds
+                    we are creating at Obsidian Crown.
+                </p>
+
+                <div class="hero-line" aria-hidden="true"></div>
+
+            </div>
+        </section>
+
+        <section class="featured container" aria-labelledby="featuredTitle">
+
+            <div class="section-heading">
+                <span class="section-label">Featured Experience</span>
+                <span class="section-rule"></span>
+                <span class="section-number">01</span>
+            </div>
+
+            <article class="featured-card" data-reveal>
+
+                <div class="featured-art">
+
+                    <svg viewBox="0 0 1000 650" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustrated prehistoric landscape placeholder">
+
+                        <defs>
+                            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#303C31"/>
+                                <stop offset="100%" stop-color="#A69C70"/>
+                            </linearGradient>
+
+                            <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#424D34"/>
+                                <stop offset="100%" stop-color="#172018"/>
+                            </linearGradient>
+                        </defs>
+
+                        <rect width="1000" height="650" fill="url(#sky)"/>
+
+                        <circle cx="730" cy="175" r="92" fill="#C6B68A" opacity="0.55"/>
+
+                        <path d="M0 365L175 160L290 315L435 110L610 340L785 155L1000 350V650H0Z" fill="#4E5944"/>
+
+                        <path d="M175 160L290 315L190 260L110 295Z" fill="#626B50"/>
+                        <path d="M435 110L610 340L462 258L380 275Z" fill="#677052"/>
+                        <path d="M785 155L1000 350L812 267L700 290Z" fill="#697153"/>
+
+                        <path d="M0 410L185 330L320 405L520 300L710 405L870 325L1000 395V650H0Z" fill="#36452F"/>
+
+                        <path d="M0 470L250 405L480 470L720 390L1000 460V650H0Z" fill="url(#ground)"/>
+
+                        <g fill="#243322">
+                            <path d="M90 500L112 280L125 500Z"/>
+                            <path d="M112 280L35 330L112 305L182 335Z"/>
+                            <path d="M112 280L58 245L112 268L170 230Z"/>
+                            <path d="M112 280L100 205L122 275L145 208Z"/>
+                            <path d="M850 490L870 245L887 490Z"/>
+                            <path d="M870 245L780 290L870 270L950 300Z"/>
+                            <path d="M870 245L805 205L870 230L940 190Z"/>
+                        </g>
+
+                        <ellipse cx="530" cy="550" rx="240" ry="30" fill="#121A13" opacity="0.55"/>
+
+                        <g>
+                            <path d="M220 453L325 422L435 370L560 355L645 395L670 440L590 480L445 480L330 455Z" fill="#687653"/>
+
+                            <path d="M220 453L120 482L325 422L435 370L390 420Z" fill="#84906A"/>
+
+                            <path d="M435 370L560 355L645 395L535 405Z" fill="#929A72"/>
+
+                            <path d="M445 480L535 405L645 395L670 440L590 480Z" fill="#4E5D3D"/>
+
+                            <path d="M580 390L625 315L680 265L710 290L675 365L645 415Z" fill="#74835B"/>
+
+                            <path d="M625 315L680 265L710 290L655 325Z" fill="#9AA47B"/>
+
+                            <path d="M675 265L745 240L805 265L815 300L745 315L690 295Z" fill="#87936B"/>
+
+                            <path d="M745 240L805 265L815 280L745 275Z" fill="#A6AE85"/>
+
+                            <path d="M690 295L745 275L815 280L815 300L745 315Z" fill="#5B6949"/>
+
+                            <path d="M750 300L815 290L815 300L755 310Z" fill="#263224"/>
+
+                            <circle cx="752" cy="269" r="6" fill="#D9C7A6"/>
+                            <circle cx="754" cy="269" r="3" fill="#151A12"/>
+
+                            <path d="M445 440L510 455L485 505L510 555L475 565L440 510Z" fill="#566747"/>
+
+                            <path d="M445 440L475 455L460 505L485 555L475 565L440 510Z" fill="#788763"/>
+
+                            <path d="M555 440L615 450L595 510L625 555L590 565L555 510Z" fill="#46583B"/>
+
+                            <path d="M620 380L660 385L675 420L700 425L690 438L660 430L640 405Z" fill="#84906A"/>
+
+                            <path d="M475 555L510 555L530 570L475 570Z" fill="#38482F"/>
+
+                            <path d="M590 555L625 555L645 570L590 570Z" fill="#38482F"/>
+                        </g>
+
+                        <g fill="#18241A">
+                            <path d="M0 650L0 550L55 590L80 520L100 610L145 550L160 650Z"/>
+                            <path d="M820 650L855 555L885 610L930 530L950 610L1000 560V650Z"/>
+                        </g>
+
+                        <g fill="#8E9074" opacity="0.7">
+                            <path d="M200 565L240 540L285 555L270 580L210 580Z"/>
+                            <path d="M720 570L750 540L790 550L815 580L740 585Z"/>
+                        </g>
+
+                    </svg>
+
+                    <span class="art-index">OC / 001</span>
+
+                    <span class="art-caption">
+                        Concept Artwork — Prehistoric Worlds
+                    </span>
+
+                </div>
+
+                <div class="featured-content">
+
+                    <span class="project-status">
+                        <span class="status-dot"></span>
+                        In Development
+                    </span>
+
+                    <h2 id="featuredTitle">
+                        Throw Meat<br>for Dinos!
+                    </h2>
+
+                    <p>
+                        Journey into a prehistoric world where
+                        extraordinary creatures await discovery.
+                        Attract dinosaurs, grow your collection
+                        and explore an experience inspired by
+                        the wonders of the ancient world.
+                    </p>
+
+                    <div class="project-meta">
+
+                        <div>
+                            <span class="meta-label">Platform</span>
+                            <span class="meta-value">Roblox</span>
+                        </div>
+
+                        <div>
+                            <span class="meta-label">Genre</span>
+                            <span class="meta-value">Collection / Simulation</span>
+                        </div>
+
+                    </div>
+
+                    <a
+                        class="button"
+                        href="https://www.roblox.com/games/97838462286552/Throw-Meat-for-Dinos-Assets"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        View on Roblox
+
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                            <path d="M5 19L19 5M5 5H19V19"/>
+                        </svg>
+                    </a>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <section class="portfolio" aria-labelledby="portfolioTitle">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-label">The Collection</span>
+                    <span class="section-rule"></span>
+                    <span class="section-number">02</span>
+                </div>
+
+                <div class="portfolio-heading" data-reveal>
+
+                    <h2 id="portfolioTitle">
+                        Our experiences.
+                    </h2>
+
+                    <p>
+                        A collection of our creative endeavors,
+                        from early development to completed worlds.
+                    </p>
+
+                </div>
+
+                <div class="filter-bar">
+
+                    <div class="filters" role="group" aria-label="Filter experiences">
+
+                        <button class="filter" data-filter="all" aria-pressed="true">
+                            All Projects
+                        </button>
+
+                        <button class="filter" data-filter="released" aria-pressed="false">
+                            Released
+                        </button>
+
+                        <button class="filter" data-filter="development" aria-pressed="false">
+                            In Development
+                        </button>
+
+                        <button class="filter" data-filter="upcoming" aria-pressed="false">
+                            Upcoming
+                        </button>
+
+                    </div>
+
+                    <span class="project-count" id="projectCount" aria-live="polite">
+                        01 Experience
+                    </span>
+
+                </div>
+
+                <div class="project-grid" id="projectGrid">
+
+                    <article class="project-card" data-status="development">
+
+                        <div class="project-image">
+
+                            <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Prehistoric project artwork placeholder">
+
+                                <rect width="640" height="400" fill="#4B5945"/>
+
+                                <circle cx="470" cy="95" r="60" fill="#B8AD80"/>
+
+                                <path d="M0 250L145 80L250 235L385 65L530 220L640 130V400H0Z" fill="#657053"/>
+
+                                <path d="M0 290L170 210L320 275L470 190L640 270V400H0Z" fill="#34442E"/>
+
+                                <path d="M0 340L200 280L390 335L640 260V400H0Z" fill="#253323"/>
+
+                                <path d="M100 295L200 260L265 220L350 215L405 245L390 285L310 305L210 295Z" fill="#82916B"/>
+
+                                <path d="M100 295L35 320L200 260L265 220L220 275Z" fill="#9CA781"/>
+
+                                <path d="M350 215L390 160L425 120L455 145L420 215L405 245Z" fill="#87976E"/>
+
+                                <path d="M425 120L485 105L535 130L530 155L470 170L455 145Z" fill="#A1AD82"/>
+
+                                <path d="M470 170L530 155L535 140L470 145Z" fill="#667753"/>
+
+                                <circle cx="490" cy="128" r="4" fill="#18241A"/>
+
+                                <path d="M255 280L290 290L270 335L290 360H255L235 330Z" fill="#647650"/>
+
+                                <path d="M340 280L375 290L360 335L380 360H345L325 330Z" fill="#536444"/>
+
+                                <path d="M0 400L0 330L40 360L65 310L90 400Z" fill="#172319"/>
+
+                                <path d="M560 400L580 325L610 365L640 300V400Z" fill="#172319"/>
+
+                            </svg>
+
+                            <span class="project-image-label">
+                                Obsidian Crown / 001
+                            </span>
+
+                        </div>
+
+                        <div class="project-body">
+
+                            <span class="project-status">
+                                <span class="status-dot"></span>
+                                In Development
+                            </span>
+
+                            <h3>Throw Meat for Dinos!</h3>
+
+                            <p>
+                                A prehistoric dinosaur collection
+                                and simulation experience.
+                            </p>
+
+                            <a
+                                class="project-link"
+                                href="https://www.roblox.com/games/97838462286552/Throw-Meat-for-Dinos-Assets"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                View Experience
+
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                    <path d="M5 19L19 5M5 5H19V19"/>
+                                </svg>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div class="empty-state" id="emptyState" hidden>
+                    <h3>Nothing to reveal just yet.</h3>
+                    <p>
+                        New experiences will be added to this
+                        collection as they are announced.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="philosophy">
+            <div class="container philosophy-inner" data-reveal>
+
+                <svg class="philosophy-mark" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+                    <path d="M5 16L18 28L32 5L46 28L59 16L51 49H13L5 16Z"/>
+                    <path d="M13 54H51V59H13V54Z"/>
+                </svg>
+
+                <h2>
+                    Excellence in creation.<br>
+                    <em>Ambition without limits.</em>
+                </h2>
+
+                <p>
+                    Every experience begins with an idea.
+                    Through creativity, technical precision
+                    and thoughtful craftsmanship, we seek
+                    to transform those ideas into worlds
+                    that leave a lasting impression.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="collaboration">
+            <div class="container collaboration-inner">
+
+                <div>
+                    <span class="section-label">
+                        Create With Us
+                    </span>
+
+                    <h2>Build something extraordinary.</h2>
+
+                    <p>
+                        We welcome talented developers, artists
+                        and creative individuals who share our
+                        ambition for exceptional game development.
+                    </p>
+                </div>
+
+                <a href="/careers" class="button">
+                    Explore Careers
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path d="M5 19L19 5M5 5H19V19"/>
+                    </svg>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+
+            <div class="footer-main">
+
+                <div class="footer-brand">
+
+                    <a class="brand" href="/">
+
+                        <svg class="brand-mark" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+                            <path d="M5 16L18 28L32 5L46 28L59 16L51 49H13L5 16Z"/>
+                            <path d="M13 54H51V59H13V54Z"/>
+                        </svg>
+
+                        <span class="brand-text">
+                            <span class="brand-name">Obsidian Crown</span>
+                            <span class="brand-subtitle">Independent Game Studio</span>
+                        </span>
+
+                    </a>
+
+                    <p>
+                        An independent game development studio
+                        driven by creativity, ambition and craftsmanship.
+                    </p>
+
+                </div>
+
+                <div class="footer-links">
+
+                    <div class="footer-column">
+                        <h3>Explore</h3>
+                        <a href="/">Home</a>
+                        <a href="/games">Experiences</a>
+                        <a href="/#studio">Our Studio</a>
+                        <a href="/careers">Careers</a>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Information</h3>
+                        <a href="/#contact">Contact</a>
+                        <a href="/privacy">Privacy Policy</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <span>
+                    &copy; <span id="copyrightYear">2026</span>
+                    Obsidian Crown. All rights reserved.
+                </span>
+
+                <span class="footer-motto">
+                    Excellence in creation. Ambition without limits.
+                </span>
+
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        (() => {
+            "use strict";
+
+            const menuToggle = document.getElementById("menuToggle");
+            const navigation = document.getElementById("navigation");
+
+            function setMenu(open) {
+                navigation.classList.toggle("open", open);
+
+                document.body.classList.toggle(
+                    "menu-open",
+                    open
+                );
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    String(open)
+                );
+
+                menuToggle.setAttribute(
+                    "aria-label",
+                    open ? "Close navigation" : "Open navigation"
+                );
+
+                menuToggle.innerHTML = open
+                    ? `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19"/></svg>`
+                    : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6H20M4 12H20M4 18H20"/></svg>`;
+            }
+
+            menuToggle.addEventListener("click", () => {
+                setMenu(
+                    menuToggle.getAttribute("aria-expanded") !== "true"
+                );
+            });
+
+            navigation.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", () => {
+                    setMenu(false);
+                });
+            });
+
+            document.addEventListener("keydown", event => {
+                if (
+                    event.key === "Escape" &&
+                    menuToggle.getAttribute("aria-expanded") === "true"
+                ) {
+                    setMenu(false);
+                    menuToggle.focus();
+                }
+            });
+
+            const desktopQuery = window.matchMedia("(min-width: 851px)");
+
+            desktopQuery.addEventListener("change", event => {
+                if (event.matches) {
+                    setMenu(false);
+                }
+            });
+
+            const filters = Array.from(
+                document.querySelectorAll(".filter")
+            );
+
+            const projects = Array.from(
+                document.querySelectorAll(".project-card")
+            );
+
+            const projectCount = document.getElementById("projectCount");
+            const emptyState = document.getElementById("emptyState");
+            const projectGrid = document.getElementById("projectGrid");
+
+            function applyFilter(selected) {
+                let visibleCount = 0;
+
+                filters.forEach(filter => {
+                    filter.setAttribute(
+                        "aria-pressed",
+                        String(filter.dataset.filter === selected)
+                    );
+                });
+
+                projects.forEach(project => {
+                    const visible =
+                        selected === "all" ||
+                        project.dataset.status === selected;
+
+                    project.hidden = !visible;
+
+                    if (visible) {
+                        visibleCount++;
+                    }
+                });
+
+                projectCount.textContent =
+                    String(visibleCount).padStart(2, "0") +
+                    (visibleCount === 1
+                        ? " Experience"
+                        : " Experiences");
+
+                projectGrid.hidden = visibleCount === 0;
+                emptyState.hidden = visibleCount !== 0;
+            }
+
+            filters.forEach(filter => {
+                filter.addEventListener("click", () => {
+                    applyFilter(filter.dataset.filter);
+                });
+            });
+
+            applyFilter("all");
+
+            const reducedMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
+
+            if (
+                "IntersectionObserver" in window &&
+                !reducedMotion
+            ) {
+                const observer = new IntersectionObserver(
+                    entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("visible");
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.08
+                    }
+                );
+
+                document.querySelectorAll("[data-reveal]").forEach(element => {
+                    element.classList.add("reveal-ready");
+                    observer.observe(element);
+                });
+            }
+
+            document.getElementById("copyrightYear").textContent =
+                new Date().getFullYear();
+
+        })();
+    </script>
+
+</body>
+</html>
