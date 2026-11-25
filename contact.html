@@ -1,0 +1,1712 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact — Obsidian Crown</title>
+
+    <meta name="description" content="Connect with Obsidian Crown regarding business opportunities, creative partnerships, careers and applications.">
+    <meta name="theme-color" content="#121212">
+
+    <link rel="canonical" href="https://obsidiancrown.org/contact">
+
+    <meta property="og:title" content="Contact — Obsidian Crown">
+    <meta property="og:description" content="Great things begin with a conversation.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://obsidiancrown.org/contact">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background: #121212;
+            --surface: #151515;
+            --gold: #BCA783;
+            --gold-light: #D9C7A6;
+            --ivory: #EDE9E1;
+            --muted: #A39F97;
+            --border: #36312A;
+            --border-subtle: #2B2823;
+            --serif: "Cormorant Garamond", Georgia, serif;
+            --sans: "Manrope", Arial, sans-serif;
+            --max-width: 1440px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 120px;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--ivory);
+            font-family: var(--sans);
+            font-size: 14px;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        a,
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 1px solid var(--gold);
+            outline-offset: 6px;
+        }
+
+        svg {
+            display: block;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--background);
+        }
+
+        .container {
+            width: min(calc(100% - 112px), var(--max-width));
+            margin-inline: auto;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: -100px;
+            left: 20px;
+            padding: 12px 20px;
+            background: var(--gold);
+            color: var(--background);
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 20px;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(18, 18, 18, 0.96);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .header-inner {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 17px;
+            flex-shrink: 0;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-family: var(--serif);
+            font-size: 23px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 8px;
+            letter-spacing: 2.7px;
+            text-transform: uppercase;
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+        }
+
+        .navigation a {
+            position: relative;
+            padding-block: 12px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            transition: color 200ms ease;
+        }
+
+        .navigation a:hover,
+        .navigation a[aria-current="page"] {
+            color: var(--gold-light);
+        }
+
+        .navigation .nav-contact {
+            padding: 12px 22px;
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--gold);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 125px 0 95px;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                ellipse at 50% 0%,
+                rgba(188, 167, 131, 0.05),
+                transparent 65%
+            );
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 1150px;
+            margin-inline: auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            margin: 30px 0;
+            font-family: var(--serif);
+            font-size: clamp(65px, 8.5vw, 125px);
+            font-weight: 400;
+            letter-spacing: -0.045em;
+            line-height: 0.9;
+        }
+
+        .hero h1 em {
+            display: block;
+            margin-top: 12px;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .hero-description {
+            max-width: 650px;
+            margin: 35px auto 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .hero-line {
+            width: 1px;
+            height: 55px;
+            margin: 38px auto 0;
+            background: linear-gradient(
+                var(--gold),
+                transparent
+            );
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .section-label {
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        .section-rule {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .section-number {
+            font-family: var(--serif);
+            color: var(--muted);
+            font-size: 21px;
+        }
+
+        .inquiries {
+            padding-bottom: 90px;
+        }
+
+        .inquiry-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 30px;
+        }
+
+        .inquiry-card {
+            display: flex;
+            flex-direction: column;
+            padding: 45px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            transition: border-color 250ms ease;
+        }
+
+        .inquiry-card:hover {
+            border-color: rgba(188, 167, 131, 0.55);
+        }
+
+        .inquiry-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            margin-bottom: 32px;
+            color: var(--gold);
+            border: 1px solid var(--border);
+        }
+
+        .inquiry-icon svg {
+            width: 27px;
+            height: 27px;
+        }
+
+        .inquiry-category {
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .inquiry-card h2 {
+            margin: 18px 0;
+            font-family: var(--serif);
+            font-size: clamp(37px, 4vw, 54px);
+            font-weight: 500;
+            line-height: 1.05;
+        }
+
+        .inquiry-card p {
+            margin-bottom: 28px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .inquiry-list {
+            list-style: none;
+            margin-top: auto;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .inquiry-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 13px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .inquiry-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .inquiry-list li::before {
+            content: "";
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .direct-contact {
+            padding-bottom: 110px;
+        }
+
+        .contact-panel {
+            position: relative;
+            overflow: hidden;
+            padding: 70px;
+            border: 1px solid var(--border);
+            background: radial-gradient(
+                ellipse at 50% 0%,
+                #25221C,
+                #151515 75%
+            );
+        }
+
+        .contact-intro {
+            max-width: 720px;
+            margin: 0 auto 45px;
+            text-align: center;
+        }
+
+        .contact-intro h2 {
+            margin: 18px 0;
+            font-family: var(--serif);
+            font-size: clamp(44px, 6vw, 76px);
+            font-weight: 400;
+            line-height: 1.05;
+        }
+
+        .contact-intro p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .discord-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            max-width: 850px;
+            margin-inline: auto;
+            padding: 35px;
+            background: var(--background);
+            border: 1px solid var(--border);
+        }
+
+        .discord-identity {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            min-width: 0;
+        }
+
+        .discord-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            flex-shrink: 0;
+            background: #1C1A17;
+            border: 1px solid var(--border);
+            color: var(--gold);
+        }
+
+        .discord-icon svg {
+            width: 35px;
+            height: 35px;
+        }
+
+        .discord-label {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .discord-username {
+            display: block;
+            margin: 4px 0;
+            color: var(--ivory);
+            font-family: var(--serif);
+            font-size: 43px;
+            font-weight: 500;
+            line-height: 1.1;
+            user-select: all;
+        }
+
+        .discord-caption {
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 0.6px;
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-height: 46px;
+            padding: 13px 22px;
+            background: var(--gold);
+            border: 1px solid var(--gold);
+            color: var(--background);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            transition:
+                background 200ms ease,
+                color 200ms ease,
+                border-color 200ms ease;
+        }
+
+        .button:hover {
+            background: var(--gold-light);
+            border-color: var(--gold-light);
+        }
+
+        .button svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .button-outline {
+            background: transparent;
+            border-color: var(--border);
+            color: var(--gold);
+        }
+
+        .button-outline:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--background);
+        }
+
+        .copy-feedback {
+            min-height: 25px;
+            margin-top: 15px;
+            color: var(--gold-light);
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .contact-instructions {
+            max-width: 700px;
+            margin: 15px auto 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .guidelines {
+            padding: 90px 0;
+            background: var(--ivory);
+            color: var(--background);
+        }
+
+        .guidelines-inner {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 90px;
+        }
+
+        .guidelines .section-label {
+            color: #756344;
+        }
+
+        .guidelines h2 {
+            margin-top: 18px;
+            font-family: var(--serif);
+            font-size: clamp(48px, 6vw, 76px);
+            font-weight: 500;
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .guideline-item {
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.15);
+        }
+
+        .guideline-item:first-child {
+            padding-top: 0;
+        }
+
+        .guideline-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .guideline-item h3 {
+            margin-bottom: 10px;
+            font-family: var(--serif);
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .guideline-item p {
+            color: #5E5A53;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .philosophy {
+            padding: 100px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .philosophy-mark {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 28px;
+            color: var(--gold);
+        }
+
+        .philosophy h2 {
+            font-family: var(--serif);
+            font-size: clamp(38px, 5vw, 65px);
+            font-weight: 400;
+            line-height: 1.1;
+        }
+
+        .philosophy h2 em {
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .site-footer {
+            padding: 65px 0 25px;
+        }
+
+        .footer-main {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 50px;
+            padding-bottom: 45px;
+        }
+
+        .footer-brand p {
+            max-width: 340px;
+            margin-top: 22px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 65px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 5px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-column a {
+            color: var(--muted);
+            font-size: 12px;
+            transition: color 200ms ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--ivory);
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .footer-motto {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .reveal-ready {
+            opacity: 0;
+            transform: translateY(18px);
+            transition:
+                opacity 650ms ease,
+                transform 650ms ease;
+        }
+
+        .reveal-ready.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1100px) {
+            .container {
+                width: calc(100% - 72px);
+            }
+
+            .navigation {
+                gap: 23px;
+            }
+
+            .brand-name {
+                font-size: 19px;
+            }
+
+            .inquiry-card {
+                padding: 35px;
+            }
+
+            .contact-panel {
+                padding: 50px;
+            }
+
+            .guidelines-inner {
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .header-inner {
+                min-height: 82px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .navigation {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                height: calc(100dvh - 82px);
+                padding: 40px 36px;
+                background: var(--background);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                overflow-y: auto;
+            }
+
+            .navigation.open {
+                display: flex;
+            }
+
+            .navigation a {
+                padding: 20px 0;
+                font-size: 13px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .navigation .nav-contact {
+                padding: 18px;
+                margin-top: 15px;
+                text-align: center;
+            }
+
+            .hero {
+                padding: 90px 0 65px;
+            }
+
+            .inquiry-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .discord-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .contact-actions {
+                flex-direction: row;
+            }
+
+            .contact-actions .button {
+                flex: 1;
+            }
+
+            .guidelines-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-main {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                width: calc(100% - 40px);
+            }
+
+            .brand {
+                gap: 10px;
+            }
+
+            .brand-mark {
+                width: 33px;
+                height: 33px;
+            }
+
+            .brand-name {
+                font-size: 17px;
+                letter-spacing: 1.6px;
+            }
+
+            .brand-subtitle {
+                font-size: 6px;
+                letter-spacing: 1.8px;
+            }
+
+            .hero {
+                padding: 75px 0 55px;
+            }
+
+            .hero h1 {
+                font-size: clamp(51px, 11vw, 75px);
+            }
+
+            .eyebrow {
+                font-size: 8px;
+                letter-spacing: 2.4px;
+            }
+
+            .eyebrow::before,
+            .eyebrow::after {
+                width: 14px;
+            }
+
+            .hero-description {
+                font-size: 12px;
+            }
+
+            .inquiries {
+                padding-bottom: 65px;
+            }
+
+            .inquiry-card {
+                padding: 28px;
+            }
+
+            .inquiry-card h2 {
+                font-size: 40px;
+            }
+
+            .inquiry-icon {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 25px;
+            }
+
+            .contact-panel {
+                padding: 30px 20px;
+            }
+
+            .discord-card {
+                padding: 22px;
+                gap: 25px;
+            }
+
+            .discord-identity {
+                gap: 16px;
+            }
+
+            .discord-icon {
+                width: 52px;
+                height: 52px;
+            }
+
+            .discord-icon svg {
+                width: 27px;
+                height: 27px;
+            }
+
+            .discord-username {
+                font-size: 36px;
+            }
+
+            .discord-label {
+                font-size: 8px;
+                letter-spacing: 1.4px;
+            }
+
+            .contact-actions {
+                flex-direction: column;
+            }
+
+            .direct-contact {
+                padding-bottom: 65px;
+            }
+
+            .guidelines {
+                padding: 65px 0;
+            }
+
+            .philosophy {
+                padding: 75px 0;
+            }
+
+            .footer-links {
+                width: 100%;
+                gap: 25px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal-ready {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="0"
+        height="0"
+        aria-hidden="true"
+        style="position:absolute;overflow:hidden"
+    >
+        <symbol id="crown-symbol" viewBox="0 0 64 64">
+            <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M5 17L19 30L32 6L45 30L59 17L49 49H15L5 17Z"/>
+                <path d="M19 30L32 49L45 30"/>
+                <path d="M32 6V49"/>
+            </g>
+
+            <path
+                d="M15 54H49L44 59H20Z"
+                fill="currentColor"
+            />
+        </symbol>
+
+        <symbol id="arrow-symbol" viewBox="0 0 24 24">
+            <path
+                d="M5 19L19 5M5 5H19V19"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+        </symbol>
+
+        <symbol id="business-symbol" viewBox="0 0 24 24">
+            <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <rect x="3" y="7" width="18" height="14" rx="1"/>
+                <path d="M8 7V3H16V7"/>
+                <path d="M3 12H21"/>
+                <path d="M10 12V15H14V12"/>
+            </g>
+        </symbol>
+
+        <symbol id="careers-symbol" viewBox="0 0 24 24">
+            <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M4 21V18C4 14 7 12 12 12C17 12 20 14 20 18V21"/>
+                <path d="M9 21H15"/>
+            </g>
+        </symbol>
+
+        <symbol id="copy-symbol" viewBox="0 0 24 24">
+            <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+            >
+                <rect x="8" y="8" width="12" height="12" rx="1"/>
+                <path d="M16 8V4H4V16H8"/>
+            </g>
+        </symbol>
+
+        <symbol id="discord-symbol" viewBox="0 0 24 24">
+            <path
+                fill="currentColor"
+                d="M20.3 4.4a19.8 19.8 0 0 0-4.9-1.5c-.2.4-.5 1-.7 1.5a18.4 18.4 0 0 0-5.4 0c-.2-.5-.5-1.1-.7-1.5a19.8 19.8 0 0 0-4.9 1.5C.6 9 .1 13.5.4 18a20 20 0 0 0 6 3c.5-.7.9-1.5 1.3-2.3-.7-.3-1.3-.6-1.9-1l.5-.4c3.7 1.7 7.7 1.7 11.4 0l.5.4c-.6.4-1.2.7-1.9 1 .4.8.8 1.6 1.3 2.3a20 20 0 0 0 6-3c.4-5.2-.8-9.7-3.3-13.6ZM8.3 15.3c-1.1 0-2-1-2-2.3s.9-2.3 2-2.3 2 1 2 2.3-.9 2.3-2 2.3Zm7.4 0c-1.1 0-2-1-2-2.3s.9-2.3 2-2.3 2 1 2 2.3-.9 2.3-2 2.3Z"
+            />
+        </symbol>
+    </svg>
+
+    <a class="skip-link" href="#main">
+        Skip to content
+    </a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+
+            <a class="brand" href="/" aria-label="Obsidian Crown home">
+
+                <svg class="brand-mark" aria-hidden="true">
+                    <use href="#crown-symbol"></use>
+                </svg>
+
+                <span class="brand-text">
+                    <span class="brand-name">
+                        Obsidian Crown
+                    </span>
+
+                    <span class="brand-subtitle">
+                        Independent Game Studio
+                    </span>
+                </span>
+
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="navigation"
+            >
+                <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                >
+                    <path d="M4 6H20M4 12H20M4 18H20"/>
+                </svg>
+            </button>
+
+            <nav
+                class="navigation"
+                id="navigation"
+                aria-label="Main navigation"
+            >
+                <a href="/">Home</a>
+                <a href="/games">Experiences</a>
+                <a href="/#studio">Studio</a>
+                <a href="/careers">Careers</a>
+
+                <a
+                    href="/contact"
+                    class="nav-contact"
+                    aria-current="page"
+                >
+                    Contact
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main id="main">
+
+        <section class="hero">
+            <div class="container hero-inner">
+
+                <span class="eyebrow">
+                    Establish a Connection
+                </span>
+
+                <h1>
+                    Great things begin
+                    <em>with a conversation.</em>
+                </h1>
+
+                <p class="hero-description">
+                    At Obsidian Crown, we welcome meaningful
+                    connections, creative collaborations and
+                    ambitious opportunities. We invite you
+                    to introduce yourself and begin a conversation
+                    with our studio.
+                </p>
+
+                <div class="hero-line" aria-hidden="true"></div>
+
+            </div>
+        </section>
+
+        <section class="inquiries container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    Areas of Inquiry
+                </span>
+
+                <span class="section-rule"></span>
+
+                <span class="section-number">01</span>
+
+            </div>
+
+            <div class="inquiry-grid">
+
+                <article class="inquiry-card" data-reveal>
+
+                    <div class="inquiry-icon">
+
+                        <svg aria-hidden="true">
+                            <use href="#business-symbol"></use>
+                        </svg>
+
+                    </div>
+
+                    <span class="inquiry-category">
+                        Commercial & Creative
+                    </span>
+
+                    <h2>Business Inquiries.</h2>
+
+                    <p>
+                        We welcome conversations with individuals,
+                        studios and organizations interested in
+                        establishing meaningful professional
+                        relationships and exploring opportunities
+                        for collaboration.
+                    </p>
+
+                    <ul class="inquiry-list">
+                        <li>Business and commercial opportunities</li>
+                        <li>Creative partnerships</li>
+                        <li>Game development collaborations</li>
+                        <li>Publishing and investment inquiries</li>
+                        <li>Professional networking</li>
+                    </ul>
+
+                </article>
+
+                <article class="inquiry-card" data-reveal>
+
+                    <div class="inquiry-icon">
+
+                        <svg aria-hidden="true">
+                            <use href="#careers-symbol"></use>
+                        </svg>
+
+                    </div>
+
+                    <span class="inquiry-category">
+                        Talent & Opportunities
+                    </span>
+
+                    <h2>Careers & Applications.</h2>
+
+                    <p>
+                        We welcome talented individuals who share
+                        our dedication to creativity, craftsmanship
+                        and exceptional game development. Contact
+                        us to introduce yourself, present your
+                        portfolio or discuss future opportunities.
+                    </p>
+
+                    <ul class="inquiry-list">
+                        <li>Development opportunities</li>
+                        <li>Portfolio introductions</li>
+                        <li>Recruitment and application inquiries</li>
+                        <li>Creative and technical positions</li>
+                        <li>Questions regarding existing applications</li>
+                    </ul>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <section class="direct-contact container" id="discord">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    Direct Correspondence
+                </span>
+
+                <span class="section-rule"></span>
+
+                <span class="section-number">02</span>
+
+            </div>
+
+            <div class="contact-panel" data-reveal>
+
+                <div class="contact-intro">
+
+                    <span class="section-label">
+                        Our Preferred Contact Method
+                    </span>
+
+                    <h2>Connect with us.</h2>
+
+                    <p>
+                        For business inquiries, creative partnerships
+                        and recruitment-related correspondence,
+                        please contact us directly through Discord.
+                    </p>
+
+                </div>
+
+                <div class="discord-card">
+
+                    <div class="discord-identity">
+
+                        <div class="discord-icon">
+
+                            <svg aria-hidden="true">
+                                <use href="#discord-symbol"></use>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <span class="discord-label">
+                                Discord Username
+                            </span>
+
+                            <span
+                                class="discord-username"
+                                id="discordUsername"
+                            >
+                                gryph0n
+                            </span>
+
+                            <span class="discord-caption">
+                                Obsidian Crown — Direct Contact
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="contact-actions">
+
+                        <button
+                            class="button"
+                            id="copyUsername"
+                            type="button"
+                        >
+                            <svg aria-hidden="true">
+                                <use href="#copy-symbol"></use>
+                            </svg>
+
+                            <span id="copyButtonText">
+                                Copy Username
+                            </span>
+                        </button>
+
+                        <a
+                            class="button button-outline"
+                            href="https://discord.com/channels/@me"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open Discord
+
+                            <svg aria-hidden="true">
+                                <use href="#arrow-symbol"></use>
+                            </svg>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <p
+                    class="copy-feedback"
+                    id="copyFeedback"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+                <p class="contact-instructions">
+                    Copy the username above, open Discord and
+                    send a friend request using the Add Friend
+                    feature. Please include a brief introduction
+                    and the purpose of your inquiry when initiating
+                    correspondence.
+                </p>
+
+            </div>
+
+        </section>
+
+        <section class="guidelines">
+            <div class="container guidelines-inner">
+
+                <div>
+
+                    <span class="section-label">
+                        Professional Correspondence
+                    </span>
+
+                    <h2>
+                        Before reaching out.
+                    </h2>
+
+                </div>
+
+                <div>
+
+                    <article class="guideline-item">
+
+                        <h3>Introduce yourself.</h3>
+
+                        <p>
+                            Include your name or professional alias,
+                            your area of expertise and a brief
+                            explanation of why you are contacting
+                            Obsidian Crown.
+                        </p>
+
+                    </article>
+
+                    <article class="guideline-item">
+
+                        <h3>Provide relevant information.</h3>
+
+                        <p>
+                            For business inquiries, outline the
+                            opportunity you wish to discuss.
+                            For development and career inquiries,
+                            include relevant experience and a
+                            link to your portfolio where available.
+                        </p>
+
+                    </article>
+
+                    <article class="guideline-item">
+
+                        <h3>Maintain professionalism.</h3>
+
+                        <p>
+                            We appreciate clear, respectful and
+                            purposeful communication. Please allow
+                            sufficient time for a response and
+                            avoid sending repeated messages.
+                            Never share passwords or other
+                            sensitive account information.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="philosophy">
+            <div class="container" data-reveal>
+
+                <svg class="philosophy-mark" aria-hidden="true">
+                    <use href="#crown-symbol"></use>
+                </svg>
+
+                <h2>
+                    Excellence in creation.<br>
+                    <em>Ambition without limits.</em>
+                </h2>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+
+            <div class="footer-main">
+
+                <div class="footer-brand">
+
+                    <a
+                        class="brand"
+                        href="/"
+                        aria-label="Obsidian Crown home"
+                    >
+
+                        <svg class="brand-mark" aria-hidden="true">
+                            <use href="#crown-symbol"></use>
+                        </svg>
+
+                        <span class="brand-text">
+
+                            <span class="brand-name">
+                                Obsidian Crown
+                            </span>
+
+                            <span class="brand-subtitle">
+                                Independent Game Studio
+                            </span>
+
+                        </span>
+
+                    </a>
+
+                    <p>
+                        An independent game development studio
+                        driven by creativity, ambition and
+                        craftsmanship.
+                    </p>
+
+                </div>
+
+                <div class="footer-links">
+
+                    <div class="footer-column">
+
+                        <h3>Explore</h3>
+
+                        <a href="/">Home</a>
+                        <a href="/games">Experiences</a>
+                        <a href="/#studio">Our Studio</a>
+                        <a href="/careers">Careers</a>
+
+                    </div>
+
+                    <div class="footer-column">
+
+                        <h3>Information</h3>
+
+                        <a href="/contact">Contact</a>
+                        <a href="/privacy">Privacy Policy</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <span>
+                    &copy; <span id="copyrightYear">2026</span>
+                    Obsidian Crown. All rights reserved.
+                </span>
+
+                <span class="footer-motto">
+                    Excellence in creation. Ambition without limits.
+                </span>
+
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        (() => {
+            "use strict";
+
+            const menuToggle =
+                document.getElementById("menuToggle");
+
+            const navigation =
+                document.getElementById("navigation");
+
+            const menuOpenIcon = `
+                <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                >
+                    <path d="M4 6H20M4 12H20M4 18H20"/>
+                </svg>
+            `;
+
+            const menuCloseIcon = `
+                <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                >
+                    <path d="M5 5L19 19M19 5L5 19"/>
+                </svg>
+            `;
+
+            function setMenu(open) {
+                navigation.classList.toggle("open", open);
+
+                document.body.classList.toggle(
+                    "menu-open",
+                    open
+                );
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    String(open)
+                );
+
+                menuToggle.setAttribute(
+                    "aria-label",
+                    open
+                        ? "Close navigation"
+                        : "Open navigation"
+                );
+
+                menuToggle.innerHTML = open
+                    ? menuCloseIcon
+                    : menuOpenIcon;
+            }
+
+            menuToggle.addEventListener("click", () => {
+                setMenu(
+                    menuToggle.getAttribute("aria-expanded") !== "true"
+                );
+            });
+
+            navigation.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", () => {
+                    setMenu(false);
+                });
+            });
+
+            document.addEventListener("keydown", event => {
+                if (
+                    event.key === "Escape" &&
+                    menuToggle.getAttribute("aria-expanded") === "true"
+                ) {
+                    setMenu(false);
+                    menuToggle.focus();
+                }
+            });
+
+            window.matchMedia(
+                "(min-width: 851px)"
+            ).addEventListener("change", event => {
+                if (event.matches) {
+                    setMenu(false);
+                }
+            });
+
+            const usernameElement =
+                document.getElementById("discordUsername");
+
+            const copyButton =
+                document.getElementById("copyUsername");
+
+            const copyButtonText =
+                document.getElementById("copyButtonText");
+
+            const copyFeedback =
+                document.getElementById("copyFeedback");
+
+            let feedbackTimer;
+
+            function resetCopyFeedback() {
+                window.clearTimeout(feedbackTimer);
+
+                feedbackTimer = window.setTimeout(() => {
+                    copyButtonText.textContent = "Copy Username";
+                    copyFeedback.textContent = "";
+                }, 4000);
+            }
+
+            copyButton.addEventListener("click", async () => {
+                const username =
+                    usernameElement.textContent.trim();
+
+                try {
+                    if (
+                        !navigator.clipboard ||
+                        !window.isSecureContext
+                    ) {
+                        throw new Error("Clipboard unavailable");
+                    }
+
+                    await navigator.clipboard.writeText(username);
+
+                    copyButtonText.textContent = "Copied";
+
+                    copyFeedback.textContent =
+                        "Discord username copied to clipboard.";
+
+                } catch {
+                    const selection = window.getSelection();
+
+                    if (selection) {
+                        const range = document.createRange();
+
+                        range.selectNodeContents(usernameElement);
+
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+
+                    copyButtonText.textContent = "Copy Username";
+
+                    copyFeedback.textContent =
+                        "Please copy the displayed username manually.";
+                }
+
+                resetCopyFeedback();
+            });
+
+            const reducedMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
+
+            if (
+                "IntersectionObserver" in window &&
+                !reducedMotion
+            ) {
+                const observer = new IntersectionObserver(
+                    entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add(
+                                    "visible"
+                                );
+
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.08
+                    }
+                );
+
+                document
+                    .querySelectorAll("[data-reveal]")
+                    .forEach(element => {
+                        element.classList.add("reveal-ready");
+                        observer.observe(element);
+                    });
+            }
+
+            document.getElementById(
+                "copyrightYear"
+            ).textContent = new Date().getFullYear();
+
+        })();
+    </script>
+
+</body>
+</html>
