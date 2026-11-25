@@ -1,1811 +1,727 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Experiences — Obsidian Crown</title>
-
-    <meta name="description" content="Discover the worlds, experiences and creative projects developed by Obsidian Crown.">
-    <meta name="theme-color" content="#121212">
-
-    <link rel="canonical" href="https://obsidiancrown.org/games">
-
-    <meta property="og:title" content="Experiences — Obsidian Crown">
-    <meta property="og:description" content="Distinctive experiences. Thoughtful design. Uncompromising ambition.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://obsidiancrown.org/games">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --background: #121212;
-            --surface: #151515;
-            --surface-dark: #141312;
-            --gold: #BCA783;
-            --gold-light: #D9C7A6;
-            --ivory: #EDE9E1;
-            --muted: #A39F97;
-            --border: #36312A;
-            --border-subtle: #2B2823;
-            --serif: "Cormorant Garamond", Georgia, serif;
-            --sans: "Manrope", Arial, sans-serif;
-            --max-width: 1440px;
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 120px;
-        }
-
-        body {
-            background: var(--background);
-            color: var(--ivory);
-            font-family: var(--sans);
-            font-size: 14px;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body.menu-open {
-            overflow: hidden;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button {
-            font: inherit;
-            cursor: pointer;
-        }
-
-        a,
-        button {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        a:focus-visible,
-        button:focus-visible {
-            outline: 1px solid var(--gold);
-            outline-offset: 6px;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
-        svg {
-            display: block;
-        }
-
-        [hidden] {
-            display: none !important;
-        }
-
-        ::selection {
-            background: var(--gold);
-            color: var(--background);
-        }
-
-        .container {
-            width: min(calc(100% - 112px), var(--max-width));
-            margin-inline: auto;
-        }
-
-        .skip-link {
-            position: fixed;
-            top: -100px;
-            left: 20px;
-            padding: 12px 20px;
-            background: var(--gold);
-            color: var(--background);
-            z-index: 1000;
-        }
-
-        .skip-link:focus {
-            top: 20px;
-        }
-
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(18, 18, 18, 0.96);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .header-inner {
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-        }
-
-        .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 17px;
-            flex-shrink: 0;
-        }
-
-        .brand-mark {
-            width: 43px;
-            height: 43px;
-            color: var(--gold);
-            flex-shrink: 0;
-        }
-
-        .brand-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-name {
-            font-family: var(--serif);
-            font-size: 23px;
-            font-weight: 600;
-            line-height: 1.1;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .brand-subtitle {
-            margin-top: 6px;
-            color: var(--muted);
-            font-size: 8px;
-            letter-spacing: 2.7px;
-            text-transform: uppercase;
-        }
-
-        .navigation {
-            display: flex;
-            align-items: center;
-            gap: 36px;
-        }
-
-        .navigation a {
-            position: relative;
-            padding-block: 12px;
-            color: var(--muted);
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1.8px;
-            text-transform: uppercase;
-            transition: color 200ms ease;
-        }
-
-        .navigation a:hover,
-        .navigation a[aria-current="page"] {
-            color: var(--gold-light);
-        }
-
-        .navigation a[aria-current="page"]::after {
-            content: "";
-            position: absolute;
-            bottom: 3px;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--gold);
-        }
-
-        .navigation .nav-contact {
-            padding: 12px 22px;
-            border: 1px solid var(--border);
-            color: var(--gold);
-            transition: border-color 200ms ease;
-        }
-
-        .navigation .nav-contact:hover {
-            border-color: var(--gold);
-        }
-
-        .menu-toggle {
-            display: none;
-            width: 44px;
-            height: 44px;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--gold);
-        }
-
-        .hero {
-            position: relative;
-            overflow: hidden;
-            padding: 125px 0 100px;
-            text-align: center;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: radial-gradient(
-                ellipse at 50% 0%,
-                rgba(188, 167, 131, 0.045),
-                transparent 65%
-            );
-        }
-
-        .hero-inner {
-            position: relative;
-            max-width: 1100px;
-            margin-inline: auto;
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            color: var(--gold);
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-
-        .eyebrow::before,
-        .eyebrow::after {
-            content: "";
-            width: 28px;
-            height: 1px;
-            background: var(--gold);
-            opacity: 0.5;
-        }
-
-        .hero h1 {
-            margin: 30px 0;
-            font-family: var(--serif);
-            font-size: clamp(70px, 9vw, 142px);
-            font-weight: 400;
-            letter-spacing: -0.045em;
-            line-height: 0.85;
-        }
-
-        .hero h1 em {
-            display: block;
-            margin-top: 15px;
-            color: var(--gold);
-            font-weight: 400;
-        }
-
-        .hero-description {
-            max-width: 580px;
-            margin: 36px auto 0;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.9;
-        }
-
-        .hero-line {
-            width: 1px;
-            height: 55px;
-            margin: 38px auto 0;
-            background: linear-gradient(
-                var(--gold),
-                transparent
-            );
-        }
-
-        .section-heading {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .section-label {
-            color: var(--gold);
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-        }
-
-        .section-rule {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .section-number {
-            font-family: var(--serif);
-            color: var(--muted);
-            font-size: 21px;
-        }
-
-        .portfolio {
-            padding: 0 0 110px;
-        }
-
-        .portfolio-heading {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .portfolio-heading h2 {
-            font-family: var(--serif);
-            font-size: clamp(48px, 6vw, 80px);
-            font-weight: 400;
-            line-height: 1;
-            letter-spacing: -2px;
-        }
-
-        .portfolio-heading p {
-            max-width: 370px;
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.9;
-        }
-
-        .filter-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 20px 0;
-            margin-bottom: 35px;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .filter {
-            padding: 10px 18px;
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--muted);
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            transition:
-                color 200ms ease,
-                background 200ms ease,
-                border-color 200ms ease;
-        }
-
-        .filter:hover {
-            color: var(--gold-light);
-        }
-
-        .filter[aria-pressed="true"] {
-            border-color: var(--border);
-            background: rgba(188, 167, 131, 0.045);
-            color: var(--gold-light);
-        }
-
-        .project-count {
-            color: var(--muted);
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            align-items: stretch;
-            gap: 30px;
-        }
-
-        .project-card {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            transition: border-color 300ms ease;
-        }
-
-        .project-card:hover {
-            border-color: rgba(188, 167, 131, 0.55);
-        }
-
-        .project-artwork {
-            position: relative;
-            padding: 18px;
-            background: var(--surface-dark);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .artwork-placeholder {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-            aspect-ratio: 1.87 / 1;
-            overflow: hidden;
-            border: 1px solid var(--border-subtle);
-            background: radial-gradient(
-                ellipse at center,
-                #25221C 0%,
-                #1C1A17 40%,
-                #151413 80%
-            );
-        }
-
-        .artwork-placeholder::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(
-                ellipse at center,
-                transparent 20%,
-                rgba(0, 0, 0, 0.12) 100%
-            );
-            pointer-events: none;
-        }
-
-        .placeholder-crown {
-            position: relative;
-            width: 62px;
-            height: 62px;
-            color: #81745B;
-            opacity: 0.9;
-            transition:
-                opacity 300ms ease,
-                transform 400ms ease;
-        }
-
-        .project-card:hover .placeholder-crown {
-            opacity: 1;
-            transform: translateY(-3px);
-        }
-
-        .placeholder-text {
-            position: relative;
-            padding-inline: 12px;
-            color: var(--gold);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            line-height: 1.8;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .artwork-image {
-            width: 100%;
-            aspect-ratio: 1.87 / 1;
-            object-fit: cover;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .project-content {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            padding: 39px 31px 30px;
-        }
-
-        .project-category {
-            display: block;
-            margin-bottom: 20px;
-            color: var(--gold);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 1.6px;
-            text-transform: uppercase;
-        }
-
-        .project-title {
-            margin-bottom: 15px;
-            font-family: var(--serif);
-            font-size: clamp(34px, 3.5vw, 47px);
-            font-weight: 500;
-            line-height: 1.12;
-            letter-spacing: -0.8px;
-            color: var(--ivory);
-        }
-
-        .project-description {
-            margin-bottom: 27px;
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 1.9;
-        }
-
-        .project-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: auto;
-            padding-top: 23px;
-            border-top: 1px solid var(--border);
-        }
-
-        .project-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--gold);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 0.6px;
-            line-height: 1.5;
-            text-transform: uppercase;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            flex-shrink: 0;
-            background: var(--gold);
-            border-radius: 50%;
-        }
-
-        .project-card[data-status="released"] .status-dot {
-            background: #9CA98B;
-        }
-
-        .project-card[data-status="upcoming"] .status-dot {
-            background: transparent;
-            border: 1px solid var(--gold);
-        }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 5px;
-            color: var(--gold-light);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.65px;
-            line-height: 1.5;
-            text-transform: uppercase;
-            transition: color 200ms ease;
-        }
-
-        .project-link:hover {
-            color: var(--ivory);
-        }
-
-        .project-link svg {
-            width: 11px;
-            height: 11px;
-            flex-shrink: 0;
-            transition: transform 200ms ease;
-        }
-
-        .project-link:hover svg {
-            transform: translate(2px, -2px);
-        }
-
-        .project-link-unavailable {
-            color: var(--muted);
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        .empty-state {
-            padding: 85px 30px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .empty-state svg {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 25px;
-            color: var(--gold);
-            opacity: 0.65;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 10px;
-            font-family: var(--serif);
-            font-size: 40px;
-            font-weight: 400;
-        }
-
-        .empty-state p {
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .philosophy {
-            padding: 115px 0;
-            background: #141414;
-            border-top: 1px solid var(--border-subtle);
-            text-align: center;
-        }
-
-        .philosophy-inner {
-            max-width: 850px;
-            margin-inline: auto;
-        }
-
-        .philosophy-mark {
-            width: 52px;
-            height: 52px;
-            margin: 0 auto 30px;
-            color: var(--gold);
-        }
-
-        .philosophy h2 {
-            font-family: var(--serif);
-            font-size: clamp(44px, 6vw, 78px);
-            font-weight: 400;
-            line-height: 1.05;
-        }
-
-        .philosophy h2 em {
-            color: var(--gold);
-            font-weight: 400;
-        }
-
-        .philosophy p {
-            max-width: 620px;
-            margin: 25px auto 0;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.9;
-        }
-
-        .collaboration {
-            padding: 85px 0;
-            background: var(--ivory);
-            color: var(--background);
-        }
-
-        .collaboration-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 45px;
-        }
-
-        .collaboration .section-label {
-            color: #756344;
-        }
-
-        .collaboration h2 {
-            margin: 15px 0;
-            font-family: var(--serif);
-            font-size: clamp(45px, 6vw, 77px);
-            font-weight: 500;
-            line-height: 1;
-            letter-spacing: -2px;
-        }
-
-        .collaboration p {
-            max-width: 550px;
-            color: #5E5A53;
-            font-size: 13px;
-            line-height: 1.9;
-        }
-
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            width: fit-content;
-            padding: 17px 25px;
-            background: var(--background);
-            border: 1px solid var(--background);
-            color: var(--ivory);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1.6px;
-            text-transform: uppercase;
-            flex-shrink: 0;
-            transition:
-                background 200ms ease,
-                border-color 200ms ease;
-        }
-
-        .button:hover {
-            background: #33302B;
-            border-color: #33302B;
-        }
-
-        .button svg {
-            width: 15px;
-            height: 15px;
-            flex-shrink: 0;
-        }
-
-        .site-footer {
-            padding: 65px 0 25px;
-        }
-
-        .footer-main {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 50px;
-            padding-bottom: 45px;
-        }
-
-        .footer-brand p {
-            max-width: 340px;
-            margin-top: 22px;
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .footer-links {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 65px;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 5px;
-            color: var(--gold);
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .footer-column a {
-            color: var(--muted);
-            font-size: 12px;
-            transition: color 200ms ease;
-        }
-
-        .footer-column a:hover {
-            color: var(--ivory);
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 25px;
-            padding-top: 25px;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        .footer-motto {
-            font-family: var(--serif);
-            font-size: 16px;
-            font-style: italic;
-            color: var(--gold);
-        }
-
-        .reveal-ready {
-            opacity: 0;
-            transform: translateY(18px);
-            transition:
-                opacity 650ms ease,
-                transform 650ms ease;
-        }
-
-        .reveal-ready.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 1100px) {
-            .container {
-                width: calc(100% - 72px);
-            }
-
-            .navigation {
-                gap: 23px;
-            }
-
-            .brand-name {
-                font-size: 19px;
-            }
-
-            .project-content {
-                padding: 30px 25px 25px;
-            }
-
-            .project-artwork {
-                padding: 15px;
-            }
-
-            .project-grid {
-                gap: 24px;
-            }
-
-            .placeholder-text {
-                font-size: 8px;
-                letter-spacing: 2.4px;
-            }
-        }
-
-        @media (max-width: 850px) {
-            .header-inner {
-                min-height: 82px;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .navigation {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                height: calc(100dvh - 82px);
-                padding: 40px 36px;
-                background: var(--background);
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-                overflow-y: auto;
-            }
-
-            .navigation.open {
-                display: flex;
-            }
-
-            .navigation a {
-                padding: 20px 0;
-                font-size: 13px;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .navigation a[aria-current="page"]::after {
-                display: none;
-            }
-
-            .navigation .nav-contact {
-                padding: 18px;
-                margin-top: 15px;
-                text-align: center;
-            }
-
-            .hero {
-                padding: 90px 0 70px;
-            }
-
-            .portfolio-heading,
-            .collaboration-inner {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-card {
-                max-width: 680px;
-                width: 100%;
-            }
-
-            .project-title {
-                font-size: 45px;
-            }
-
-            .footer-main {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 560px) {
-            .container {
-                width: calc(100% - 40px);
-            }
-
-            .brand {
-                gap: 10px;
-            }
-
-            .brand-mark {
-                width: 33px;
-                height: 33px;
-            }
-
-            .brand-name {
-                font-size: 17px;
-                letter-spacing: 1.6px;
-            }
-
-            .brand-subtitle {
-                font-size: 6px;
-                letter-spacing: 1.8px;
-            }
-
-            .hero {
-                padding: 75px 0 55px;
-            }
-
-            .hero h1 {
-                font-size: clamp(56px, 13vw, 85px);
-            }
-
-            .eyebrow {
-                font-size: 8px;
-                letter-spacing: 2.4px;
-            }
-
-            .eyebrow::before,
-            .eyebrow::after {
-                width: 14px;
-            }
-
-            .hero-description {
-                font-size: 12px;
-            }
-
-            .portfolio {
-                padding-bottom: 65px;
-            }
-
-            .portfolio-heading {
-                gap: 20px;
-                margin-bottom: 25px;
-            }
-
-            .portfolio-heading h2 {
-                font-size: 49px;
-            }
-
-            .filter-bar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .filters {
-                gap: 5px;
-            }
-
-            .filter {
-                padding: 9px 11px;
-                font-size: 9px;
-            }
-
-            .project-artwork {
-                padding: 12px;
-            }
-
-            .artwork-placeholder {
-                gap: 14px;
-            }
-
-            .placeholder-crown {
-                width: 46px;
-                height: 46px;
-            }
-
-            .placeholder-text {
-                font-size: 7px;
-                letter-spacing: 2px;
-            }
-
-            .project-content {
-                padding: 26px 22px 23px;
-            }
-
-            .project-category {
-                font-size: 8px;
-                letter-spacing: 1.2px;
-                margin-bottom: 16px;
-            }
-
-            .project-title {
-                font-size: 37px;
-            }
-
-            .project-description {
-                font-size: 12px;
-                margin-bottom: 23px;
-            }
-
-            .project-footer {
-                gap: 10px;
-                padding-top: 20px;
-            }
-
-            .project-status {
-                font-size: 8px;
-            }
-
-            .project-link {
-                font-size: 9px;
-            }
-
-            .philosophy {
-                padding: 80px 0;
-            }
-
-            .collaboration {
-                padding: 65px 0;
-            }
-
-            .footer-links {
-                width: 100%;
-                gap: 25px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                animation: none !important;
-                transition: none !important;
-            }
-
-            .reveal-ready {
-                opacity: 1;
-                transform: none;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiences — Obsidian Crown</title>
+<meta name="description" content="Explore the interactive experiences created by Obsidian Crown.">
+<meta name="theme-color" content="#0C0C0D">
+<link rel="canonical" href="https://obsidiancrown.org/games">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --black: #0C0C0D;
+    --surface: #141414;
+    --gold: #BCA783;
+    --gold-light: #D9C7A6;
+    --ivory: #EDE9E1;
+    --muted: #A39F97;
+    --border: #34312B;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Manrope", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--black);
+    color: var(--ivory);
+    font-family: var(--sans);
+    line-height: 1.8;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 5px;
+}
+
+.container {
+    width: min(90%, 1440px);
+    margin: auto;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(12,12,13,.97);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+}
+
+.navbar {
+    min-height: 96px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.brand-mark {
+    width: 45px;
+    height: 45px;
+    color: var(--gold);
+    flex-shrink: 0;
+}
+
+.brand-name {
+    display: block;
+    font: 600 23px/1.1 var(--serif);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.brand-subtitle {
+    display: block;
+    margin-top: 6px;
+    font-size: 8px;
+    letter-spacing: 2.5px;
+    color: var(--muted);
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navigation a {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.navigation a:hover,
+.navigation a[aria-current="page"] {
+    color: var(--gold-light);
+}
+
+.navigation .nav-contact {
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 12px 22px;
+}
+
+.menu-toggle {
+    display: none;
+    color: var(--gold);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    font-size: 22px;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 105px 0 85px;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(ellipse at 85% 25%, #211D17, transparent 55%);
+}
+
+.hero-decoration {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    right: 5%;
+    top: -70px;
+    color: var(--gold);
+    opacity: .045;
+    pointer-events: none;
+}
+
+.hero .container { position: relative; }
+
+.breadcrumb {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 35px;
+}
+
+.breadcrumb a:hover { color: var(--gold); }
+
+.eyebrow {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+h1, h2, h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+h1 {
+    font-size: clamp(65px, 8vw, 120px);
+    letter-spacing: -.045em;
+    margin: 20px 0;
+}
+
+h1 em, h2 em {
+    color: var(--gold);
+    font-weight: 400;
+}
+
+h2 {
+    font-size: clamp(45px, 5vw, 75px);
+    margin: 20px 0;
+}
+
+p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.hero p { max-width: 650px; }
+
+.portfolio { padding: 70px 0 100px; }
+
+.portfolio-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    flex-wrap: wrap;
+    padding-bottom: 25px;
+    margin-bottom: 35px;
+    border-bottom: 1px solid var(--border);
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 12px 18px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: .2s;
+}
+
+.filter:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.filter.active {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+}
+
+.project-count {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color .25s, transform .25s;
+}
+
+.project-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+}
+
+.project-card[hidden] { display: none; }
+
+.project-art {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background:
+        linear-gradient(135deg, #BCA78308 25%, transparent 25%),
+        radial-gradient(ellipse, #30291F, #101010 75%);
+    border-bottom: 1px solid var(--border);
+}
+
+.project-art::before {
+    content: "";
+    position: absolute;
+    width: 34%;
+    aspect-ratio: 1;
+    border: 1px solid #BCA78322;
+    transform: rotate(45deg);
+}
+
+.project-art svg {
+    width: 25%;
+    color: var(--gold);
+    position: relative;
+}
+
+.project-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+}
+
+.artwork-label {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+.project-status {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: #101010E8;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 1.3px;
+    font-weight: 700;
+    padding: 8px 12px;
+    text-transform: uppercase;
+}
+
+.project-content { padding: 35px; }
+
+.project-category {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.project-content h2 {
+    font-size: clamp(34px, 4vw, 52px);
+    margin: 15px 0;
+}
+
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 25px 0;
+}
+
+.project-meta span {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.project-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 25px;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 23px;
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--black);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: .2s;
+}
+
+.button:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+}
+
+.empty-state {
+    text-align: center;
+    border: 1px solid var(--border);
+    padding: 70px 25px;
+}
+
+.empty-state h2 { font-size: 42px; }
+
+.collaboration {
+    background: var(--ivory);
+    color: var(--black);
+    padding: 90px 0;
+}
+
+.collaboration-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 70px;
+}
+
+.collaboration p { color: #5E5A53; }
+.collaboration .eyebrow { color: #756344; }
+
+.collaboration .button {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--ivory);
+}
+
+footer {
+    padding: 60px 0 25px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 45px;
+}
+
+.footer-brand p { max-width: 340px; }
+
+.footer-column h3 {
+    color: var(--gold);
+    font: 700 10px var(--sans);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.footer-column a {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+.footer-column a:hover { color: var(--ivory); }
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    padding-top: 25px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.footer-motto {
+    color: var(--gold);
+    font: italic 18px var(--serif);
+}
+
+@media (max-width: 950px) {
+    .menu-toggle { display: block; }
+
+    .navigation {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--black);
+        padding: 30px 5%;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navigation.open { display: flex; }
+    .navigation .nav-contact { text-align: center; }
+
+    .collaboration-inner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .hero { padding: 75px 0; }
+}
+
+@media (max-width: 650px) {
+    .project-grid { grid-template-columns: 1fr; }
+    .navbar { min-height: 80px; }
+    .brand { gap: 10px; }
+    .brand-name { font-size: 17px; letter-spacing: 1.5px; }
+    .brand-subtitle { font-size: 6px; letter-spacing: 1.4px; }
+    .brand-mark { width: 34px; height: 34px; }
+    .project-content { padding: 25px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="0"
-        height="0"
-        aria-hidden="true"
-        style="position:absolute;overflow:hidden"
-    >
-        <symbol id="crown-symbol" viewBox="0 0 64 64">
-            <g
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <path d="M5 17L19 30L32 6L45 30L59 17L49 49H15L5 17Z"/>
-                <path d="M19 30L32 49L45 30"/>
-                <path d="M32 6V49"/>
-            </g>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="crown" viewBox="0 0 64 64">
+        <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+            <path d="M5 15L19 29L32 5L45 29L59 15L49 47H15Z"/>
+            <path d="M32 5V47M19 29L32 47L45 29M5 15L15 47M59 15L49 47"/>
+        </g>
+        <path d="M15 52H49L45 57H19Z" fill="currentColor"/>
+    </symbol>
+</svg>
+
+<header>
+    <div class="container navbar">
+        <a href="/" class="brand">
+            <svg class="brand-mark" aria-hidden="true"><use href="#crown"/></svg>
+            <span>
+                <span class="brand-name">Obsidian Crown</span>
+                <span class="brand-subtitle">GAME DEVELOPMENT STUDIO</span>
+            </span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-controls="navigation" aria-expanded="false">☰</button>
+
+        <nav class="navigation" id="navigation">
+            <a href="/">Home</a>
+            <a href="/#studio">The Studio</a>
+            <a href="/games" aria-current="page">Experiences</a>
+            <a href="/careers">Careers</a>
+            <a href="/contact" class="nav-contact">Contact ↗</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <svg class="hero-decoration" aria-hidden="true"><use href="#crown"/></svg>
 
-            <path
-                d="M15 54H49L44 59H20Z"
-                fill="currentColor"
-            />
-        </symbol>
-
-        <symbol id="arrow-symbol" viewBox="0 0 24 24">
-            <path
-                d="M5 19L19 5M5 5H19V19"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            />
-        </symbol>
-    </svg>
-
-    <a class="skip-link" href="#main">
-        Skip to content
-    </a>
-
-    <header class="site-header">
-        <div class="container header-inner">
-
-            <a class="brand" href="/" aria-label="Obsidian Crown home">
-
-                <svg class="brand-mark" aria-hidden="true">
-                    <use href="#crown-symbol"></use>
-                </svg>
-
-                <span class="brand-text">
-                    <span class="brand-name">
-                        Obsidian Crown
-                    </span>
-
-                    <span class="brand-subtitle">
-                        Independent Game Studio
-                    </span>
-                </span>
-
-            </a>
-
-            <button
-                class="menu-toggle"
-                id="menuToggle"
-                type="button"
-                aria-label="Open navigation"
-                aria-expanded="false"
-                aria-controls="navigation"
-            >
-                <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    aria-hidden="true"
-                >
-                    <path d="M4 6H20M4 12H20M4 18H20"/>
-                </svg>
-            </button>
-
-            <nav
-                class="navigation"
-                id="navigation"
-                aria-label="Main navigation"
-            >
-                <a href="/">Home</a>
-
-                <a href="/games" aria-current="page">
-                    Experiences
-                </a>
-
-                <a href="/#studio">Studio</a>
-
-                <a href="/careers">Careers</a>
-
-                <a href="/#contact" class="nav-contact">
-                    Contact
-                </a>
-            </nav>
-
-        </div>
-    </header>
-
-    <main id="main">
-
-        <section class="hero">
-            <div class="container hero-inner">
-
-                <span class="eyebrow">
-                    Our Creative Portfolio
-                </span>
-
-                <h1>
-                    Worlds worth
-                    <em>discovering.</em>
-                </h1>
-
-                <p class="hero-description">
-                    Distinctive experiences. Thoughtful design.
-                    Uncompromising ambition. Explore the worlds
-                    we are creating at Obsidian Crown.
-                </p>
-
-                <div class="hero-line" aria-hidden="true"></div>
-
-            </div>
-        </section>
-
-        <section class="portfolio" aria-labelledby="portfolioTitle">
-            <div class="container">
-
-                <div class="section-heading">
-
-                    <span class="section-label">
-                        Our Portfolio
-                    </span>
-
-                    <span class="section-rule"></span>
-
-                    <span class="section-number">
-                        01
-                    </span>
-
-                </div>
-
-                <div class="portfolio-heading" data-reveal>
-
-                    <h2 id="portfolioTitle">
-                        Our experiences.
-                    </h2>
-
-                    <p>
-                        A collection of our creative endeavors,
-                        from early development to completed worlds.
-                    </p>
-
-                </div>
-
-                <div class="filter-bar">
-
-                    <div
-                        class="filters"
-                        role="group"
-                        aria-label="Filter experiences"
-                    >
-
-                        <button
-                            class="filter"
-                            type="button"
-                            data-filter="all"
-                            aria-pressed="true"
-                        >
-                            All Projects
-                        </button>
-
-                        <button
-                            class="filter"
-                            type="button"
-                            data-filter="released"
-                            aria-pressed="false"
-                        >
-                            Released
-                        </button>
-
-                        <button
-                            class="filter"
-                            type="button"
-                            data-filter="development"
-                            aria-pressed="false"
-                        >
-                            In Development
-                        </button>
-
-                        <button
-                            class="filter"
-                            type="button"
-                            data-filter="upcoming"
-                            aria-pressed="false"
-                        >
-                            Upcoming
-                        </button>
-
-                    </div>
-
-                    <span
-                        class="project-count"
-                        id="projectCount"
-                        aria-live="polite"
-                    >
-                        01 Experience
-                    </span>
-
-                </div>
-
-                <div class="project-grid" id="projectGrid">
-
-                    <article
-                        class="project-card"
-                        data-status="development"
-                    >
-
-                        <div class="project-artwork">
-
-                            <div class="artwork-placeholder">
-
-                                <svg
-                                    class="placeholder-crown"
-                                    aria-hidden="true"
-                                >
-                                    <use href="#crown-symbol"></use>
-                                </svg>
-
-                                <span class="placeholder-text">
-                                    Official Artwork Coming Soon
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="project-content">
-
-                            <span class="project-category">
-                                Prehistoric / Simulator / Collection
-                            </span>
-
-                            <h3 class="project-title">
-                                Throw Meat for Dinos!
-                            </h3>
-
-                            <p class="project-description">
-                                Embark on a prehistoric adventure
-                                where you attract, discover, and
-                                collect extraordinary dinosaurs.
-                                Expand your collection and uncover
-                                rare species along the way.
-                            </p>
-
-                            <div class="project-footer">
-
-                                <span class="project-status">
-
-                                    <span class="status-dot"></span>
-
-                                    In Development
-
-                                </span>
-
-                                <a
-                                    class="project-link"
-                                    href="https://www.roblox.com/games/97838462286552/Throw-Meat-for-Dinos-Assets"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="View Throw Meat for Dinos on Roblox"
-                                >
-                                    View Experience
-
-                                    <svg aria-hidden="true">
-                                        <use href="#arrow-symbol"></use>
-                                    </svg>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-                <div class="empty-state" id="emptyState" hidden>
-
-                    <svg aria-hidden="true">
-                        <use href="#crown-symbol"></use>
-                    </svg>
-
-                    <h3 id="emptyTitle">
-                        Nothing to reveal just yet.
-                    </h3>
-
-                    <p id="emptyDescription">
-                        New experiences will be added to this
-                        collection as they are announced.
-                    </p>
-
-                </div>
-
-            </div>
-        </section>
-
-        <section class="philosophy">
-
-            <div
-                class="container philosophy-inner"
-                data-reveal
-            >
-
-                <svg
-                    class="philosophy-mark"
-                    aria-hidden="true"
-                >
-                    <use href="#crown-symbol"></use>
-                </svg>
-
-                <h2>
-                    Excellence in creation.<br>
-                    <em>Ambition without limits.</em>
-                </h2>
-
-                <p>
-                    Every experience begins with an idea.
-                    Through creativity, technical precision
-                    and thoughtful craftsmanship, we seek
-                    to transform those ideas into worlds
-                    that leave a lasting impression.
-                </p>
-
-            </div>
-
-        </section>
-
-        <section class="collaboration">
-            <div class="container collaboration-inner">
-
-                <div>
-
-                    <span class="section-label">
-                        Create With Us
-                    </span>
-
-                    <h2>
-                        Build something extraordinary.
-                    </h2>
-
-                    <p>
-                        We welcome talented developers, artists
-                        and creative individuals who share our
-                        ambition for exceptional game development.
-                    </p>
-
-                </div>
-
-                <a href="/careers" class="button">
-
-                    Explore Careers
-
-                    <svg aria-hidden="true">
-                        <use href="#arrow-symbol"></use>
-                    </svg>
-
-                </a>
-
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="site-footer">
         <div class="container">
-
-            <div class="footer-main">
-
-                <div class="footer-brand">
-
-                    <a
-                        class="brand"
-                        href="/"
-                        aria-label="Obsidian Crown home"
-                    >
-
-                        <svg
-                            class="brand-mark"
-                            aria-hidden="true"
-                        >
-                            <use href="#crown-symbol"></use>
-                        </svg>
-
-                        <span class="brand-text">
-
-                            <span class="brand-name">
-                                Obsidian Crown
-                            </span>
-
-                            <span class="brand-subtitle">
-                                Independent Game Studio
-                            </span>
-
-                        </span>
-
-                    </a>
-
-                    <p>
-                        An independent game development studio
-                        driven by creativity, ambition and
-                        craftsmanship.
-                    </p>
-
-                </div>
-
-                <div class="footer-links">
-
-                    <div class="footer-column">
-
-                        <h3>Explore</h3>
-
-                        <a href="/">Home</a>
-                        <a href="/games">Experiences</a>
-                        <a href="/#studio">Our Studio</a>
-                        <a href="/careers">Careers</a>
-
-                    </div>
-
-                    <div class="footer-column">
-
-                        <h3>Information</h3>
-
-                        <a href="/#contact">Contact</a>
-                        <a href="/privacy">Privacy Policy</a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="footer-bottom">
-
-                <span>
-                    &copy; <span id="copyrightYear">2026</span>
-                    Obsidian Crown. All rights reserved.
-                </span>
-
-                <span class="footer-motto">
-                    Excellence in creation. Ambition without limits.
-                </span>
-
-            </div>
-
+            <div class="breadcrumb"><a href="/">Home</a> / Experiences</div>
+            <span class="eyebrow">Our Portfolio</span>
+            <h1>Worlds worth<br><em>discovering.</em></h1>
+            <p>Explore the interactive experiences of Obsidian Crown. Every project represents our dedication to creativity, craftsmanship and ambitious game development.</p>
         </div>
-    </footer>
+    </section>
 
-    <script>
-        (() => {
-            "use strict";
+    <section class="portfolio">
+        <div class="container">
+            <div class="portfolio-toolbar">
+                <div class="filters" aria-label="Filter experiences">
+                    <button class="filter active" data-filter="all" aria-pressed="true">All Experiences</button>
+                    <button class="filter" data-filter="released" aria-pressed="false">Released</button>
+                    <button class="filter" data-filter="development" aria-pressed="false">In Development</button>
+                    <button class="filter" data-filter="upcoming" aria-pressed="false">Upcoming</button>
+                </div>
 
-            const menuToggle =
-                document.getElementById("menuToggle");
+                <span class="project-count" id="projectCount" aria-live="polite">01 Experience</span>
+            </div>
 
-            const navigation =
-                document.getElementById("navigation");
+            <div class="project-grid" id="projectGrid">
+                <article class="project-card" data-status="development">
+                    <div class="project-art">
+                        <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#crown"/></svg>
+                        <span class="artwork-label">Obsidian Crown — Project Artwork</span>
+                        <span class="project-status">In Development</span>
+                    </div>
 
-            const menuOpenIcon = `
-                <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    aria-hidden="true"
-                >
-                    <path d="M4 6H20M4 12H20M4 18H20"/>
-                </svg>
-            `;
+                    <div class="project-content">
+                        <span class="project-category">01 / Roblox Experience</span>
+                        <h2>Throw Meat for Dinos!</h2>
 
-            const menuCloseIcon = `
-                <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    aria-hidden="true"
-                >
-                    <path d="M5 5L19 19M19 5L5 19"/>
-                </svg>
-            `;
+                        <p>Enter a prehistoric world filled with dinosaurs, discovery and progression. Feed prehistoric creatures and expand your dinosaur collection.</p>
 
-            function setMenu(open) {
-                navigation.classList.toggle(
-                    "open",
-                    open
-                );
+                        <div class="project-meta">
+                            <span>Roblox</span>
+                            <span>Simulation</span>
+                            <span>Collection</span>
+                        </div>
 
-                document.body.classList.toggle(
-                    "menu-open",
-                    open
-                );
+                        <div class="project-footer">
+                            <a class="button" href="https://www.roblox.com/games/97838462286552/Throw-Meat-for-Dinos-Assets" target="_blank" rel="noopener noreferrer">View Experience ↗</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
 
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    String(open)
-                );
+            <div class="empty-state" id="emptyState" hidden>
+                <span class="eyebrow">Our Portfolio</span>
+                <h2>No experiences to display.</h2>
+                <p>There are currently no projects in this category.</p>
+                <button class="button" id="resetFilter">View All Experiences</button>
+            </div>
+        </div>
+    </section>
 
-                menuToggle.setAttribute(
-                    "aria-label",
-                    open
-                        ? "Close navigation"
-                        : "Open navigation"
-                );
+    <section class="collaboration">
+        <div class="container collaboration-inner">
+            <div>
+                <span class="eyebrow">Creative Partnerships</span>
+                <h2>Let's create something exceptional.</h2>
+            </div>
 
-                menuToggle.innerHTML = open
-                    ? menuCloseIcon
-                    : menuOpenIcon;
-            }
+            <div>
+                <p>We welcome business inquiries, creative partnerships and opportunities for collaboration.</p>
+                <p>Connect with us directly through Discord at <strong>Gryph0n</strong>.</p>
+                <a href="/contact" class="button">Contact Our Studio ↗</a>
+            </div>
+        </div>
+    </section>
+</main>
 
-            menuToggle.addEventListener("click", () => {
-                const open =
-                    menuToggle.getAttribute("aria-expanded") === "true";
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="brand">
+                    <svg class="brand-mark" aria-hidden="true"><use href="#crown"/></svg>
+                    <span>
+                        <span class="brand-name">Obsidian Crown</span>
+                        <span class="brand-subtitle">GAME DEVELOPMENT STUDIO</span>
+                    </span>
+                </a>
+                <p>An independent game development studio driven by creativity, ambition and craftsmanship.</p>
+            </div>
 
-                setMenu(!open);
-            });
+            <div class="footer-column">
+                <h3>The Studio</h3>
+                <a href="/">Home</a>
+                <a href="/#studio">About Us</a>
+                <a href="/games">Experiences</a>
+                <a href="/careers">Careers</a>
+            </div>
 
-            navigation.querySelectorAll("a").forEach(link => {
-                link.addEventListener("click", () => {
-                    setMenu(false);
-                });
-            });
+            <div class="footer-column">
+                <h3>Information</h3>
+                <a href="/contact">Contact</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/careers#applications">Portfolio Submissions</a>
+            </div>
+        </div>
 
-            document.addEventListener("keydown", event => {
-                if (
-                    event.key === "Escape" &&
-                    menuToggle.getAttribute("aria-expanded") === "true"
-                ) {
-                    setMenu(false);
-                    menuToggle.focus();
-                }
-            });
+        <div class="footer-bottom">
+            <span>© <span id="year">2026</span> Obsidian Crown. All rights reserved.</span>
+            <span class="footer-motto">Excellence in creation. Ambition without limits.</span>
+        </div>
+    </div>
+</footer>
 
-            const desktopQuery =
-                window.matchMedia("(min-width: 851px)");
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const navigation = document.getElementById("navigation");
 
-            desktopQuery.addEventListener("change", event => {
-                if (event.matches) {
-                    setMenu(false);
-                }
-            });
+function closeMenu() {
+    navigation.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.textContent = "☰";
+}
 
-            const filters = Array.from(
-                document.querySelectorAll(".filter")
-            );
+menuToggle.addEventListener("click", () => {
+    const open = navigation.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(open));
+    menuToggle.textContent = open ? "×" : "☰";
+});
 
-            const projects = Array.from(
-                document.querySelectorAll(".project-card")
-            );
+navigation.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+});
 
-            const projectCount =
-                document.getElementById("projectCount");
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeMenu();
+});
 
-            const projectGrid =
-                document.getElementById("projectGrid");
+document.addEventListener("click", event => {
+    if (!event.target.closest("header")) closeMenu();
+});
 
-            const emptyState =
-                document.getElementById("emptyState");
+window.addEventListener("resize", () => {
+    if (window.innerWidth > 950) closeMenu();
+});
 
-            const emptyTitle =
-                document.getElementById("emptyTitle");
+const filters = document.querySelectorAll(".filter");
+const projects = document.querySelectorAll(".project-card");
+const projectCount = document.getElementById("projectCount");
+const emptyState = document.getElementById("emptyState");
+const projectGrid = document.getElementById("projectGrid");
 
-            const emptyDescription =
-                document.getElementById("emptyDescription");
+function filterProjects(filter) {
+    let visible = 0;
 
-            const emptyMessages = {
-                all: {
-                    title: "Nothing to reveal just yet.",
-                    description:
-                        "New experiences will be added to this collection as they are announced."
-                },
+    projects.forEach(project => {
+        const show = filter === "all" || project.dataset.status === filter;
+        project.hidden = !show;
 
-                released: {
-                    title: "Our worlds are taking shape.",
-                    description:
-                        "Released experiences will appear here when they become available."
-                },
+        if (show) visible++;
+    });
 
-                development: {
-                    title: "The next chapter awaits.",
-                    description:
-                        "Projects currently in development will be announced here."
-                },
+    filters.forEach(button => {
+        const active = button.dataset.filter === filter;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+    });
 
-                upcoming: {
-                    title: "More worlds await.",
-                    description:
-                        "Future experiences will be revealed when they are ready to be announced."
-                }
-            };
+    projectCount.textContent =
+        String(visible).padStart(2, "0") +
+        (visible === 1 ? " Experience" : " Experiences");
 
-            function applyFilter(selected) {
-                let visibleCount = 0;
+    emptyState.hidden = visible !== 0;
+    projectGrid.hidden = visible === 0;
+}
 
-                filters.forEach(filter => {
-                    filter.setAttribute(
-                        "aria-pressed",
-                        String(
-                            filter.dataset.filter === selected
-                        )
-                    );
-                });
+filters.forEach(button => {
+    button.addEventListener("click", () => {
+        filterProjects(button.dataset.filter);
+    });
+});
 
-                projects.forEach(project => {
-                    const visible =
-                        selected === "all" ||
-                        project.dataset.status === selected;
+document.getElementById("resetFilter").addEventListener("click", () => {
+    filterProjects("all");
+});
 
-                    project.hidden = !visible;
+document.getElementById("year").textContent = new Date().getFullYear();
 
-                    if (visible) {
-                        visibleCount++;
-                    }
-                });
-
-                projectCount.textContent =
-                    String(visibleCount).padStart(2, "0") +
-                    (
-                        visibleCount === 1
-                            ? " Experience"
-                            : " Experiences"
-                    );
-
-                projectGrid.hidden = visibleCount === 0;
-                emptyState.hidden = visibleCount !== 0;
-
-                if (visibleCount === 0) {
-                    const message =
-                        emptyMessages[selected] ||
-                        emptyMessages.all;
-
-                    emptyTitle.textContent =
-                        message.title;
-
-                    emptyDescription.textContent =
-                        message.description;
-                }
-            }
-
-            filters.forEach(filter => {
-                filter.addEventListener("click", () => {
-                    applyFilter(filter.dataset.filter);
-                });
-            });
-
-            applyFilter("all");
-
-            const reducedMotion = window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-            ).matches;
-
-            if (
-                "IntersectionObserver" in window &&
-                !reducedMotion
-            ) {
-                const observer = new IntersectionObserver(
-                    entries => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add(
-                                    "visible"
-                                );
-
-                                observer.unobserve(
-                                    entry.target
-                                );
-                            }
-                        });
-                    },
-                    {
-                        threshold: 0.08
-                    }
-                );
-
-                document
-                    .querySelectorAll("[data-reveal]")
-                    .forEach(element => {
-                        element.classList.add(
-                            "reveal-ready"
-                        );
-
-                        observer.observe(element);
-                    });
-            }
-
-            document.getElementById(
-                "copyrightYear"
-            ).textContent = new Date().getFullYear();
-
-        })();
-    </script>
+filterProjects("all");
+</script>
 
 </body>
 </html>
